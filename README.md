@@ -10,6 +10,8 @@ This repo is the shared workspace for both co-founders and for each of our Claud
 |---|---|
 | `docs/decisions.md` | What we've decided so far, with the date and the reason. Check this first. |
 | `docs/open-questions.md` | Things we still need to decide. Answer them here or in a PR. |
+| `slideshows/` | **All workshop slide decks** (sessions 1–6, plus certificates). Version 1 is git tag `v1`. |
+| `curriculum/` | The session-by-session plans, plus the scripts that build the decks |
 | `reports/` | Finished research reports |
 | `research_notes/` | Raw notes behind each report |
 

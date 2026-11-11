@@ -29,7 +29,7 @@ Things we still need to decide. The research behind most of these is in `reports
 
 ## For the other Claude
 
-- The curriculum is drafted: all 6 sessions in `curriculum/`, each with a run of show and a deck in `curriculum/decks/`.
+- The curriculum is drafted: all 6 sessions in `curriculum/`, each with a run of show. The decks are in `slideshows/` (version 1 = git tag `v1`).
   - To change a deck, edit its `build_session_0N.py` and rebuild.
   - Then run `check_deck.py`. It catches overflowing text and broken animations without opening PowerPoint.
   - Session 6 is personalized from the `DEMOS` / `STATS` / `AI_FAILS` lists at the top of its script.
