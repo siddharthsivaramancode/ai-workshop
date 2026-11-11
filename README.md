@@ -1,4 +1,5 @@
 # ai-workshop
+Plan for creating a workshop for students across the globe for better ai use
 
 A free, peer-led AI workshop for middle and high schoolers in Collierville, TN, starting at the Collierville library (Burch Library). Memphis Public Libraries may come later.
 
