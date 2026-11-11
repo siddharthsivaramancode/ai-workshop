@@ -36,7 +36,7 @@ Every session has the same rhythm:
 | # | Build goal | AI Checkpoint | Deck |
 |---|---|---|---|
 | 1 | **Kickoff.** Watch the live Claude Code demo, then get a "hello" page live at a URL. | *Confident ≠ Correct*: ask the AI about Collierville and catch what it gets wrong | [`decks/session-01-kickoff.pptx`](decks/session-01-kickoff.pptx) |
-| 2 | **Idea and scope.** Pick a project from the menu, write a one-sentence pitch, list 3 features, build the first one. | *Privacy*: what never goes in a prompt or on your site | not made yet |
+| 2 | **Idea and scope.** Pick a project from the menu, write a one-sentence pitch, list 3 features, build the first one. | *Privacy*: what never goes in a prompt or on your site | [`decks/session-02-idea-and-scope.pptx`](decks/session-02-idea-and-scope.pptx) |
 | 3 | **Build.** Get the core feature working, and change AI-written code by hand before asking for more. | *Bug bounty*: find the bug planted in AI-written code | not made yet |
 | 4 | **Build and debug.** Practice the debug-first habit: read the error, guess the cause, then ask the AI. | *Bias*: use Teachable Machine, or ask an AI to describe "a programmer" and look at who it assumes | not made yet |
 | 5 | **Polish and test.** Have a peer test your site, check it on a phone, and write a README with "AI credits." | *Ownership and jobs*: who owns AI-written code, and what couldn't the AI do? | not made yet |
