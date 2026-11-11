@@ -1,6 +1,6 @@
 """Sanity-check a generated deck without opening PowerPoint.
 
-    uv run --with python-pptx python curriculum/decks/check_deck.py curriculum/decks/session-02-*.pptx
+    uv run --with python-pptx python curriculum/decks/check_deck.py slideshows/*.pptx
 
 Checks: animation targets exist, shapes stay on the slide, transition/timing
 XML order, and a rough text-fit estimate (flags text likely to overflow its box).

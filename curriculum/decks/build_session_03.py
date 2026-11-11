@@ -358,6 +358,6 @@ anim_steps(s, [("auto", [(t, "rise")] + [(h, "rise") for h in hws] + [(bye, "fad
            stagger=350)
 notes(s, "Award bug bounty prizes on the way out.")
 
-out = Path(__file__).parent / "session-03-build.pptx"
+out = OUT_DIR / "session-03-build.pptx"
 prs.save(out)
 print("saved", out, "slides:", len(prs.slides))

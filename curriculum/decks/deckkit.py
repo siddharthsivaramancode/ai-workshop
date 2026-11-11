@@ -8,6 +8,8 @@ animation API). Use `anim_steps(slide, steps)` where each step is one click
 (or the slide's auto-start) and holds a list of (shape, effect) pairs that
 play together with a small stagger.
 """
+from pathlib import Path
+
 from pptx import Presentation
 from pptx.util import Inches, Pt, Emu
 from pptx.dml.color import RGBColor
@@ -32,6 +34,9 @@ BODY = "Arial"
 MONO = "Courier New"
 
 W, H = Inches(13.333), Inches(7.5)
+
+# All finished decks go to <repo>/slideshows/
+OUT_DIR = Path(__file__).resolve().parents[2] / "slideshows"
 
 
 def new_deck():

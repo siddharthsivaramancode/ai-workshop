@@ -2,7 +2,7 @@
 
 **Goal:** every teen leaves with (1) their site tested by someone else and the top 2 problems fixed, (2) a site that works on a phone, (3) a README that has "AI credits", and (4) a plan for a 2–3 minute demo. They also form a view on who owns AI-written code, and on what the AI couldn't do for them.
 
-**Deck:** [`decks/session-05-polish-and-test.pptx`](decks/session-05-polish-and-test.pptx). The speaker notes on each slide hold the script.
+**Deck:** [`slideshows/session-05-polish-and-test.pptx`](../slideshows/session-05-polish-and-test.pptx). The speaker notes on each slide hold the script.
 
 ## Before the session
 

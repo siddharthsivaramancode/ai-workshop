@@ -2,7 +2,7 @@
 
 **Goal:** every teen leaves with (1) a basic understanding of how an AI chatbot works, (2) one example of the AI being confidently wrong, and (3) a page live on the internet.
 
-**Deck:** [`decks/session-01-kickoff.pptx`](decks/session-01-kickoff.pptx). The speaker notes on each slide hold the script.
+**Deck:** [`slideshows/session-01-kickoff.pptx`](../slideshows/session-01-kickoff.pptx). The speaker notes on each slide hold the script.
 
 ## Before the session
 

@@ -268,6 +268,6 @@ s = closing(prs, [("Practice your demo out loud twice.", "Time it. Under 3 minut
                   ("Final fixes committed and live.", "Check it on your phone the night before.")])
 notes(s, "Give out the demo-day invite with date, time and room. Remind: no big changes the night before!")
 
-out = Path(__file__).parent / "session-05-polish-and-test.pptx"
+out = OUT_DIR / "session-05-polish-and-test.pptx"
 prs.save(out)
 print("saved", out, "slides:", len(prs.slides))

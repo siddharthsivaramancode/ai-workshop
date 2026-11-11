@@ -2,7 +2,7 @@
 
 **Goal:** every teen leaves with (1) a one-sentence pitch, (2) a list of 3 features split into Must, Nice and Someday, (3) a first version of their Must feature that is live at their URL, and (4) a clear sense of what never goes into a prompt or onto their site.
 
-**Deck:** [`decks/session-02-idea-and-scope.pptx`](decks/session-02-idea-and-scope.pptx). The speaker notes on each slide hold the script.
+**Deck:** [`slideshows/session-02-idea-and-scope.pptx`](../slideshows/session-02-idea-and-scope.pptx). The speaker notes on each slide hold the script.
 
 ## Before the session
 

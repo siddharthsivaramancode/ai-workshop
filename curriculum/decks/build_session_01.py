@@ -455,6 +455,6 @@ Hand out prompt-journal sheets; 3 minutes to write the first entry before leavin
 Exit ticket (optional): one word for how today felt.
 """)
 
-out = Path(__file__).parent / "session-01-kickoff.pptx"
+out = OUT_DIR / "session-01-kickoff.pptx"
 prs.save(out)
 print("saved", out, "slides:", len(prs.slides))

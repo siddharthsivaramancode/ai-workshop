@@ -246,7 +246,7 @@ set_transition(s, "fade", "slow")
 anim_steps(s, [("auto", [(l1, "rise"), (l2, "rise"), (l3, "rise"), (ty, "fade")])], stagger=400)
 notes(s, "Leave this up during the gallery walk.")
 
-out = Path(__file__).parent / "session-06-demo-day.pptx"
+out = OUT_DIR / "session-06-demo-day.pptx"
 prs.save(out)
 print("saved", out, "slides:", len(prs.slides))
 
@@ -270,6 +270,6 @@ for name, proj in DEMOS:
         rect(s, x, 6.25, 3.2, 0.03, INK)
         text(s, x, 6.32, 3.2, 0.4, who, size=13, color=SLATE, align=PP_ALIGN.CENTER)
     text(s, 0.8, 5.5, 11.7, 0.5, EVENT, size=14, color=SLATE, align=PP_ALIGN.CENTER)
-cout = Path(__file__).parent / "session-06-certificates.pptx"
+cout = OUT_DIR / "session-06-certificates.pptx"
 cert.save(cout)
 print("saved", cout, "pages:", len(cert.slides))

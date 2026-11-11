@@ -388,6 +388,6 @@ anim_steps(s, [("auto", [(t, "rise")] + [(h, "rise") for h in hws] + [(bye, "fad
            stagger=350)
 notes(s, "Collect pitch sheets (photo them, hand them back) so leaders can plan help for next week.")
 
-out = Path(__file__).parent / "session-02-idea-and-scope.pptx"
+out = OUT_DIR / "session-02-idea-and-scope.pptx"
 prs.save(out)
 print("saved", out, "slides:", len(prs.slides))

@@ -339,6 +339,6 @@ s = closing(prs, [("Keep building your NICE feature.", "Smallest working version
                   ("Next week: polish, test, README.", "Plus: who owns code an AI wrote?")])
 notes(s, "Remind them: two weeks to demo day.")
 
-out = Path(__file__).parent / "session-04-debug-and-bias.pptx"
+out = OUT_DIR / "session-04-debug-and-bias.pptx"
 prs.save(out)
 print("saved", out, "slides:", len(prs.slides))

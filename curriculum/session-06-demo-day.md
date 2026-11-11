@@ -2,7 +2,7 @@
 
 **Goal:** every teen presents a live site to a real audience in under 3 minutes, including one thing the AI got wrong. We also collect the outcome data for future grants and for the Memphis Public Libraries pitch.
 
-**Deck:** [`decks/session-06-demo-day.pptx`](decks/session-06-demo-day.pptx), plus printable [`decks/session-06-certificates.pptx`](decks/session-06-certificates.pptx).
+**Deck:** [`slideshows/session-06-demo-day.pptx`](../slideshows/session-06-demo-day.pptx), plus printable [`slideshows/session-06-certificates.pptx`](../slideshows/session-06-certificates.pptx).
 
 ## Personalize the deck (the night before)
 
@@ -16,7 +16,7 @@ Then rebuild and check the decks:
 
 ```bash
 uv run --with python-pptx python curriculum/decks/build_session_06.py
-uv run --with python-pptx python curriculum/decks/check_deck.py curriculum/decks/session-06-*.pptx
+uv run --with python-pptx python curriculum/decks/check_deck.py slideshows/session-06-*.pptx
 ```
 
 ## Before guests arrive

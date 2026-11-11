@@ -2,7 +2,7 @@
 
 **Goal:** every teen leaves with (1) the debug-first habit: read the error, find the line, guess why, and try one fix before asking the AI; (2) a first-hand look at bias in AI output and an understanding of where it comes from; and (3) their Must feature done and a Nice feature started.
 
-**Deck:** [`decks/session-04-debug-and-bias.pptx`](decks/session-04-debug-and-bias.pptx). The speaker notes on each slide hold the script.
+**Deck:** [`slideshows/session-04-debug-and-bias.pptx`](../slideshows/session-04-debug-and-bias.pptx). The speaker notes on each slide hold the script.
 
 ## Before the session
 

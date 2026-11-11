@@ -2,7 +2,7 @@
 
 **Goal:** every teen leaves with (1) their Must feature working, or close to it, and live, (2) at least three edits they made to their own code by hand, and (3) the habit of testing AI code by trying to break it instead of trusting it.
 
-**Deck:** [`decks/session-03-build.pptx`](decks/session-03-build.pptx). The speaker notes on each slide hold the script.
+**Deck:** [`slideshows/session-03-build.pptx`](../slideshows/session-03-build.pptx). The speaker notes on each slide hold the script.
 
 ## Before the session
 
