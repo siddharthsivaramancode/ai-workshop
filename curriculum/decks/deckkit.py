@@ -123,6 +123,34 @@ def section(prs, num, title, sub, bg=ORANGE, transition="push"):
     return s
 
 
+# ---------- shared slide layouts ----------
+def closing(prs, items):
+    s = blank(prs, INK)
+    rect(s, 0, 0, 0.35, 7.5, ORANGE)
+    t = text(s, 0.9, 1.0, 11, 1.2, "Before next week", size=54, font=HEAD, color=WHITE)
+    hws = [text(s, 0.9, 2.6 + i * 1.15, 11.5, 1.1,
+                [[(f"{i + 1}   ", {"color": ORANGE, "font": HEAD}), (a, {"bold": True})],
+                 [("      " + b, {"color": CYAN, "size": 18})]], size=26, color=WHITE)
+           for i, (a, b) in enumerate(items)]
+    bye = text(s, 0.9, 6.3, 11, 0.7, "See you next week.  Build it. Ship it. Question it.",
+               size=20, color=SLATE, bold=True)
+    set_transition(s, "fade", "slow")
+    anim_steps(s, [("auto", [(t, "rise")] + [(h, "rise") for h in hws] + [(bye, "fade")])],
+               stagger=350)
+    return s
+
+
+def dark_list(prs, kicker, title, lines, title_size=60):
+    s = blank(prs, INK)
+    k = text(s, 0.8, 1.2, 11, 0.5, kicker, size=18, color=CYAN, bold=True)
+    big = text(s, 0.8, 1.8, 11.8, 1.4, title, size=title_size, font=HEAD, color=WHITE)
+    ck = [text(s, 0.8, 3.6 + i * 0.75, 11.5, 0.7, t, size=24, color=WHITE) for i, t in enumerate(lines)]
+    set_transition(s, "zoom")
+    anim_steps(s, [("auto", [(k, "fade"), (big, "rise")]), ("click", [(c, "rise") for c in ck])],
+               stagger=300)
+    return s
+
+
 # ---------- transitions ----------
 _P = "http://schemas.openxmlformats.org/presentationml/2006/main"
 _TRANS = {

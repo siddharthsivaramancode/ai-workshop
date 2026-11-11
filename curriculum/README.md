@@ -39,7 +39,7 @@ Every session has the same rhythm:
 | 2 | **Idea and scope.** Pick a project from the menu, write a one-sentence pitch, list 3 features, build the first one. | *Privacy*: what never goes in a prompt or on your site | [`decks/session-02-idea-and-scope.pptx`](decks/session-02-idea-and-scope.pptx) |
 | 3 | **Build.** Get the core feature working, and change AI-written code by hand before asking for more. | *Bug bounty*: find the bug planted in AI-written code | [`decks/session-03-build.pptx`](decks/session-03-build.pptx) |
 | 4 | **Build and debug.** Practice the debug-first habit: read the error, guess the cause, then ask the AI. | *Bias*: use Teachable Machine, or ask an AI to describe "a programmer" and look at who it assumes | [`decks/session-04-debug-and-bias.pptx`](decks/session-04-debug-and-bias.pptx) |
-| 5 | **Polish and test.** Have a peer test your site, check it on a phone, and write a README with "AI credits." | *Ownership and jobs*: who owns AI-written code, and what couldn't the AI do? | not made yet |
+| 5 | **Polish and test.** Have a peer test your site, check it on a phone, and write a README with "AI credits." | *Ownership and jobs*: who owns AI-written code, and what couldn't the AI do? | [`decks/session-05-polish-and-test.pptx`](decks/session-05-polish-and-test.pptx) |
 | 6 | **Demo day.** Each teen gives a 2–3 minute demo to parents, library staff and guests. | Every demo includes "one thing the AI got wrong" | not made yet |
 
 ## The 4 habits (taught in session 1, enforced every week)
