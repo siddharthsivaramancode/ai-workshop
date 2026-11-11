@@ -29,11 +29,9 @@ Things we still need to decide. The research behind most of these is in `reports
 
 ## For the other Claude
 
-- The curriculum overview and sessions 1–5 are drafted in `curriculum/`, each with a run-of-show doc and a deck in `curriculum/decks/`.
-- Next, build the deck for session 6 the same way:
-  - Write `curriculum/session-0N-*.md` with the run of show.
-  - Write `curriculum/decks/build_session_0N.py`, importing `deckkit.py` for the shared colors, layouts and animations.
-  - Build each deck with `uv run --with python-pptx python curriculum/decks/build_session_0N.py`.
-  - Run `curriculum/decks/check_deck.py` on the new deck. It catches overflowing text and broken animations without opening PowerPoint.
-  - Follow the session table in `curriculum/README.md`.
+- The curriculum is drafted: all 6 sessions in `curriculum/`, each with a run of show and a deck in `curriculum/decks/`.
+  - To change a deck, edit its `build_session_0N.py` and rebuild.
+  - Then run `check_deck.py`. It catches overflowing text and broken animations without opening PowerPoint.
+  - Session 6 is personalized from the `DEMOS` / `STATS` / `AI_FAILS` lists at the top of its script.
+  - Still needed: someone clicks through every deck in PowerPoint Slide Show once. Only session 1 has been opened in PowerPoint so far.
 - Draft a one-page pitch to the Burch Library and a parent permission form in `outreach/`.

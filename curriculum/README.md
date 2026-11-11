@@ -6,7 +6,7 @@
 1. A live website at a public URL that they built with AI help and can explain line by line.
 2. One specific example of the AI being wrong, and how they caught it.
 
-This is a draft. It assumes the decisions in `docs/open-questions.md` go the way the research recommends: a minimum age of 13, an adult sponsor, and static websites only.
+All 6 sessions have a run-of-show doc (`session-0N-*.md`) and an animated deck in `decks/`. This is still a draft. It assumes the decisions in `docs/open-questions.md` go the way the research recommends: a minimum age of 13, an adult sponsor, and static websites only.
 
 ## Which AI tools the teens use
 
@@ -40,7 +40,7 @@ Every session has the same rhythm:
 | 3 | **Build.** Get the core feature working, and change AI-written code by hand before asking for more. | *Bug bounty*: find the bug planted in AI-written code | [`decks/session-03-build.pptx`](decks/session-03-build.pptx) |
 | 4 | **Build and debug.** Practice the debug-first habit: read the error, guess the cause, then ask the AI. | *Bias*: use Teachable Machine, or ask an AI to describe "a programmer" and look at who it assumes | [`decks/session-04-debug-and-bias.pptx`](decks/session-04-debug-and-bias.pptx) |
 | 5 | **Polish and test.** Have a peer test your site, check it on a phone, and write a README with "AI credits." | *Ownership and jobs*: who owns AI-written code, and what couldn't the AI do? | [`decks/session-05-polish-and-test.pptx`](decks/session-05-polish-and-test.pptx) |
-| 6 | **Demo day.** Each teen gives a 2–3 minute demo to parents, library staff and guests. | Every demo includes "one thing the AI got wrong" | not made yet |
+| 6 | **Demo day.** Each teen gives a 2–3 minute demo to parents, library staff and guests. | Every demo includes "one thing the AI got wrong" | [`decks/session-06-demo-day.pptx`](decks/session-06-demo-day.pptx) + [certificates](decks/session-06-certificates.pptx) |
 
 ## The 4 habits (taught in session 1, enforced every week)
 
