@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!--
+  Session 4 live-debug demo. This page has 3 bugs ON PURPOSE.
+  Open it in Chrome, open the Console (Cmd+Option+J / Ctrl+Shift+J), and fix
+  them one at a time with the room. Answer key: curriculum/session-04-debug-and-bias.md
+-->
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Coin Flip</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding-top: 80px; }
+    button { font-size: 28px; padding: 12px 32px; }
+    #result { font-size: 48px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Coin Flip</h1>
+  <button id="flipBtn">Flip!</button>
+  <p id="result"></p>
+
+  <script>
+    const btn = document.getElementById("flip-btn");
+    const resultText = document.getElementById("result");
+
+    btn.addEventListener("click", function () {
+      const side = Math.random() < 0.5 ? "Heads" : "Tails";
+      reslt.textContent = side;
+    };
+  </script>
+</body>
+</html>
