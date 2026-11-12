@@ -13,16 +13,19 @@
    Session 1 · Kickoff — cinematic presenter. Everything is scoped to .k3.
    TOKENS live in this first block and nowhere else.
    ===================================================================== */
+@property --accent { syntax: '<color>'; inherits: true; initial-value: #5CC8F5; }
 .k3 {
   --font: 'Inter', -apple-system, 'SF Pro Display', system-ui, sans-serif;
   --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --bg: #0B0B12; --text: #F5F5F7; --sec: #86868B; --dim: #5E5E66;
   --panel: rgba(30,30,34,0.72); --line: rgba(255,255,255,0.12); --radius: 24px;
-  --accent: #B9BFE6;            /* lavender from the crescent, used sparingly for small labels */
+  --accent: #5CC8F5;            /* the section's light colour: set by data-sec, cross-fades through @property */
   --green: #8FD3A5; --red: #F08A8A; --amber: #E6C07A;
   --dock-bg: rgba(22,22,28,0.62);
+  transition: --accent 1200ms var(--ease);
 }
+/* --accent is set per slide from JS (see SECS): it drifts from one section's colour toward the next */
 
 html, body { margin: 0; height: 100%; background: #0B0B12; overflow: hidden; }
 .k3 { position: fixed; inset: 0; font-family: var(--font); color: var(--text); -webkit-font-smoothing: antialiased;
@@ -38,7 +41,7 @@ html, body { margin: 0; height: 100%; background: #0B0B12; overflow: hidden; }
 .k3 .intro.out { opacity: 0; }
 
 /* ---------- 16:9 stage in CSS 3D ---------- */
-.k3 .stage { position: absolute; inset: 0; perspective: 1400px; perspective-origin: 50% 50%; }
+.k3 .stage { position: absolute; inset: 0; perspective: 1200px; perspective-origin: 50% 50%; }
 .k3 .canvas { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px; transform-style: preserve-3d;
   transform: translate(-50%, -50%) scale(var(--s, 0.5)) rotateX(var(--px, 0deg)) rotateY(var(--py, 0deg)); }
 .k3 .slide { position: absolute; inset: 0; transform-style: preserve-3d; opacity: 0; visibility: hidden; }
@@ -51,19 +54,26 @@ html, body { margin: 0; height: 100%; background: #0B0B12; overflow: hidden; }
 .k3 .mask > span { display: block; }
 
 /* ---------- type ---------- */
-.k3 .kick { font-size: 20px; font-weight: 500; letter-spacing: 0.02em; color: var(--accent); margin-bottom: 18px; }
-.k3 .title { font-size: 64px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; text-wrap: balance; }
+.k3 .kick { font-size: 25px; font-weight: 500; letter-spacing: 0.02em; color: var(--accent); margin-bottom: 18px; }
+.k3 .title { font-size: 74px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; text-wrap: balance; }
 .k3 .hero-t { font-size: 132px; font-weight: 600; letter-spacing: -0.035em; line-height: 1.02; }
-.k3 .sub { font-size: 26px; font-weight: 500; line-height: 1.4; }
+.k3 .sub { font-size: 30px; font-weight: 500; line-height: 1.4; }
 .k3 .sec { color: var(--sec); } .k3 .mono { font-family: var(--mono); }
 .k3 .body { font-size: 24px; line-height: 1.4; font-weight: 400; }
 .k3 .em { font-weight: 600; color: #FFFFFF; }       /* plain white emphasis — no gradient anywhere */
 
 /* ---------- panels ---------- */
-.k3 .panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 40px; font-size: 24px; line-height: 1.4; }
+.k3 .panel { position: relative; overflow: hidden; background: linear-gradient(180deg, rgba(48,48,56,0.74), rgba(22,22,28,0.74)); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 34px; font-size: 28px; line-height: 1.38; box-shadow: inset 0 1px 0 rgba(255,255,255,0.11), 0 30px 60px -34px rgba(0,0,0,0.7); transition: border-color 800ms var(--ease); }
+/* the newest build wears the section colour on its edge; a band of light crosses the glass as it lands */
+.k3 .panel.now { border-color: color-mix(in srgb, var(--accent) 52%, rgba(255,255,255,0.12)); }
+.k3 .panel::after { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 55%; pointer-events: none; opacity: 0;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,0.10) 50%, transparent); transform: translateX(-130%); }
+.k3 .panel[data-g].on::after, .k3 [data-g].on .panel::after { animation: k3sheen 1500ms var(--ease) 320ms; }
+@keyframes k3sheen { 0% { transform: translateX(-130%); opacity: 1; } 100% { transform: translateX(320%); opacity: 1; } }
 .k3 .panel.tight { padding: 32px; }
-.k3 .label { font-size: 17px; font-weight: 500; letter-spacing: 0.08em; color: var(--accent); }
-.k3 .h3 { font-size: 34px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; }
+.k3 .label { font-size: 21px; font-weight: 500; letter-spacing: 0.08em; color: var(--accent); }
+.k3 .h3 { font-size: 40px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; }
 .k3 .num { font-size: 96px; font-weight: 600; letter-spacing: -0.04em; line-height: 1; }
 .k3 .rule { height: 1px; background: var(--line); }
 .k3 .anchor { position: absolute; left: 0; top: 0; transform: var(--ax, translate(-50%, -50%)); }
@@ -92,7 +102,7 @@ html, body { margin: 0; height: 100%; background: #0B0B12; overflow: hidden; }
 .k3 .dots button::after { display: none; }
 .k3 .dots i { display: block; width: 6px; height: 6px; border-radius: 3px; background: currentColor; opacity: 0.28; transition: opacity 400ms var(--ease), transform 400ms var(--ease); }
 .k3 .dots button.done i { opacity: 0.55; }
-.k3 .dots button.cur i { opacity: 1; transform: scaleX(2.6); }
+.k3 .dots button.cur i { opacity: 1; transform: scaleX(2.6); background: var(--accent); }
 .k3 .dots button:hover { transform: scale(1.4); }
 .k3 .tip { position: absolute; bottom: calc(100% + 14px); left: 50%; transform: translate(-50%, 6px); padding: 8px 12px; border-radius: 10px; white-space: nowrap;
   background: rgba(22,22,28,0.92); border: 1px solid var(--line); font-size: 14px; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity 200ms var(--ease), transform 200ms var(--ease); }
@@ -136,15 +146,16 @@ html, body { margin: 0; height: 100%; background: #0B0B12; overflow: hidden; }
 .k3 .s2 .built { margin-top: auto; }
 .k3 .s2 .wide { display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px; }
 .k3 .s2 .wide .built { grid-column: 2; grid-row: 1; align-self: end; }
-.k3 .hd { margin-bottom: 28px; }
+.k3 .hd { margin-bottom: 24px; }
 /* shared bits */
 .k3 .kick.red { color: var(--red); } .k3 .kick.green { color: var(--green); }
 .k3 .ok { color: var(--green); font-weight: 600; } .k3 .no { color: var(--red); font-weight: 600; } .k3 .maybe { color: var(--amber); font-weight: 600; } .k3 .amber { color: var(--amber); }
 .k3 .list { display: flex; flex-direction: column; }
-.k3 .li { display: grid; grid-template-columns: 56px 1fr; gap: 0 12px; align-items: start; padding: 22px 0; border-top: 1px solid var(--line); }
+.k3 .li { display: grid; grid-template-columns: 56px 1fr; gap: 0 12px; align-items: start; padding: 20px 0; border-top: 1px solid var(--line); }
 .k3 .li:first-child { border-top: 0; padding-top: 0; }
-.k3 .li .n { font-size: 20px; font-weight: 500; color: var(--sec); padding-top: 8px; font-variant-numeric: tabular-nums; }
-.k3 .li .sec { font-size: 22px; margin-top: 4px; }
+.k3 .li .n { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-size: 18px; font-weight: 600; color: var(--accent); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--accent) 55%, transparent); font-variant-numeric: tabular-nums; }
+.k3 .li .sec { font-size: 27px; margin-top: 4px; line-height: 1.25; }
+.k3 .s17 .li { padding: 13px 0; } .k3 .s17 .list { width: 800px; }
 .k3 .caret { display: inline-block; width: 3px; height: 0.9em; background: #fff; margin-left: 10px; vertical-align: -0.12em; animation: k3blink 1.1s steps(1) infinite; }
 @keyframes k3blink { 50% { opacity: 0; } }
 /* 3 icebreaker */
@@ -153,22 +164,30 @@ html, body { margin: 0; height: 100%; background: #0B0B12; overflow: hidden; }
 .k3 .s3 .chips { display: grid; grid-template-columns: 1fr 1fr 1.5fr; gap: 16px; max-width: 1000px; }
 .k3 .s3 .panel { font-size: 26px; font-weight: 500; padding: 30px 34px; }
 /* sections */
+.k3 .slide.sec { color: var(--text); }   /* .sec is also the grey-text helper; a divider's title stays white */
 .k3 .sec .in { display: flex; flex-direction: column; justify-content: flex-end; }
-.k3 .secnum { font-size: 200px; font-weight: 600; letter-spacing: -0.05em; line-height: 0.9; color: var(--dim); margin-bottom: 28px; }
+.k3 .secnum { font-size: 200px; font-weight: 600; letter-spacing: -0.05em; line-height: 0.9; color: color-mix(in srgb, var(--accent) 62%, #101018); margin-bottom: 28px; }
 .k3 .sectitle { font-size: 92px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; max-width: 1000px; }
-.k3 .secsub { font-size: 34px; font-weight: 500; color: var(--sec); margin-top: 18px; letter-spacing: -0.01em; }
+.k3 .secsub { font-size: 40px; font-weight: 500; color: var(--sec); margin-top: 18px; letter-spacing: -0.01em; }
 .k3 .secsub.em { color: #fff; }
 /* 5 guess */
 .k3 .s5 .sent { position: absolute; left: 0; top: 190px; width: 820px; padding: 48px; }
 .k3 .s5 .sent p { font-size: 50px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.12; text-wrap: balance; }
 .k3 .s5 .shout { position: absolute; left: 0; bottom: 0; padding: 30px 40px; }
 /* 6 bars */
-.k3 .s6 .foot { position: absolute; left: 0; bottom: 0; font-size: 18px; }
 .k3 .s6 .pick { position: absolute; right: 0; bottom: 0; width: 440px; }
-.k3 .anchor.w { font-size: 24px; font-weight: 600; white-space: nowrap; }
-.k3 .anchor.p { font-size: 22px; font-weight: 500; color: var(--sec); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.k3 .s6 .chart { position: absolute; left: 0; top: 200px; width: 800px; display: grid; gap: 20px; }
+.k3 .s6 .bar { display: grid; grid-template-columns: 170px 1fr 76px; align-items: center; gap: 22px; }
+.k3 .s6 .bar .w { font-size: 30px; font-weight: 600; text-align: right; letter-spacing: -0.01em; }
+.k3 .s6 .bar .p { font-size: 27px; font-weight: 500; color: var(--sec); font-variant-numeric: tabular-nums; }
+.k3 .s6 .track { height: 34px; border-radius: 17px; background: rgba(255,255,255,0.05); overflow: hidden; }
+.k3 .s6 .track i { display: block; height: 100%; width: calc(var(--p) / 41 * 100%); min-width: 12px; border-radius: 17px; background: rgba(255,255,255,0.26); transform: translateX(-101%); transition: transform 400ms var(--ease); }
+.k3 .s6.g1 .track i { transform: none; transition: transform 1100ms var(--ease) calc(150ms + var(--k) * 80ms); }
+.k3 .s6 .top .track i { background: var(--accent); } .k3 .s6 .top .p { color: var(--text); }
 /* 7 three steps */
 .k3 .s7 .list, .k3 .s17 .list { width: 760px; } .k3 .s7 .punch { position: absolute; left: 0; bottom: 0; right: 0; font-size: 40px; font-weight: 500; letter-spacing: -0.025em; line-height: 1.15; color: var(--sec); padding: 32px 44px; }
+/* list + punchline slides (how it learned, context window, tools, catch it) */
+.k3 .lp .list { width: 800px; } .k3 .lp .punch { position: absolute; left: 0; bottom: 0; width: 900px; font-size: 40px; font-weight: 500; letter-spacing: -0.025em; line-height: 1.15; color: var(--sec); padding: 30px 42px; }
 /* 9 demo */
 .k3 .s9 .term { position: absolute; left: 0; top: 190px; width: 820px; padding: 0; overflow: hidden; }
 .k3 .s9 .bar3 { display: flex; gap: 8px; padding: 18px 22px; border-bottom: 1px solid var(--line); } .k3 .s9 .bar3 i { width: 11px; height: 11px; border-radius: 6px; background: #3a3a40; }
@@ -178,7 +197,7 @@ html, body { margin: 0; height: 100%; background: #0B0B12; overflow: hidden; }
 .k3 .anchor.node { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 18px 26px; font-size: 28px; font-weight: 600; letter-spacing: -0.02em; white-space: nowrap; }
 /* 12 activity */
 .k3 .s12 .grid { display: grid; grid-template-columns: 1.9fr 1fr; grid-template-rows: 1fr auto; gap: 16px; height: 520px; }
-.k3 .s12 .qs { display: flex; flex-direction: column; gap: 14px; } .k3 .s12 .qs .panel { flex: 1; display: flex; align-items: center; gap: 20px; font-size: 24px; font-weight: 500; padding: 0 32px; }
+.k3 .s12 .qs { display: flex; flex-direction: column; gap: 14px; } .k3 .s12 .qs .panel { flex: 1; display: flex; align-items: center; gap: 20px; font-size: 29px; font-weight: 500; padding: 0 32px; }
 .k3 .s12 .qn { color: var(--accent); font-weight: 600; } .k3 .s12 .score .h3 { font-size: 28px; margin-bottom: 20px; } .k3 .s12 .score p { margin-bottom: 10px; }
 .k3 .s12 .check { grid-column: 1 / -1; padding: 24px 36px; }
 /* 13 why */
@@ -186,16 +205,16 @@ html, body { margin: 0; height: 100%; background: #0B0B12; overflow: hidden; }
 .k3 .s13 .bubble { position: relative; display: flex; align-items: center; font-size: 28px; line-height: 1.35; letter-spacing: -0.01em; }
 .k3 .s13 .stampw { position: absolute; right: 36px; bottom: 30px; } .k3 .s13 .stamp { transform: rotate(-6deg); border: 2px solid var(--red); color: var(--red); border-radius: 12px; padding: 6px 18px; font-size: 26px; font-weight: 600; letter-spacing: 0.08em; }
 .k3 .s13 .reasons { display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 2px; gap: 26px; max-width: 560px; }
-.k3 .s13 .reasons p { font-size: 22px; line-height: 1.35; color: var(--sec); } .k3 .s13 .reasons strong { display: block; color: var(--text); font-size: 27px; font-weight: 600; letter-spacing: -0.015em; }
+.k3 .s13 .reasons p { font-size: 25px; line-height: 1.35; color: var(--sec); } .k3 .s13 .reasons strong { display: block; color: var(--text); font-size: 31px; font-weight: 600; letter-spacing: -0.015em; }
 .k3 .s13 .you { grid-column: 1 / -1; font-size: 38px; font-weight: 500; letter-spacing: -0.025em; padding: 26px 40px; color: var(--sec); }
 /* 14 habits */
-.k3 .s14 .bento { display: grid; grid-template-columns: repeat(12, 1fr); grid-template-rows: 1fr 1fr; gap: 16px; height: 500px; max-width: 960px; }
+.k3 .s14 .bento { display: grid; grid-template-columns: repeat(12, 1fr); grid-template-rows: 1fr 1fr; gap: 16px; height: 530px; max-width: 960px; }
 .k3 .s14 .h1, .k3 .s14 .h4 { grid-column: span 7; } .k3 .s14 .h2, .k3 .s14 .h3b { grid-column: span 5; }
-.k3 .s14 .panel { display: flex; flex-direction: column; justify-content: flex-end; padding: 32px; } .k3 .s14 .n { font-size: 20px; font-weight: 500; color: var(--sec); margin-bottom: auto; }
-.k3 .s14 .h3 { font-size: 32px; margin-bottom: 8px; } .k3 .s14 .d { font-size: 21px; max-width: 520px; }
+.k3 .s14 .panel { display: flex; flex-direction: column; justify-content: flex-end; padding: 26px 30px; } .k3 .s14 .n { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-size: 18px; font-weight: 600; color: var(--accent); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--accent) 55%, transparent); font-variant-numeric: tabular-nums; align-self: flex-start; margin-bottom: auto; }
+.k3 .s14 .h3 { font-size: 34px; margin-bottom: 6px; } .k3 .s14 .d { font-size: 24px; line-height: 1.28; max-width: 520px; }
 /* 15 safety */
 .k3 .s15 .grid { display: grid; grid-template-columns: 1fr 1fr 1.2fr; grid-template-rows: repeat(3, 1fr); gap: 14px; height: 500px; }
-.k3 .s15 .chip { display: flex; align-items: center; gap: 14px; font-size: 25px; font-weight: 500; padding: 0 28px; }
+.k3 .s15 .chip { display: flex; align-items: center; gap: 14px; font-size: 30px; font-weight: 500; padding: 0 28px; }
 .k3 .s15 .always { grid-column: 3; grid-row: 1 / span 3; display: flex; align-items: flex-end; font-size: 34px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.15; color: var(--sec); padding: 36px; }
 /* 18 tutor */
 .k3 .s18 .prompt { position: absolute; left: 0; top: 190px; width: 820px; font-size: 23px; line-height: 1.6; white-space: pre-line; padding: 40px 44px; }
@@ -205,14 +224,14 @@ html, body { margin: 0; height: 100%; background: #0B0B12; overflow: hidden; }
 .k3 .s19 .url { font-size: 38px; font-weight: 600; letter-spacing: -0.02em; padding: 34px 44px; margin: 6px 0 44px; white-space: nowrap; width: fit-content; max-width: 1100px; } .k3 .s19 .u { color: var(--accent); }
 .k3 .s19 .tips p { font-size: 30px; line-height: 1.3; letter-spacing: -0.01em; padding: 18px 0; border-top: 1px solid var(--line); max-width: 1040px; } .k3 .s19 .tips p:first-child { border-top: 0; }
 /* 20 shipped */
-.k3 .s20 .list { width: 860px; } .k3 .s20 .when { font-size: 22px; font-weight: 500; margin-top: 6px; }
+.k3 .s20 .list { width: 860px; } .k3 .s20 .when { font-size: 27px; font-weight: 500; margin-top: 6px; }
 /* 21 roadmap */
-.k3 .anchor.wk { text-align: center; width: 176px; } .k3 .anchor.wk.last { width: 176px; } .k3 .anchor.wk b { display: block; font-size: 25px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 6px; } .k3 .anchor.wk i { display: block; font-style: normal; font-size: 16px; color: var(--sec); }
+.k3 .anchor.wk { text-align: center; width: 176px; } .k3 .anchor.wk.last { width: 176px; } .k3 .anchor.wk b { display: block; font-size: 28px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 6px; } .k3 .anchor.wk i { display: block; font-style: normal; font-size: 20px; color: var(--sec); }
 .k3 .anchor.wn { font-size: 30px; font-weight: 600; color: #fff; }
 /* 22 closing */
 .k3 .s22 .in { display: flex; flex-direction: column; justify-content: center; }
 .k3 .s22 .hero-t { font-size: 92px; margin-bottom: 48px; }
-.k3 .s22 .hw { display: grid; grid-template-columns: 56px 1fr; margin-bottom: 26px; max-width: 900px; } .k3 .s22 .hw .n { font-size: 32px; font-weight: 500; color: var(--sec); }
+.k3 .s22 .hw { display: grid; grid-template-columns: 56px 1fr; margin-bottom: 26px; max-width: 900px; } .k3 .s22 .hw .n { font-size: 32px; font-weight: 500; color: var(--accent); }
 .k3 .s22 .hw p { font-size: 34px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; } .k3 .s22 .hw p .sec { display: block; font-size: 22px; font-weight: 400; letter-spacing: 0; margin-top: 4px; }
 .k3 .s22 .bye { font-size: 22px; font-weight: 500; margin-top: 30px; }
 
@@ -220,7 +239,7 @@ html, body { margin: 0; height: 100%; background: #0B0B12; overflow: hidden; }
 .k3 .in > *, .k3 .grid, .k3 .row, .k3 .list, .k3 .chips, .k3 .bento, .k3 .qs, .k3 .cmp, .k3 .toks { transform-style: preserve-3d; }
 .k3 .slide { transform-origin: 50% 55%; }
 /* marker highlight that sweeps in when its build lands */
-.k3 .hl { background: linear-gradient(rgba(185,191,230,0.32), rgba(185,191,230,0.32)) no-repeat 0 92% / 0% 0.34em; transition: background-size 900ms var(--ease) 420ms; }
+.k3 .hl { background: linear-gradient(color-mix(in srgb, var(--accent) 36%, transparent), color-mix(in srgb, var(--accent) 36%, transparent)) no-repeat 0 92% / 0% 0.34em; transition: background-size 900ms var(--ease) 420ms; }
 .k3 [data-g].on .hl { background-size: 100% 0.34em; }
 /* letter-swap on the Next button */
 .k3 .ls { display: inline-flex; } .k3 .ls i { display: inline-block; font-style: normal; text-shadow: 0 2.6em currentColor; transition: transform 460ms var(--ease); transition-delay: calc(var(--i) * 26ms); }
@@ -231,20 +250,20 @@ html, body { margin: 0; height: 100%; background: #0B0B12; overflow: hidden; }
 .k3 .tokrow .t { display: inline-block; border-radius: 16px; padding: 4px 0; margin-right: 0; box-shadow: inset 0 0 0 1px rgba(255,255,255,0);
   transition: padding 900ms var(--ease), margin 900ms var(--ease), background-color 900ms var(--ease), box-shadow 900ms var(--ease); }
 .k3 .s-tok.g1 .tokrow .t { padding: 4px 22px; margin-right: 14px; background: rgba(255,255,255,0.06); box-shadow: inset 0 0 0 1px var(--line); }
-.k3 .s-tok.g1 .tokrow .t:nth-child(2) { background: rgba(185,191,230,0.16); }
+.k3 .s-tok.g1 .tokrow .t:nth-child(2) { background: color-mix(in srgb, var(--accent) 20%, transparent); }
 .k3 .tokrow .rr { font-weight: inherit; transition: color 700ms var(--ease) 200ms; } .k3 .s-tok.g2 .tokrow .rr { color: var(--amber); }
-.k3 .s-tok .tfoot { font-size: 20px; margin-top: 8px; }
+.k3 .s-tok .tfoot { font-size: 24px; margin-top: 8px; }
 .k3 .s-tok .try { position: absolute; left: 0; bottom: 0; width: 800px; padding: 30px 40px; } .k3 .s-tok .try .h3 { margin-bottom: 10px; font-size: 30px; }
-.k3 .s-tok .try p { font-size: 26px; } .k3 .s-tok .try .sec { font-size: 21px; margin-top: 10px; }
+.k3 .s-tok .try p { font-size: 26px; } .k3 .s-tok .try .sec { font-size: 24px; margin-top: 10px; }
 /* same question */
 .k3 .s-same .list { width: 740px; } .k3 .s-same .punch { position: absolute; left: 0; bottom: 0; width: 740px; font-size: 36px; font-weight: 500; letter-spacing: -0.025em; line-height: 1.15; color: var(--sec); padding: 30px 40px; }
 /* prompt anatomy */
 .k3 .s-prompt .cmp { display: grid; grid-template-columns: 0.9fr 1.8fr; gap: 18px; }
 .k3 .s-prompt .panel { display: flex; flex-direction: column; padding: 34px 38px; }
-.k3 .s-prompt .pq { font-size: 30px; margin: 22px 0 auto; color: var(--text); padding-bottom: 28px; } .k3 .s-prompt .res { font-size: 21px; line-height: 1.35; }
-.k3 .s-prompt .part { display: grid; grid-template-columns: 104px 1fr; gap: 18px; align-items: baseline; padding: 12px 0; border-top: 1px solid var(--line); font-size: 21px; line-height: 1.38; }
+.k3 .s-prompt .pq { font-size: 30px; margin: 22px 0 auto; color: var(--text); padding-bottom: 28px; } .k3 .s-prompt .res { font-size: 24px; line-height: 1.35; }
+.k3 .s-prompt .part { display: grid; grid-template-columns: 104px 1fr; gap: 18px; align-items: baseline; padding: 12px 0; border-top: 1px solid var(--line); font-size: 24px; line-height: 1.38; }
 .k3 .s-prompt .label + .part { border-top: 0; margin-top: 14px; }
-.k3 .tag { font: 600 13px/1 var(--font); letter-spacing: 0.1em; color: var(--accent); padding: 7px 9px; border-radius: 8px; background: rgba(185,191,230,0.1); justify-self: start; }
+.k3 .tag { font: 600 13px/1 var(--font); letter-spacing: 0.1em; color: var(--accent); padding: 7px 9px; border-radius: 8px; background: color-mix(in srgb, var(--accent) 13%, transparent); justify-self: start; }
 .k3 .label.red { color: var(--red); } .k3 .label.green { color: var(--green); }
 .k3 .s-prompt .punch { margin-top: 18px; font-size: 32px; font-weight: 500; letter-spacing: -0.02em; color: var(--sec); padding: 26px 40px; }
 /* 13 why: the phone takes the left column */
@@ -261,7 +280,7 @@ html, body { margin: 0; height: 100%; background: #0B0B12; overflow: hidden; }
 .k3 .badge b { position: absolute; inset: 0; display: grid; place-items: center; font-size: 22px; font-weight: 600; letter-spacing: -0.02em; }
 .k3 .s22 .bye { display: flex; align-items: center; margin-top: 18px; }
 @keyframes k3spin { to { transform: rotate(1turn); } }
-@media (prefers-reduced-motion: reduce) { .k3 .caret, .k3 .badge svg { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .k3 .caret, .k3 .badge svg { animation: none; } .k3 .panel::after { animation: none !important; } }
 </style>
 </head>
 <body>
@@ -339,7 +358,7 @@ whiteboard or sticky notes; we'll come back to them in Session 2 when people pic
 <!-- 5 ─ Guess the next word ─ hero: glass speech bubble · orbit -->
 <section class="slide s5" data-title="Guess the next word.">
   <div class="in">
-    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Game</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Guess the next word.</span></span></h2></header>
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Quick game</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Guess the next word.</span></span></h2></header>
     <div class="panel sent" data-g="0" data-a="card" data-d="200"><p>After school I grabbed a snack and turned on the<span class="caret" aria-hidden="true"></span></p></div>
     <div class="panel shout" data-g="1" data-a="card"><p class="h3">Shout it out!</p></div>
   </div>
@@ -349,18 +368,22 @@ you've seen thousands of sentences like this. Your brain predicted the next word
 </section>
 
 <!-- 6 ─ Probability bars ─ hero: the bars themselves, extruded in 3D · dolly -->
-<section class="slide s6" data-title="It ranks every possible next word.">
+<section class="slide s6" data-title="Every word gets a score.">
   <div class="in">
-    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">That's literally what a chatbot does</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">It ranks every possible next word.</span></span></h2></header>
-    <span class="anchor w" data-anchor="w0" data-ax="1" data-g="1" data-a="fade">TV</span><span class="anchor p" data-anchor="p0" data-ax="0" data-g="1" data-a="fade">41%</span>
-    <span class="anchor w" data-anchor="w1" data-ax="1" data-g="1" data-a="fade">Xbox</span><span class="anchor p" data-anchor="p1" data-ax="0" data-g="1" data-a="fade">22%</span>
-    <span class="anchor w" data-anchor="w2" data-ax="1" data-g="1" data-a="fade">music</span><span class="anchor p" data-anchor="p2" data-ax="0" data-g="1" data-a="fade">15%</span>
-    <span class="anchor w" data-anchor="w3" data-ax="1" data-g="1" data-a="fade">lights</span><span class="anchor p" data-anchor="p3" data-ax="0" data-g="1" data-a="fade">12%</span>
-    <span class="anchor w" data-anchor="w4" data-ax="1" data-g="1" data-a="fade">PlayStation</span><span class="anchor p" data-anchor="p4" data-ax="0" data-g="1" data-a="fade">7%</span>
-    <span class="anchor w" data-anchor="w5" data-ax="1" data-g="1" data-a="fade">oven</span><span class="anchor p" data-anchor="p5" data-ax="0" data-g="1" data-a="fade">1%</span>
-    <div class="panel pick" data-g="2" data-a="card"><p class="h3">Then it picks one,<br>adds it, and<br>guesses again.</p><p class="sec" style="font-size:17px;margin-top:14px">Numbers are made up to show the idea.</p></div>
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">That's all a chatbot does</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Every word gets a score.</span></span></h2></header>
+    <div class="chart" data-g="1" data-a="fade">
+      <div class="bar top"><span class="w">TV</span><span class="track"><i style="--p:41;--k:0"></i></span><span class="p">41%</span></div>
+      <div class="bar"><span class="w">Xbox</span><span class="track"><i style="--p:22;--k:1"></i></span><span class="p">22%</span></div>
+      <div class="bar"><span class="w">music</span><span class="track"><i style="--p:15;--k:2"></i></span><span class="p">15%</span></div>
+      <div class="bar"><span class="w">lights</span><span class="track"><i style="--p:12;--k:3"></i></span><span class="p">12%</span></div>
+      <div class="bar"><span class="w">PlayStation</span><span class="track"><i style="--p:7;--k:4"></i></span><span class="p">7%</span></div>
+      <div class="bar"><span class="w">oven</span><span class="track"><i style="--p:1;--k:5"></i></span><span class="p">1%</span></div>
+    </div>
+    <div class="panel pick" data-g="2" data-a="card"><p class="h3">Pick one. Add it.<br>Guess again.</p><p class="sec" style="font-size:17px;margin-top:14px">Numbers are made up to show the idea.</p></div>
   </div>
-  <aside class="note">Click once: bars grow. "A chatbot gives every possible next word a score like this.
+  <aside class="note">The wheel on the right is the same idea in motion: likelier words own more of the wheel, so it usually
+lands on TV, and now and then it doesn't.
+Click once: bars grow. "A chatbot gives every possible next word a score like this.
 It picks one (usually a likely one, sometimes a surprising one), adds it to the
 sentence, and does the whole thing again. Word by word. That's how it writes an essay,
 a poem, or code."
@@ -370,7 +393,7 @@ Click again for the takeaway box.</aside>
 <!-- 7 ─ Tokens (new) ─ hero: STRAWBERRY keycaps that split into tokens -->
 <section class="slide s-tok" data-title="It sees tokens, not letters.">
   <div class="in">
-    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Plot twist</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">It doesn't see letters. It sees tokens.</span></span></h2></header>
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Plot twist</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">It sees tokens. Not letters.</span></span></h2></header>
     <div class="toks">
       <div class="tokrow" data-g="0" data-a="card" data-d="200"><span class="t">un</span><span class="t">believ</span><span class="t">able</span></div>
       <div class="tokrow" data-g="0" data-a="card" data-d="320"><span class="t">st<b class="rr">r</b></span><span class="t">aw</span><span class="t">be<b class="rr">rr</b>y</span></div>
@@ -393,15 +416,37 @@ Link back: it predicts what SOUNDS right.</aside>
   <div class="in">
     <header class="hd z1"><p class="kick" data-g="0" data-a="fade">How a chatbot is made</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Three steps. No magic.</span></span></h2></header>
     <div class="list">
-      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Read</p><p class="sec">a gigantic amount of text: websites, books, code.</p></div></div>
-      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Learn patterns</p><p class="sec">which words tend to follow which, in what situations.</p></div></div>
-      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Predict</p><p class="sec">the next word, one at a time, over and over.</p></div></div>
+      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Read</p><p class="sec">Mountains of text: websites, books, code.</p></div></div>
+      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Learn patterns</p><p class="sec">Which words tend to follow which.</p></div></div>
+      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Predict</p><p class="sec">The next word. Then the next. Then the next.</p></div></div>
     </div>
     <div class="panel punch" data-g="4" data-a="card"><p>It predicts what <span class="em hl">sounds</span> right — not what <span class="em hl">is</span> right.</p></div>
   </div>
-  <aside class="note">One click per step. Keep it short.
+  <aside class="note">One click per step. Keep it short. The model on the right follows you: pages pile up (read),
+spread into a web of connections (patterns), then collapse into a phone's next-word strip (predict).
 Last click is the most important sentence of today: "It predicts what SOUNDS right,
 not what IS right." Ask them to remember it — we're going to prove it in 20 minutes.</aside>
+</section>
+
+<!-- How it learned (new) ─ hero: a bank of dials that settle -->
+<section class="slide lp s-train" data-title="Guess. Check. Adjust.">
+  <div class="in">
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">How it learned the patterns</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Guess. Check. Adjust.</span></span></h2></header>
+    <div class="list">
+      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Guess</p><p class="sec">Hide the next word of a real sentence. Make it guess.</p></div></div>
+      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Check</p><p class="sec">Compare its guess with the real word.</p></div></div>
+      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Adjust</p><p class="sec">Nudge billions of tiny dials so the right word scores higher next time.</p></div></div>
+    </div>
+    <div class="panel punch" data-g="4" data-a="card"><p>Repeat billions of times. <span class="em hl">Nobody typed in the rules.</span></p></div>
+  </div>
+  <aside class="note">~3 min. This is the inside of step 2 from the last slide. One click per step.
+"It learned by playing the game you just played. Hide the next word, guess it, check, and adjust."
+The dials: a model is a giant pile of numbers, called parameters or weights. Big models have billions.
+Training means turning those dials a tiny bit after every guess. Click 3: the dials on the model settle.
+Last click: nobody wrote rules like "after 'turned on the' say TV". The patterns were found, not programmed.
+That is why even the people who built it can't always say exactly why it gave one answer.
+If asked "is it thinking?": it is doing a LOT of math to predict text. Whether that counts as thinking is
+a real debate, and you don't have to settle it today.</aside>
 </section>
 
 <!-- 9 ─ Same question (new) ─ hero: two phones, two chats, two answers -->
@@ -409,8 +454,8 @@ not what IS right." Ask them to remember it — we're going to prove it in 20 mi
   <div class="in">
     <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Watch closely</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Same question. Different answer.</span></span></h2></header>
     <div class="list">
-      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">It doesn't always pick #1</p><p class="sec">From the ranked list, it picks one of the likely words, a little bit at random.</p></div></div>
-      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Two answers disagree? One is wrong.</p><p class="sec">Asking twice is a free fact-check.</p></div></div>
+      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">It doesn't always pick #1</p><p class="sec">It picks from the top few, with a little randomness.</p></div></div>
+      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Two answers disagree? At least one is wrong.</p><p class="sec">Asking twice is a free fact-check.</p></div></div>
     </div>
     <div class="panel punch" data-g="3" data-a="card"><p>One answer is never <span class="em hl">the</span> answer.</p></div>
   </div>
@@ -421,6 +466,47 @@ Click 2: the useful trick. Now ask both chats a local fact question whose answer
 already checked. If the two answers disagree, at least one is wrong. Different answers
 to a fact = red flag.
 Click 3: one answer is never THE answer.</aside>
+</section>
+
+<!-- Context window (new) ─ hero: a long chat with a sliding frame -->
+<section class="slide lp s-ctx" data-title="It only knows what's on the page.">
+  <div class="in">
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">What it can see</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">It only knows what's on the page.</span></span></h2></header>
+    <div class="list">
+      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">The page is this chat</p><p class="sec">Everything you typed and everything it answered. That's the context window.</p></div></div>
+      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">New chat, blank page</p><p class="sec">It doesn't remember you, unless the app saves notes about you.</p></div></div>
+      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Long chat, fuzzy start</p><p class="sec">In a very long chat, early details can drop out.</p></div></div>
+    </div>
+    <div class="panel punch" data-g="4" data-a="card"><p>If it needs to know it, <span class="em hl">put it on the page.</span></p></div>
+  </div>
+  <aside class="note">~3 min. The model on the right: a long conversation, and a frame showing the part the AI can use.
+"When it answers, it has two things: the patterns from training, and the text in front of it right now."
+Click 1: that text is called the context window. Your messages, its answers, any file you pasted.
+Click 2: open a new chat and it starts from nothing. (Some apps keep a memory of you. That's the app
+saving notes and pasting them onto the page for you, not the model remembering.)
+Click 3: very long chats can lose the beginning. If it forgets a rule you gave it, say the rule again.
+Why this matters for building: when your code breaks, paste the code AND the error. It can't see your screen.</aside>
+</section>
+
+<!-- Tools (new) ─ hero: three tool tiles -->
+<section class="slide lp s-tools" data-title="The model guesses. Tools let it look.">
+  <div class="in">
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Why some chatbots seem smarter</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">The model guesses. Tools let it look.</span></span></h2></header>
+    <div class="list">
+      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Search</p><p class="sec">It can read live web pages, then write from them.</p></div></div>
+      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Run code</p><p class="sec">It can do the math or test the program, instead of guessing.</p></div></div>
+      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">See</p><p class="sec">Photos, screenshots, files.</p></div></div>
+    </div>
+    <div class="panel punch" data-g="4" data-a="card"><p>With tools it's <span class="em hl">reading,</span> not remembering. It can still misread.</p></div>
+  </div>
+  <aside class="note">~3 min. One click per tool; each tile appears on the model.
+"The model on its own can only predict text. The app around it can hand it tools."
+Search: it looks things up right now, so it isn't stuck at its training cutoff. Look for links or a
+"searched the web" label under the answer.
+Run code: for math and data it can write a tiny program and run it, which beats guessing digits.
+See: you can show it a screenshot of your broken page.
+Last click: tools make it better, not perfect. It can pick a bad source or misread a good one.
+Bridge to the demo: a model + tools + a loop is called an AGENT. You're about to watch one.</aside>
 </section>
 
 <!-- 8 ─ Section 02 -->
@@ -434,9 +520,9 @@ Click 3: one answer is never THE answer.</aside>
 </section>
 
 <!-- 9 ─ Demo prompt ─ hero: laptop lit by the crescent · orbit -->
-<section class="slide s9" data-title="What we're asking it to do">
+<section class="slide s9" data-title="One prompt. Watch it build.">
   <div class="in">
-    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Live demo · Claude Code</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">What we're asking it to do</span></span></h2></header>
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Live demo · Claude Code</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">One prompt. Watch it build.</span></span></h2></header>
     <div class="panel term" data-g="0" data-a="card" data-d="200">
       <div class="bar3"><i></i><i></i><i></i></div>
       <div class="lines mono">
@@ -465,7 +551,7 @@ Keep it to ~10 minutes. If Wi-Fi fails: play the backup recording.</aside>
   </div>
   <span class="anchor node" data-anchor="n0" data-ax="1" data-ay="1" data-g="1" data-a="card">Plan</span>
   <span class="anchor node" data-anchor="n1" data-ax="0" data-ay="1" data-g="2" data-a="card">Write code</span>
-  <span class="anchor node" data-anchor="n3" data-ax="1" data-ay="0" data-g="4" data-a="card">Spot a problem &amp; fix</span>
+  <span class="anchor node" data-anchor="n3" data-ax="1" data-ay="0" data-g="4" data-a="card">Fix what broke</span>
   <span class="anchor node" data-anchor="n2" data-ax="0" data-ay="0" data-g="3" data-a="card">Run it</span>
   <aside class="note">"A chatbot answers once. An agent like Claude Code keeps going: plans, writes code,
 runs it, sees what broke, fixes it, repeats. That's why it could build a whole site."
@@ -499,6 +585,9 @@ runs it, sees what broke, fixes it, repeats. That's why it could build a whole s
   <aside class="note">Pairs use ChatGPT (or whatever AI they're allowed to use). Timer: 8 minutes.
 LEADERS: look up the real answers the day before from official sources, and
 swap in fresher questions if these become too easy.
+Click 2 (Score each): the three cards top-right flip to ✗ ? ✓. They show the three possible scores,
+not the real answers.
+If an AI searched the web it may get these right. Then score its SOURCES: open one. Does the page say that?
 Debrief: hands up — who got at least one ✗ or ? ... Ask a pair to read out the most
 confident wrong answer. Did the AI sound unsure? (Usually no.)</aside>
 </section>
@@ -520,8 +609,28 @@ confident wrong answer. Did the AI sound unsure? (Usually no.)</aside>
   </div>
   <aside class="note">The phone types out an example of a confident answer (we made it up for the slide —
 it's the kind of thing AIs say). Click: UNVERIFIED stamp.
-Then the three reasons. Connect back to slide 7: it predicts what SOUNDS right.
+Then the three reasons. Connect back to slide 8: it predicts what SOUNDS right.
 This is also why AI-written code can look perfect and still be broken.</aside>
+</section>
+
+<!-- Catch it (new) ─ hero: the phone from the last slide glides over -->
+<section class="slide lp s-catch" data-title="Three ways to catch it.">
+  <div class="in">
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Your move</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Three ways to catch it.</span></span></h2></header>
+    <div class="list">
+      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Ask twice</p><p class="sec">New chat, same question. Different answers are a red flag.</p></div></div>
+      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Ask for the source</p><p class="sec">Then open it. Does the page really say that?</p></div></div>
+      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Check the real thing</p><p class="sec">The official site, a map app, a person who knows.</p></div></div>
+    </div>
+    <div class="panel punch" data-g="4" data-a="card"><p>Sounding sure costs it <span class="em hl">nothing.</span> Checking is your job.</p></div>
+  </div>
+  <aside class="note">~2 min. The phone with the UNVERIFIED answer slides over from the last slide.
+Three habits, one click each. They use what we learned today:
+1. Ask twice works because it picks words with a little randomness (the wheel).
+2. Ask for the source works because with search it is reading pages, and you can read them too.
+   No source, or a link that doesn't say it? Treat the answer as a guess.
+3. For anything that matters, go to the real thing.
+Have everyone say the last line out loud.</aside>
 </section>
 
 <!-- 14 ─ Four habits ─ hero: four graphite tiles · orbit -->
@@ -530,12 +639,13 @@ This is also why AI-written code can look perfect and still be broken.</aside>
     <header class="hd z1"><p class="kick" data-g="0" data-a="fade">How we use AI here</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">The 4 habits.</span></span></h2></header>
     <div class="bento">
       <div class="panel h1" data-g="1" data-a="card"><p class="n">1</p><p class="h3">Explain-back</p><p class="d sec">No AI code goes in your project until you can explain it out loud.</p></div>
-      <div class="panel h2" data-g="2" data-a="card"><p class="n">2</p><p class="h3">Tutor mode</p><p class="d sec">Ask for hints and a plan first. Full code second.</p></div>
+      <div class="panel h2" data-g="2" data-a="card"><p class="n">2</p><p class="h3">Tutor mode</p><p class="d sec">Hints and a plan first. Full code second.</p></div>
       <div class="panel h3b" data-g="3" data-a="card"><p class="n">3</p><p class="h3">Pair up</p><p class="d sec">The beginner types. The partner navigates. Leaders never grab your keyboard.</p></div>
       <div class="panel h4" data-g="4" data-a="card"><p class="n">4</p><p class="h3">Prompt journal</p><p class="d sec">Write down what you asked, what came back, what broke.</p></div>
     </div>
   </div>
-  <aside class="note">One click per habit. These are the rules every week, not just today.
+  <aside class="note">One click per habit, and each brings in its object: a mic (explain it out loud), a bulb (hints first),
+two cursors (pair up), a notebook (journal). These are the rules every week, not just today.
 Why? Research on beginners using AI to code: the ones who let AI do everything end up
 unable to fix or change their own project. The ones who use it like a tutor get better.
 Hand out the printed habits card.</aside>
@@ -570,18 +680,19 @@ other people's info. If you're not sure, ask a leader.</aside>
 </section>
 
 <!-- 17 ─ Five steps ─ hero: five slabs receding · orbit -->
-<section class="slide s17" data-title="From nothing to on-the-internet.">
+<section class="slide s17" data-title="From nothing to live.">
   <div class="in">
-    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">5 steps to live</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">From nothing to on-the-internet.</span></span></h2></header>
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">5 steps · about 40 minutes</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">From nothing to live.</span></span></h2></header>
     <div class="list">
       <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Log in</p><p class="sec">github.com</p></div></div>
       <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">New repo</p><p class="sec">name it my-first-site · Public</p></div></div>
-      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Ask your AI</p><p class="sec">for index.html (use tutor mode →)</p></div></div>
+      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Ask your AI</p><p class="sec">for index.html. Tutor mode first.</p></div></div>
       <div class="li" data-g="4" data-a="card"><span class="n">4</span><div><p class="h3">Add file</p><p class="sec">Add file → Create new file → index.html → Commit</p></div></div>
       <div class="li" data-g="5" data-a="card"><span class="n">5</span><div><p class="h3">Turn on Pages</p><p class="sec">Settings → Pages → Deploy from branch: main</p></div></div>
     </div>
   </div>
   <aside class="note">Walk through all five together, one click at a time, with the room following along.
+The browser on the right acts out each step as you click.
 Both leaders circulate. Remember: hands off the keyboard — point, don't type.
 No GitHub account / no permission form? They pair with someone and watch today.</aside>
 </section>
@@ -646,9 +757,9 @@ safety rules matter.</aside>
 </section>
 
 <!-- 20 ─ Shipped ─ hero: phone · morph -->
-<section class="slide s20" data-title="What “shipped” means here.">
+<section class="slide s20" data-title="“Shipped” means three things.">
   <div class="in">
-    <header class="hd z1"><p class="kick green" data-g="0" data-a="fade">Wall of URLs &nbsp;→&nbsp; then:</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">What “shipped” means here.</span></span></h2></header>
+    <header class="hd z1"><p class="kick green" data-g="0" data-a="fade">Wall of URLs &nbsp;→&nbsp; then:</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">“Shipped” means three things.</span></span></h2></header>
     <div class="list">
       <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">A public URL that loads on a phone</p><p class="when ok">✓ done today</p></div></div>
       <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">At least one interactive thing that works</p><p class="when amber">weeks 2–4</p></div></div>
@@ -670,7 +781,7 @@ Then the three criteria. Today you hit #1. By demo day you'll hit all three.</as
   <span class="anchor wn" data-anchor="c3" data-g="0" data-a="fade" data-d="600">4</span><span class="anchor wk" data-anchor="d3" data-ax="0.5" data-ay="0" data-g="0" data-a="head" data-d="600"><b>Build + debug</b><i>checkpoint: bias</i></span>
   <span class="anchor wn" data-anchor="c4" data-g="0" data-a="fade" data-d="700">5</span><span class="anchor wk" data-anchor="d4" data-ax="0.5" data-ay="0" data-g="0" data-a="head" data-d="700"><b>Polish + test</b><i>checkpoint: who owns it?</i></span>
   <span class="anchor wn" data-anchor="c5" data-g="0" data-a="fade" data-d="800">6</span><span class="anchor wk last" data-anchor="d5" data-ax="0.5" data-ay="0" data-g="0" data-a="head" data-d="800"><b>DEMO DAY</b><i>checkpoint: show the world</i></span>
-  <aside class="note">Point at Demo Day: parents, library staff, and guests will see what you built.
+  <aside class="note">The six pages show one project growing week by week. Point at Demo Day: parents, library staff, and guests will see what you built.
 Each week also has an AI Checkpoint like today's.</aside>
 </section>
 
@@ -692,7 +803,7 @@ Exit ticket (optional): one word for how today felt.</aside>
   <nav class="dock" aria-label="Presenter controls">
     <button class="ib back" type="button" aria-label="Back"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
     <div class="dots" aria-hidden="true"></div>
-    <span class="prog" aria-live="polite">01 / 25</span>
+    <span class="prog" aria-live="polite">01 / 29</span>
     <button class="next" type="button" aria-label="Next"><span class="skin"><span class="n">Next</span><span class="r">Restart</span></span></button>
     <button class="ib ov-b" type="button" aria-label="Overview (O)" aria-pressed="false"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></button>
     <button class="ib notes-b" type="button" aria-label="Speaker notes (N)" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg></button>
@@ -741,15 +852,16 @@ function bezier(x1, y1, x2, y2) {
     return calc(t, y1, y2); };
 }
 const EASE = bezier(0.22, 1, 0.36, 1), EASE_CSS = 'cubic-bezier(0.22, 1, 0.36, 1)';
+const CAM_EASE = bezier(0.62, 0, 0.18, 1); // flights ease out of the last pose and into the next
 const tweens = new Map();
 // tween(key, getter, setter, to, dur): restarts from the *current* value, so rapid retargets stay continuous.
-function tween(key, get, set, to, dur, delay = 0, onDone) {
+function tween(key, get, set, to, dur, delay = 0, onDone, ease) {
   const from = get(); if (rm()) { dur = Math.min(dur, 200); delay = 0; }
-  tweens.set(key, { get, set, from, to, dur, delay, t0: performance.now(), onDone });
+  tweens.set(key, { get, set, from, to, dur, delay, t0: performance.now(), onDone, ease });
 }
 function stepTweens(now) {
   for (const [k, tw] of tweens) {
-    const u = Math.min(1, Math.max(0, (now - tw.t0 - tw.delay) / tw.dur)); const e = EASE(u);
+    const u = Math.min(1, Math.max(0, (now - tw.t0 - tw.delay) / tw.dur)); const e = (tw.ease || EASE)(u);
     if (typeof tw.to === 'number') tw.set(tw.from + (tw.to - tw.from) * e);
     else if (tw.to.isVector3 || tw.to.isColor) { const v = tw.from.clone().lerp(tw.to, e); tw.set(v); }
     else if (Array.isArray(tw.to)) tw.set(tw.from.map((f, i) => f + (tw.to[i] - f) * e));
@@ -758,7 +870,7 @@ function stepTweens(now) {
 }
 
 /* ---------- HTML builds (WAAPI, retargetable, transform+opacity only) ---------- */
-const HIDDEN = { head: 'translateY(24px)', card: 'translate3d(0,34px,-90px) rotateX(14deg)', line: 'translateY(112%)', fade: 'none', type: 'none' };
+const HIDDEN = { head: 'translate3d(0,26px,-120px)', card: 'translate3d(0,70px,-320px) rotateX(34deg)', line: 'translateY(112%)', fade: 'none', type: 'none' };
 // anchored elements keep their 3D-projected position in --ax and animate on top of it
 const T = (el, t) => el.classList.contains('anchor') ? `var(--ax, translate(-50%,-50%)) ${t === 'none' ? '' : t}` : t;
 function itemState(el, shown) { return shown ? { opacity: '1', transform: T(el, el.dataset.a === 'line' ? 'translateY(0%)' : 'none') }
@@ -798,6 +910,14 @@ const slides = Array.from(root.querySelectorAll('.slide')).map((el, i) => {
 });
 const N = slides.length, LAST = N - 1;
 let cur = 0, rev = 1;
+// section colour: every divider slide starts a new section; the closing slide returns to the opening colour
+const SEC = []; { let k = 0; slides.forEach((s, i) => { if (s.el.classList.contains('sec')) k++; SEC[i] = i === LAST ? 0 : k; }); }
+const hex3 = h => [1, 3, 5].map(k => parseInt(h.slice(k, k + 2), 16) / 255), BASE = ['#5CC8F5', '#4F9BFF', '#2FD3C2', '#FFAE4D', '#45D9A0'].map(hex3); // sky · blue · teal · amber · mint
+// every slide gets its own colour: it starts at its section's colour and drifts toward the next section's, so the light shifts a little on every slide
+const SECS = slides.map((s, i) => { const k = SEC[i], n = SEC.filter(v => v === k).length, j = SEC.slice(0, i).filter(v => v === k).length, nx = BASE[(k + 1) % BASE.length], u = i === LAST ? 0 : j / n * 0.55; return BASE[k].map((v, c) => v + (nx[c] - v) * u); });
+const SECS2 = slides.map((s, i) => BASE[(SEC[i] + 1) % BASE.length]); // the second tone in the backdrop: the colour the deck is heading toward
+let acc = SECS[0].slice(), acc2 = SECS2[0].slice(); // live accent (sRGB 0..1), tweened on section change and shared by the backdrop, lights, materials and screens
+const accRgb = () => acc.map(v => Math.round(v * 255)).join(','), AC = () => `rgb(${accRgb()})`, ACA = a => `rgba(${accRgb()},${a})`;
 
 // fancy text: section titles decode out of random glyphs (vanilla port of a scramble-in text effect)
 const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!?#%&*';
@@ -809,9 +929,10 @@ function scramble(el, delay) { const txt = el.dataset.txt || (el.dataset.txt = e
 function unscramble(el) { if (el.dataset.txt) { el._sc = (el._sc || 0) + 1; el.textContent = el.dataset.txt; } }
 function groupJobs(s, g, show, base) {
   const list = s.groups[g] || [], jobs = []; s.el.classList.toggle('g' + g, show);
+  if (show && g > 0) s.el.querySelectorAll('.now').forEach(e => e.classList.remove('now')); list.forEach(el => el.classList.toggle('now', show && g > 0));
   list.forEach(el => { if (el.dataset.scramble == null) return; if (show) scramble(el, base + (el.dataset.d ? +el.dataset.d : 0)); else unscramble(el); });
   if (show) { let h = 0, c = 0; const hasHead = list.some(e => e.dataset.a === 'head' || e.dataset.a === 'line');
-    list.forEach(el => { let d; if (el.dataset.d != null) d = +el.dataset.d; else if (el.dataset.a === 'head' || el.dataset.a === 'line') d = (h++) * 90; else d = (hasHead ? 80 : 0) + (c++) * 60;
+    list.forEach(el => { let d; if (el.dataset.d != null) d = +el.dataset.d; else if (el.dataset.a === 'head' || el.dataset.a === 'line') d = (h++) * 90; else d = (hasHead ? 80 : 0) + (c++) * 70;
       jobs.push({ el, to: itemState(el, true), dur: 900, delay: base + d, done: () => s.onBuild && s.onBuild(g, true, base) }); });
     if (s.onBuild) s.onBuild(g, true, base);
   } else { list.forEach(el => jobs.push({ el, to: itemState(el, false), dur: 420 })); if (s.onBuild) s.onBuild(g, false, 0); }
@@ -824,30 +945,37 @@ function revealNow(s, n) { for (let g = 0; g < s.n; g++) { const want = g < n; s
 
 /* ---------- HTML slide transition: slides overlap vertically, dock stays fixed ---------- */
 const HS = { cur: { opacity: '1', transform: 'none' },
-  up: { opacity: '0', transform: 'translate3d(-24%,0,-460px) rotateY(26deg)' },      // leaves forward: swings off to the left, into depth
-  down: { opacity: '0', transform: 'translate3d(24%,0,-460px) rotateY(-26deg)' },    // arrives forward: swings in from the right
-  secUp: { opacity: '0', transform: 'translate3d(0,-2%,560px)' },                    // into a section: the slide flies past the camera…
-  secDown: { opacity: '0', transform: 'translate3d(0,4%,-1100px) rotateX(-8deg)' } }; // …and the divider rises out of the depth
+  up: { opacity: '0', transform: 'translate3d(-62%,0,820px) rotateY(-52deg)' },       // leaves forward: the slide swings past the camera on the left, like a sign you fly by
+  down: { opacity: '0', transform: 'translate3d(58%,4%,-1700px) rotateY(48deg)' },    // arrives forward: comes up out of the distance on the right, turning to face you
+  secUp: { opacity: '0', transform: 'translate3d(0,70%,620px) rotateX(-58deg)' },     // into a section: the slide tips away under the camera as it climbs…
+  secDown: { opacity: '0', transform: 'translate3d(0,-46%,-2000px) rotateX(42deg)' },
+  lid: { opacity: '0', transform: 'translate3d(0,45%,-200px) rotateX(-86deg) translate3d(0,-45%,0)' },   // the slide lies flat like a shut laptop lid and swings up on its bottom edge
+  lidBack: { opacity: '0', transform: 'translate3d(0,-10%,-900px)' } };                                 // the divider steps back to make room for the laptop // …and the divider swoops down from far above
 const hs = k => rm() ? { opacity: HS[k].opacity, transform: 'none' } : HS[k];
 function live(s, on) { s.el.classList.toggle('live', on); }
 function settle() { slides.forEach((s, i) => live(s, Math.abs(i - cur) <= 1 || !!s.el._a)); }
 
+// focus pull: the blocks of a slide blur as it leaves and sharpen as it lands (on the blocks, not the slide, so the 3D chain stays alive)
+function focusPull(s, out, dur, delay) { if (rm()) return;
+  s.el.querySelectorAll(':scope > .in > *, :scope > .anchor').forEach(el => { if (el._b) el._b.cancel();
+    el._b = el.animate(out ? [{ filter: 'blur(0px)' }, { filter: 'blur(14px)' }] : [{ filter: 'blur(14px)' }, { filter: 'blur(0px)' }], { duration: dur, delay, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: out ? 'none' : 'backwards' }); }); }
 function show(to, n, dir, instant) {
   const from = slides[cur], next = slides[to];
   if (to === cur) { revealTo(next, n, 0); rev = n; update(); return; }
   const fwd = dir > 0, warm = !!next.el._a;
   slides.forEach(s => s.el.style.zIndex = ''); next.el.style.zIndex = fwd ? 3 : 2; from.el.style.zIndex = fwd ? 2 : 3;
   live(next, true);
-  const section = stations[to].kind === 'section' || stations[cur].kind === 'section';
-  const OUT = section ? (fwd ? 'secUp' : 'secDown') : (fwd ? 'up' : 'down'), IN = section ? (fwd ? 'secDown' : 'secUp') : (fwd ? 'down' : 'up');
-  const dur = section ? 1500 : 1250;
+  const lid = (stations[to].morphFrom === cur || stations[cur].morphFrom === to) && stations[Math.min(to, cur)].hero === 'laptop'; // the laptop opens (or shuts): the slide rides its lid
+  const section = !lid && (stations[to].kind === 'section' || stations[cur].kind === 'section');
+  const OUT = lid ? (fwd ? 'lidBack' : 'lid') : section ? (fwd ? 'secUp' : 'secDown') : (fwd ? 'up' : 'down'), IN = lid ? (fwd ? 'lid' : 'lidBack') : section ? (fwd ? 'secDown' : 'secUp') : (fwd ? 'down' : 'up');
+  const dur = lid ? 2400 : section ? 1800 : 1500; flightK = lid ? 0.35 : section ? 1.9 : 1;
   if (instant) { [from, next].forEach(s => { s.el._a && s.el._a.cancel(); s.el._a2 && s.el._a2.cancel(); });
     setNow(from.el, hs(OUT)); setNow(next.el, hs('cur')); revealNow(next, n);
     cur = to; rev = n; cameraJump(to); settle(); update(); afterMove(); return; }
-  run([{ el: from.el, to: hs(OUT), dur, early: true, done: settle }]);
+  run([{ el: from.el, to: hs(OUT), dur: dur * 0.8, early: true, done: settle }]); focusPull(from, true, dur * 0.45, 0);
   if (!warm) { setNow(next.el, hs(IN)); revealNow(next, fwd ? 0 : n); }
-  run([{ el: next.el, to: hs('cur'), dur, delay: rm() ? 0 : 60, early: true }]);
-  revealTo(next, n, warm ? 0 : Math.round(dur * 0.42));
+  run([{ el: next.el, to: hs('cur'), dur: dur * 0.8, delay: rm() ? 0 : dur * 0.2, early: true }]); focusPull(next, false, dur * 0.5, dur * 0.2);
+  revealTo(next, n, warm ? 0 : Math.round(dur * 0.5));
   cur = to; rev = n; cameraTo(to, dur); update(); afterMove();
 }
 function next() { const s = slides[cur]; if (rev < s.n) { revealTo(s, rev + 1, 0); rev++; update(); return; } show(cur < LAST ? cur + 1 : 0, 1, +1); }
@@ -863,7 +991,7 @@ slides.forEach((s, i) => { const b = document.createElement('button'); b.type = 
 function esc(t) { return t.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
 function update() {
   const s = slides[cur]; const end = cur === LAST && rev >= s.n;
-  root.classList.toggle('is-end', end); root.dataset.slide = cur + 1;
+  root.classList.toggle('is-end', end); root.dataset.slide = cur + 1; root.dataset.sec = SEC[cur]; root.style.setProperty('--accent', '#' + SECS[cur].map(v => Math.round(v * 255).toString(16).padStart(2, '0')).join(''));
   btnNext.setAttribute('aria-label', end ? 'Restart' : 'Next'); btnBack.disabled = cur === 0 && rev <= 1;
   progEl.textContent = String(cur + 1).padStart(2, '0') + ' / ' + String(N).padStart(2, '0');
   dotsEl.querySelectorAll('button').forEach((d, k) => { d.classList.toggle('cur', k === cur); d.classList.toggle('done', k < cur); });
@@ -892,7 +1020,7 @@ try {
 if (!renderer || !renderer.getContext()) hasGL = false;
 
 const stations = []; // one per slide: hero + camera pose + crescent
-function station(i, o) { stations[i] = Object.assign({ kind: 'orbit', hero: 'ring', pose: {}, cres: {} }, o); }
+function station(i, o) { stations[i] = Object.assign({ kind: 'orbit', hero: 'none', pose: {}, cres: {} }, o); }
 // Track: heroes step right along x; dolly pairs sit one behind the other in z. Camera poses are offsets from the hero.
 const X = i => i * 10;
 // Each station: hero + camera pose. screen = what the device displays; lid/yaw = laptop pose; cresI = crescent strength.
@@ -903,30 +1031,34 @@ const CB = { c: [0.0, -1.55], r: 1.3 };      // wide arc along the bottom (refer
 const CT = { c: [1.15, 0.75], r: 1.15 };     // from the top-right
 // `look` offsets the camera's aim from the hero so the hero lands in the slide's empty area.
 station(0,  { hero: 'laptop', screen: 'streaks', yaw: -0.3, kind: 'orbit', pos: [X(0), 0.25, 0], look: [-1.95, -0.05, 0], cam: { off: [-1.8, 1.1, 7.6], fov: 34 }, cres: CL });
-station(1,  { hero: 'cards3',   kind: 'dolly',   pos: [X(1), 0.3, -1.5], look: [-2.3, -1.7, 0], cam: { off: [-2.0, -1.2, 9.2], fov: 36 }, cres: CL });
+station(1,  { hero: 'badges3',   kind: 'dolly',   pos: [X(1), 0.5, -1.5], look: [-2.3, -1.7, 0], cam: { off: [-2.0, -1.2, 9.2], fov: 36 }, cres: CL });
 station(2,  { hero: 'tablet',   kind: 'orbit',   pos: [X(2), 0.3, 0], look: [-2.5, -0.4, 0], cam: { off: [-1.8, 0.4, 9.0], fov: 36 }, cres: CT });
-station(3,  { hero: 'chip',     kind: 'section', pos: [X(3), 0.6, 0],  look: [-2.8, -0.4, 0], cam: { off: [-3.6, 0.6, 9.5], fov: 30 }, cres: CB });
+station(3,  { hero: 'bubble',    kind: 'section', pos: [X(3), 0.6, 0],  look: [-2.8, -0.4, 0], cam: { off: [-3.6, 0.6, 9.5], fov: 30 }, cres: CB });
 station(4,  { hero: 'phone', screen: 'guess', kind: 'orbit', pos: [X(4), 0.25, 0], look: [-2.5, -0.15, 0], cam: { off: [-1.8, 0.3, 8.4], fov: 35 }, cres: CL });
-station(5,  { hero: 'bars',     kind: 'dolly',   pos: [X(5) - 2.2, -0.2, -1.2], look: [1.6, 0.35, 0], cam: { off: [1.6, 0.7, 9.6], fov: 36 }, cres: CR });
+station(5,  { hero: 'reel',     kind: 'dolly',   scale: 0.8, pos: [X(5), 0.2, -1.2], look: [-3.1, -0.9, 0], cam: { off: [-2.3, -0.1, 9.4], fov: 36 }, cres: CR });
 station(6,  { hero: 'keycaps',  kind: 'orbit',   pos: [X(6) + 0.4, 0.1, 0], look: [-2.2, -0.35, 0], cam: { off: [-1.6, 1.5, 8.8], fov: 36 }, cres: CT });
-station(7,  { hero: 'slabs3',   kind: 'orbit',   pos: [X(7), 0.3, 0], look: [-2.5, -0.6, 0], cam: { off: [-2.4, 0.2, 8.6], fov: 36 }, cres: CL });
-station(8,  { hero: 'twophones', kind: 'orbit',  pos: [X(8), 0.25, 0], look: [-2.6, -0.2, 0], cam: { off: [-1.6, 0.3, 9.4], fov: 36 }, cres: CR });
-station(9,  { hero: 'laptop', screen: 'terminal', lid: 'shut', yaw: -0.28, kind: 'section', pos: [X(9), 0.5, 0], look: [-2.8, -0.3, 0], cam: { off: [2.8, 1.0, 9.6], fov: 30 }, cres: CB });
-station(10, { hero: 'laptop',   kind: 'morph', morphFrom: 9, pos: [X(10), 0.1, 0], look: [-2.25, -0.6, 0], cam: { off: [-1.9, 1.1, 7.6], fov: 36 }, cres: CB });
-station(11, { hero: 'loop',     kind: 'orbit',   pos: [X(11), -0.4, 0], look: [-0.6, 0.45, 0], cam: { off: [-0.5, 1.1, 10.0], fov: 36 }, cres: CT });
-station(12, { hero: 'lens',     kind: 'section', pos: [X(12), 0.6, 0], look: [-2.8, -0.2, 0], cam: { off: [-3.4, 0.6, 9.8], fov: 30 }, cres: CB });
-station(13, { hero: 'cards3',   kind: 'dolly', labels: [['QUESTION', 'Q1'], ['QUESTION', 'Q2'], ['QUESTION', 'Q3']], scale: 0.56, pos: [X(13), 0.6, -1.4], look: [-3.6, -2.3, 0], cam: { off: [-2.8, -1.6, 10.2], fov: 36 }, cres: CL });
-station(14, { hero: 'phone', screen: 'wrong', stampAt: 1, yaw: 0.36, kind: 'orbit', pos: [X(14), 0.0, 0], look: [2.75, 0.35, 0], cam: { off: [2.2, 0.3, 8.8], fov: 35 }, cres: CR });
-station(15, { hero: 'tiles4',   kind: 'orbit',   scale: 0.62, pos: [X(15), 0.0, 0], look: [-3.4, -0.2, 0], cam: { off: [-2.8, 0.4, 10.4], fov: 36 }, cres: CL });
-station(16, { hero: 'padlock',  kind: 'dolly',   scale: 0.85, pos: [X(16), 0.5, -1.2], look: [-3.2, -0.7, 0], cam: { off: [-2.6, -0.2, 8.8], fov: 35 }, cres: CR });
-station(17, { hero: 'phone', screen: 'site', kind: 'section', pos: [X(17), 0.5, 0], look: [-2.8, -0.3, 0], cam: { off: [3.0, 0.7, 9.5], fov: 30 }, cres: CB });
-station(18, { hero: 'slabs5',   kind: 'orbit',   pos: [X(18), -0.4, 0], look: [-2.8, 0.2, 0], cam: { off: [-2.0, 1.2, 8.8], fov: 36 }, cres: CL });
-station(19, { hero: 'none',     kind: 'orbit',   pos: [X(19), 0, 0], look: [0, 0, 0], cam: { off: [0.4, 0.6, 9.0], fov: 36 }, cres: CT, cresI: 0.8 });
-station(20, { hero: 'laptop', screen: 'tutor', yaw: -0.25, kind: 'orbit', pos: [X(20), -0.6, 0], look: [-2.45, -0.75, 0], cam: { off: [-2.0, 1.3, 8.6], fov: 36 }, cres: CB });
-station(21, { hero: 'none',     kind: 'dolly',   pos: [X(21), 1.2, -1.2], look: [-4.0, -2.2, 0], cam: { off: [-2.8, -1.5, 11.8], fov: 36 }, cres: CL, cresI: 0.45 });
-station(22, { hero: 'phone', screen: 'site', screenOpts: { name: 'Jordan', color: '#0F7E72' }, kind: 'orbit', pos: [X(22), -0.1, 0], look: [-2.9, 0, 0], cam: { off: [-2.2, 0.4, 7.8], fov: 35 }, cres: CR });
-station(23, { hero: 'discs6',   kind: 'orbit',   pos: [X(23), -1.0, 0], look: [0, 1.1, 0], cam: { off: [0.0, 2.4, 11.8], fov: 36 }, cres: CL });
-station(24, { hero: 'laptop', screen: 'wall', yaw: -0.4, kind: 'dolly', pos: [X(24), 0.15, -1.0], look: [-2.1, -0.05, 0], cam: { off: [-2.1, 1.1, 7.6], fov: 34 }, cres: CL });
+station(7,  { hero: 'learn3',   kind: 'orbit',   pos: [X(7), 0.3, 0], look: [-2.5, -0.6, 0], cam: { off: [-2.4, 0.2, 8.6], fov: 36 }, cres: CL });
+station(9,  { hero: 'twophones', kind: 'orbit',  pos: [X(9), 0.25, 0], look: [-2.6, -0.2, 0], cam: { off: [-1.6, 0.3, 9.4], fov: 36 }, cres: CR });
+station(12,  { hero: 'laptop', screen: 'terminal', lid: 'shut', yaw: -0.28, kind: 'section', pos: [X(12), 0.5, 0], look: [-2.8, -0.3, 0], cam: { off: [2.8, 1.0, 9.6], fov: 30 }, cres: CB });
+station(13, { hero: 'laptop',   kind: 'morph', morphFrom: 12, pos: [X(13), 0.1, 0], look: [-2.25, -0.6, 0], cam: { off: [-1.9, 1.1, 7.6], fov: 36 }, cres: CB });
+station(14, { hero: 'loop',     kind: 'orbit',   pos: [X(14), -0.4, 0], look: [-0.6, 0.45, 0], cam: { off: [-0.5, 1.1, 10.0], fov: 36 }, cres: CT });
+station(15, { hero: 'lens',     kind: 'section', pos: [X(15), 0.6, 0], look: [-2.8, -0.2, 0], cam: { off: [-3.4, 0.6, 9.8], fov: 30 }, cres: CB });
+station(16, { hero: 'qcards3',  kind: 'dolly', scale: 0.66, pos: [X(16), 0.82, -1.4], look: [-3.6, -2.3, 0], cam: { off: [-2.8, -1.6, 10.2], fov: 36 }, cres: CL });
+station(17, { hero: 'phone', screen: 'wrong', stampAt: 1, yaw: 0.36, kind: 'orbit', pos: [X(17), 0.0, 0], look: [2.75, 0.35, 0], cam: { off: [2.2, 0.3, 8.8], fov: 35 }, cres: CR });
+station(19, { hero: 'habits4',  kind: 'orbit',   scale: 0.8, pos: [X(19), 0.0, 0], look: [-3.65, -0.2, 0], cam: { off: [-2.8, 0.4, 10.4], fov: 36 }, cres: CL });
+station(20, { hero: 'padlock',  kind: 'dolly',   scale: 0.85, pos: [X(20), 0.5, -1.2], look: [-3.2, -0.7, 0], cam: { off: [-2.6, -0.2, 8.8], fov: 35 }, cres: CR });
+station(21, { hero: 'phone', screen: 'site', kind: 'section', pos: [X(21), 0.5, 0], look: [-2.8, -0.3, 0], cam: { off: [3.0, 0.7, 9.5], fov: 30 }, cres: CB });
+station(22, { hero: 'browser',  kind: 'orbit',   scale: 0.84, pos: [X(22), -0.4, 0], look: [-2.8, 0.2, 0], cam: { off: [-2.0, 1.2, 8.8], fov: 36 }, cres: CL });
+station(23, { hero: 'none',     kind: 'orbit',   pos: [X(23), 0, 0], look: [0, 0, 0], cam: { off: [0.4, 0.6, 9.0], fov: 36 }, cres: CT, cresI: 0.8 });
+station(24, { hero: 'laptop', screen: 'tutor', yaw: -0.25, kind: 'orbit', pos: [X(24), -0.6, 0], look: [-2.45, -0.75, 0], cam: { off: [-2.0, 1.3, 8.6], fov: 36 }, cres: CB });
+station(25, { hero: 'none',     kind: 'dolly',   pos: [X(25), 1.2, -1.2], look: [-4.0, -2.2, 0], cam: { off: [-2.8, -1.5, 11.8], fov: 36 }, cres: CL, cresI: 0.45 });
+station(26, { hero: 'phone', screen: 'site', screenOpts: { name: 'Jordan', color: '#0F7E72' }, kind: 'orbit', pos: [X(26), -0.1, 0], look: [-2.9, 0, 0], cam: { off: [-2.2, 0.4, 7.8], fov: 35 }, cres: CR });
+station(27, { hero: 'weeks6',   kind: 'orbit',   pos: [X(27), -1.0, 0], look: [0, 1.1, 0], cam: { off: [0.0, 2.4, 11.8], fov: 36 }, cres: CL });
+station(28, { hero: 'laptop', screen: 'wall', yaw: -0.4, kind: 'dolly', pos: [X(28), 0.15, -1.0], look: [-2.1, -0.05, 0], cam: { off: [-2.1, 1.1, 7.6], fov: 34 }, cres: CL });
+station(8,  { hero: 'dials',    kind: 'orbit',   scale: 0.85, pos: [X(8), 0.3, 0], look: [-2.7, -0.4, 0], cam: { off: [-2.0, 0.6, 8.8], fov: 36 }, cres: CR });
+station(10, { hero: 'ctxwin',   kind: 'orbit',   scale: 0.8, pos: [X(10), 0.1, 0], look: [-3.0, 0, 0], cam: { off: [-2.3, 0.3, 9.0], fov: 36 }, cres: CL });
+station(11, { hero: 'tools3',   kind: 'dolly',   scale: 0.78, pos: [X(11), 0.3, -1.0], look: [-2.9, -0.5, 0], cam: { off: [-2.1, 0.4, 9.2], fov: 36 }, cres: CT });
+station(18, { hero: 'phone',    kind: 'morph', morphFrom: 17, pos: [X(18), 0.1, 0], look: [-2.9, 0, 0], cam: { off: [-2.2, 0.4, 8.4], fov: 35 }, cres: CL });
 for (let i = 0; i < N; i++) if (!stations[i]) station(i, { pos: [X(i), 0, 0], cam: { off: [0, 0.6, 8.5], fov: 36 }, cres: CL });
 stations.forEach(s => { s.look = s.look || [0, 0, 0]; s.cres = { c: s.cres.c.slice(), r: s.cres.r }; });
 
@@ -958,22 +1090,21 @@ function makeMaterials() {
     for (let yy = 4; yy < h; yy += 8) for (let xx = 4 + ((yy / 8) % 2) * 4; xx < w; xx += 8) { x.beginPath(); x.arc(xx, yy, 1.7, 0, 7); x.fill(); } }) });
   M.deckGlow = new THREE.MeshBasicMaterial({ color: 0x8d97ff, transparent: true, opacity: 0.3, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false,
     map: labelTex('glow', 256, 128, (x, w, h) => { const g = x.createRadialGradient(w / 2, 0, 4, w / 2, 0, w * 0.55); g.addColorStop(0, 'rgba(255,255,255,0.9)'); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.fillRect(0, 0, w, h); }) });
-  M.pcb = new THREE.MeshStandardMaterial({ color: 0x141b17, metalness: 0.3, roughness: 0.6 });
-  M.pcbTop = new THREE.MeshStandardMaterial({ metalness: 0.45, roughness: 0.5, map: labelTex('pcb', 1024, 1024, (x, w, h) => { x.fillStyle = '#101713'; x.fillRect(0, 0, w, h);
-    x.strokeStyle = 'rgba(196,160,92,0.55)'; x.lineWidth = 2.2; x.lineCap = 'round';
-    for (let i = 0; i < 64; i++) { const side = i % 4, k = (i / 4 | 0) / 16, s = 90 + k * 844, e = 150 + (i * 37 % 60); x.beginPath();
-      if (side === 0) { x.moveTo(s, 8); x.lineTo(s, e); x.lineTo(s + (s < 512 ? 40 : -40), e + 40); } else if (side === 1) { x.moveTo(s, h - 8); x.lineTo(s, h - e); x.lineTo(s + (s < 512 ? 40 : -40), h - e - 40); }
-      else if (side === 2) { x.moveTo(8, s); x.lineTo(e, s); x.lineTo(e + 40, s + (s < 512 ? 40 : -40)); } else { x.moveTo(w - 8, s); x.lineTo(w - e, s); x.lineTo(w - e - 40, s + (s < 512 ? 40 : -40)); } x.stroke(); }
-    x.fillStyle = 'rgba(206,170,100,0.8)'; for (let i = 0; i < 40; i++) { x.fillRect(60 + i * 23, 30, 10, 18); x.fillRect(60 + i * 23, h - 48, 10, 18); } }) });
-  M.passive = new THREE.MeshStandardMaterial({ color: 0x8a8d94, metalness: 0.9, roughness: 0.35 });
-  M.chipLabel = new THREE.MeshStandardMaterial({ transparent: true, metalness: 1, roughness: 0.55, depthWrite: false, map: labelTex('chiplabel', 512, 512, (x, w, h) => {
-    x.fillStyle = '#4b4c52'; x.textAlign = 'center'; x.font = '600 230px Inter, system-ui, sans-serif'; x.fillText('AI', w / 2, 300);
-    x.font = '600 30px Inter, system-ui, sans-serif'; x.letterSpacing = '6px'; x.fillText('NEXT-WORD PREDICTOR', w / 2, 380); }) });
-  M.card = new THREE.MeshPhysicalMaterial({ color: 0xdcdde2, metalness: 0.7, roughness: 0.26, clearcoat: 0.5, clearcoatRoughness: 0.2, envMapIntensity: 1.1 });
-  M.bar = new THREE.MeshPhysicalMaterial({ color: 0xa9adb8, metalness: 0.45, roughness: 0.42, clearcoat: 0.4, clearcoatRoughness: 0.3, envMapIntensity: 1.2 });
-  M.barTop = new THREE.MeshPhysicalMaterial({ color: 0xeceef2, metalness: 0.4, roughness: 0.34, clearcoat: 0.5, clearcoatRoughness: 0.25, envMapIntensity: 1.3 });
   M.screen = new THREE.MeshBasicMaterial({ color: 0xffffff });
   M.shadow = new THREE.ShadowMaterial({ opacity: 0.34 });
+  // the section colour as a glossy lacquer; its colour follows `acc` every frame
+  M.accent = new THREE.MeshPhysicalMaterial({ color: 0xb9bfe6, metalness: 0.15, roughness: 0.24, clearcoat: 1, clearcoatRoughness: 0.12, envMapIntensity: 1.1, emissive: 0xb9bfe6, emissiveIntensity: 0.22 });
+  M.accentGlow = new THREE.MeshBasicMaterial({ color: 0x5cc8f5, transparent: true, opacity: 0.22, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false });
+  M.white = new THREE.MeshPhysicalMaterial({ color: 0xf5f5f7, metalness: 0, roughness: 0.3, clearcoat: 0.8, clearcoatRoughness: 0.2, envMapIntensity: 0.9 });
+  M.paper = new THREE.MeshStandardMaterial({ color: 0xf2f1ee, metalness: 0, roughness: 0.85 });
+  M.strap = new THREE.MeshStandardMaterial({ color: 0x17171c, metalness: 0.1, roughness: 0.8, side: THREE.DoubleSide });
+  M.pencil = new THREE.MeshPhysicalMaterial({ color: 0xf2b84b, metalness: 0, roughness: 0.4, clearcoat: 0.6, clearcoatRoughness: 0.3 });
+  M.wood = new THREE.MeshStandardMaterial({ color: 0xd9b98c, metalness: 0, roughness: 0.7 });
+  M.eraser = new THREE.MeshStandardMaterial({ color: 0xe58d94, metalness: 0, roughness: 0.8 });
+  M.bulb = new THREE.MeshStandardMaterial({ color: 0xfff1cf, emissive: 0xffd27a, emissiveIntensity: 1.5, roughness: 0.3 });
+  const micTex = labelTex('mic', 64, 64, (x, w, h) => { x.fillStyle = '#8f929b'; x.fillRect(0, 0, w, h); x.fillStyle = '#1b1c20'; [[16, 16], [48, 48]].forEach(([a, b]) => { x.beginPath(); x.arc(a, b, 11, 0, 7); x.fill(); }); });
+  micTex.wrapS = micTex.wrapT = THREE.RepeatWrapping; micTex.repeat.set(22, 11);
+  M.micMesh = new THREE.MeshStandardMaterial({ metalness: 0.9, roughness: 0.4, map: micTex });
 }
 
 /* RoundedBoxGeometry (ported from three/examples, MIT) */
@@ -1011,7 +1142,7 @@ function rrect(x, X, Y, W, H, R, fill, stroke) { x.beginPath(); x.roundRect(X, Y
 function wrapLines(x, text, maxW) { const out = []; text.split('\n').forEach(p => { let line = ''; p.split(' ').forEach(w => { const t = line ? line + ' ' + w : w; if (x.measureText(t).width > maxW && line) { out.push(line); line = w; } else line = t; }); out.push(line); }); return out; }
 function makeScreen(mode, w, h, fps, opts = {}) {
   const c = document.createElement('canvas'); c.width = w; c.height = h; const x = c.getContext('2d');
-  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
+  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 16;
   const scr = { tex, state: {}, t0: -1e9, last: -1,
     draw(lt) { x.save(); x.textBaseline = 'alphabetic'; x.textAlign = 'left'; x.globalAlpha = 1; SCR[mode](x, w, h, lt, opts, this.state); x.restore(); tex.needsUpdate = true; },
     tick(t) { if (this.last >= 0 && t - this.last < 1 / fps) return; this.last = t; this.draw(Math.max(0, t - this.t0)); } };
@@ -1075,9 +1206,9 @@ SCR.guess = (x, w, h, t) => {
   const caret = (t * 1.8 | 0) % 2 ? '' : '▍'; const b = bubble(x, text + caret, 'l', 272, w, 38, '#26262B', '#F5F5F7');
   if (si >= 0) { const Y = b.y + 50, a = eo(sp / 0.4); x.globalAlpha = a; rrect(x, 30, Y, w - 60, 330, 30, '#141418', 'rgba(255,255,255,0.08)');
     x.fillStyle = '#86868B'; x.font = SF(600, 22); x.fillText('NEXT WORD?', 64, Y + 54);
-    steps[si].forEach(([wd, p], i) => { const yy = Y + 92 + i * 76, on = pick === i; if (on) rrect(x, 44, yy - 12, w - 88, 64, 18, 'rgba(185,191,230,0.18)');
+    steps[si].forEach(([wd, p], i) => { const yy = Y + 92 + i * 76, on = pick === i; if (on) rrect(x, 44, yy - 12, w - 88, 64, 18, ACA(0.18));
       x.fillStyle = on ? '#FFFFFF' : '#F5F5F7'; x.font = SF(on ? 700 : 600, 32); x.fillText(wd, 66, yy + 30);
-      rrect(x, 230, yy + 10, (w - 380) * (p / 45) * eo((sp - 0.15 - i * 0.12) / 0.7), 22, 11, on ? '#B9BFE6' : '#5E5E66');
+      rrect(x, 230, yy + 10, (w - 380) * (p / 45) * eo((sp - 0.15 - i * 0.12) / 0.7), 22, 11, on ? AC() : '#5E5E66');
       x.fillStyle = '#86868B'; x.font = SF(600, 26); x.textAlign = 'right'; x.fillText(p + '%', w - 62, yy + 32); x.textAlign = 'left'; });
     x.globalAlpha = 1; }
   inputBar(x, w, h);
@@ -1116,7 +1247,7 @@ SCR.site = (x, w, h, t, o) => {
       const px = 206 + (r1 - 0.5) * 60 + (r1 - 0.5) * 900 * ct, py = 680 - (500 + r2 * 650) * ct + 1100 * ct * ct; if (py > bot) continue;
       x.save(); x.translate(px, py); x.rotate(ct * (4 + r3 * 8)); x.globalAlpha = load * cl01(2.6 - ct); x.fillStyle = ['#FFD166', '#FFFFFF', '#8FD3A5', '#F08A8A', '#B9BFE6'][i % 5]; x.fillRect(-7, -4, 14, 8); x.restore(); } }
   x.globalAlpha = 1; rrect(x, 36, h - 150, w - 72, 84, 28, '#1C1C20'); x.fillStyle = '#8FD3A5'; x.font = SF(600, 24); x.fillText('🔒', 70, h - 98);
-  x.fillStyle = '#F5F5F7'; x.font = SF(500, 26); x.fillText(url, 112, h - 98); if (u < 1.4) { rrect(x, 36, h - 70, (w - 72) * eo(u / 1.3), 5, 3, '#B9BFE6'); }
+  x.fillStyle = '#F5F5F7'; x.font = SF(500, 26); x.fillText(url, 112, h - 98); if (u < 1.4) { rrect(x, 36, h - 70, (w - 72) * eo(u / 1.3), 5, 3, AC()); }
 };
 
 /* 10 · the live demo: terminal on the left, the site assembling itself on the right */
@@ -1127,7 +1258,7 @@ function win(x, X, Y, W, H, title) { rrect(x, X, Y, W, H, 18, '#111115', 'rgba(2
 SCR.terminal = (x, w, h, t) => {
   const T = 17, u = mod(t, T); x.fillStyle = '#050507'; x.fillRect(0, 0, w, h);
   win(x, 22, 56, 610, h - 80, 'workshop — claude'); x.font = SM(19); let y = 140, used = 0, tt = u - 0.5;
-  x.fillStyle = '#B9BFE6'; x.font = SM(19, 700); x.fillText('> claude', 52, 130); x.font = SM(19);
+  x.fillStyle = AC(); x.font = SM(19, 700); x.fillText('> claude', 52, 130); x.font = SM(19);
   PROMPT.forEach(l => { const s = typed(l, tt - used / 32, 32); used += l.length; y += 30; x.fillStyle = '#E8E8ED'; x.fillText(s, 52, y); });
   const r0 = 0.5 + used / 32 + 0.6; y += 26;
   REPLY.forEach(([ic, tx, c], i) => { if (u < r0 + i * 0.7) return; y += 34; x.fillStyle = c; x.fillText(ic, 52, y); x.fillStyle = i === 4 ? '#FFFFFF' : '#A1A1A8'; x.fillText(tx, 82, y); });
@@ -1141,7 +1272,7 @@ SCR.terminal = (x, w, h, t) => {
     rrect(x, PX + i * 132, 236, 118, 92, 14, '#1b1b21'); x.fillStyle = '#F5F5F7'; x.font = SF(700, 40); x.textAlign = 'center'; x.fillText(n, PX + i * 132 + 59, 288); x.fillStyle = '#86868B'; x.font = SF(600, 13); x.fillText(l, PX + i * 132 + 59, 312); x.textAlign = 'left'; });
   ['Kickoff', 'Idea + scope', 'Build', 'Build + debug', 'Polish + test', 'Demo day'].forEach((s, i) => { x.globalAlpha = at(1.4 + i * 0.08); x.fillStyle = '#86868B'; x.font = SF(600, 17); x.fillText(String(i + 1), PX, 378 + i * 36); x.fillStyle = '#E8E8ED'; x.font = SF(500, 19); x.fillText(s, PX + 30, 378 + i * 36); });
   a = at(2.1); x.globalAlpha = a; const pr = u > r0 + 4.2 && u < r0 + 4.4 ? 0.95 : 1; x.save(); x.translate(PX + 120, 618); x.scale(pr, pr); rrect(x, -120, -26, 240, 52, 26, '#F5F5F7'); x.fillStyle = '#111'; x.font = SF(700, 18); x.textAlign = 'center'; x.fillText('Random AI fact', 0, 6); x.restore(); x.textAlign = 'left';
-  a = at(4.4); x.globalAlpha = a; rrect(x, PX, 664, BW - 68, 52, 14, 'rgba(185,191,230,0.14)'); x.fillStyle = '#E8E8ED'; x.font = SF(500, 17); x.fillText('Fun fact: AI reads tokens, not letters.', PX + 18, 696); x.globalAlpha = 1;
+  a = at(4.4); x.globalAlpha = a; rrect(x, PX, 664, BW - 68, 52, 14, ACA(0.14)); x.fillStyle = '#E8E8ED'; x.font = SF(500, 17); x.fillText('Fun fact: AI reads tokens, not letters.', PX + 18, 696); x.globalAlpha = 1;
 };
 
 /* 21 · tutor mode in a chat app */
@@ -1157,7 +1288,7 @@ SCR.tutor = (x, w, h, t) => {
   TUTOR.forEach(([s, k], i) => { if (budget <= 0) return; const shown = s.slice(0, Math.min(s.length, budget | 0)); budget -= s.length;
     if (k === 'c' || k === 'k') { if (TUTOR[i - 1][1] === 'p') { rrect(x, mx, y - 26, mw, 6 * 31 + 30, 14, '#141419', 'rgba(255,255,255,0.06)'); y += 6; }
       x.font = SM(19); x.fillStyle = k === 'c' ? '#7C8A7E' : '#E8E8ED'; x.fillText(shown, mx + 22, y); y += 31; if (i === 9) y += 26; }
-    else { x.font = SF(k === 'q' ? 600 : 500, 22); x.fillStyle = k === 'q' ? '#B9BFE6' : '#E8E8ED'; x.fillText(shown, mx, y); y += 36; } });
+    else { x.font = SF(k === 'q' ? 600 : 500, 22); x.fillStyle = k === 'q' ? AC() : '#E8E8ED'; x.fillText(shown, mx, y); y += 36; } });
 };
 
 /* 25 · closing: the wall of everyone's live URLs */
@@ -1166,10 +1297,66 @@ SCR.wall = (x, w, h, t) => {
   const T = 12, u = mod(t, T), lit = Math.min(12, Math.max(0, Math.floor((u - 0.4) / 0.5) + 1)); x.fillStyle = '#060608'; x.fillRect(0, 0, w, h);
   x.fillStyle = '#F5F5F7'; x.font = SF(700, 40); x.fillText('Wall of URLs', 60, 110); x.fillStyle = '#8FD3A5'; x.font = SF(600, 24); x.fillText(lit + ' live', 340, 108);
   NAMES.forEach((n, i) => { const c = i % 4, r = i / 4 | 0, X = 60 + c * 296, Y = 150 + r * 208, on = i < lit;
-    rrect(x, X, Y, 276, 188, 18, '#121216', on ? 'rgba(185,191,230,0.45)' : 'rgba(255,255,255,0.06)'); x.globalAlpha = on ? 1 : 0.35;
+    rrect(x, X, Y, 276, 188, 18, '#121216', on ? ACA(0.45) : 'rgba(255,255,255,0.06)'); x.globalAlpha = on ? 1 : 0.35;
     rrect(x, X + 14, Y + 14, 248, 110, 10, `hsl(${(i * 47) % 360} 32% ${on ? 46 : 22}%)`); x.fillStyle = '#F5F5F7'; x.font = SF(700, 22); x.fillText(`Hi, I'm ${n[0].toUpperCase() + n.slice(1)}`, X + 28, Y + 80);
     x.fillStyle = on ? '#8FD3A5' : '#5E5E66'; x.beginPath(); x.arc(X + 24, Y + 157, 6, 0, 7); x.fill(); x.fillStyle = '#A1A1A8'; x.font = SF(500, 17); x.fillText(n + '.github.io', X + 40, Y + 163); x.globalAlpha = 1; });
 };
+
+/* 19 · five steps to live: a browser that walks through them, one page per click */
+const GH = { bg: '#0D1117', card: '#161B22', line: '#30363D', fg: '#E6EDF3', dim: '#8B949E', green: '#2EA043', blue: '#58A6FF' };
+const STEP_URL = ['New tab', 'github.com/login', 'github.com/new', 'Your AI chat', 'github.com/you/my-first-site/new/main', 'github.com/you/my-first-site/settings/pages'];
+const CODE = [['<!-- 1. A big hello -->', 'c'], ['<h1>Hi, I’m Maya</h1>', 'k'], ['<!-- 2. My favorite color -->', 'c'], ['<style> body { background: purple; } </style>', 'k'], ['<!-- 3. A button that does something fun -->', 'c'], ['<button onclick="party()">Press me</button>', 'k']];
+function fld(x, X, Y, W, label, val, on) { x.fillStyle = GH.dim; x.font = SF(600, 19); x.fillText(label, X, Y - 14); rrect(x, X, Y, W, 56, 10, GH.bg, on ? GH.blue : GH.line); x.fillStyle = GH.fg; x.font = SF(500, 24); x.fillText(val, X + 18, Y + 37); }
+function btn(x, X, Y, W, text, col) { rrect(x, X, Y, W, 56, 10, col); x.fillStyle = '#FFFFFF'; x.font = SF(600, 22); x.textAlign = 'center'; x.fillText(text, X + W / 2, Y + 36); x.textAlign = 'left'; }
+function codeLines(x, X, Y, u, cps, lh = 36) { let budget = u * cps; CODE.forEach(([s, k], i) => { if (budget <= 0) return; x.font = SM(21); x.fillStyle = GH.dim; x.fillText(String(i + 1), X, Y + i * lh);
+  x.fillStyle = k === 'c' ? '#7C8A7E' : GH.fg; x.fillText(s.slice(0, Math.min(s.length, budget | 0)), X + 44, Y + i * lh); budget -= s.length; }); }
+function stepPage(x, w, h, k, u) {
+  if (k === 0) { x.textAlign = 'center'; x.fillStyle = GH.fg; x.font = SF(700, 68); x.fillText('Let’s put a page online.', w / 2, 420); x.fillStyle = GH.dim; x.font = SF(500, 30); x.fillText('5 steps. About 40 minutes.', w / 2, 482); x.textAlign = 'left'; }
+  if (k === 1) { const X = w / 2 - 240; rrect(x, X, 150, 480, 520, 18, GH.card, GH.line); x.fillStyle = GH.fg; x.font = SF(600, 34); x.textAlign = 'center'; x.fillText('Sign in', w / 2, 226); x.textAlign = 'left';
+    fld(x, X + 40, 300, 400, 'Username', typed('maya-builds', u - 0.2, 14), u < 1.3); fld(x, X + 40, 420, 400, 'Password', typed('••••••••••', u - 1.3, 14), u >= 1.3); btn(x, X + 40, 530, 400, 'Sign in', GH.green); }
+  if (k === 2) { x.fillStyle = GH.fg; x.font = SF(600, 42); x.fillText('Create a new repository', 120, 180); fld(x, 120, 270, 520, 'Repository name', typed('my-first-site', u - 0.2, 12), true);
+    if (u > 1.6) { x.fillStyle = '#3FB950'; x.font = SF(500, 21); x.fillText('✓ my-first-site is available', 664, 306); }
+    [['Public', 'Anyone on the internet can see it', 1], ['Private', 'Only you can see it', 0]].forEach(([a, b, on], i) => { const Y = 400 + i * 78; x.strokeStyle = on ? GH.blue : GH.line; x.lineWidth = 3; x.beginPath(); x.arc(134, Y, 13, 0, 7); x.stroke();
+      if (on) { x.fillStyle = GH.blue; x.beginPath(); x.arc(134, Y, 6, 0, 7); x.fill(); } x.fillStyle = GH.fg; x.font = SF(600, 24); x.fillText(a, 166, Y + 2); x.fillStyle = GH.dim; x.font = SF(500, 19); x.fillText(b, 166, Y + 30); });
+    btn(x, 120, 580, 270, 'Create repository', GH.green); }
+  if (k === 3) { rrect(x, w - 780, 124, 660, 104, 24, '#4B4FA8'); x.fillStyle = '#FFFFFF'; x.font = SF(500, 23); x.fillText('I’m a beginner. Help me build one index.html.', w - 752, 166); x.fillText('Explain your plan first. Keep the code short.', w - 752, 200);
+    x.fillStyle = GH.fg; x.font = SF(500, 23); x.fillText(typed('Here’s the plan: a heading, your color, one button.', u - 0.3, 40), 120, 290);
+    rrect(x, 120, 320, 840, 270, 14, GH.card, GH.line); codeLines(x, 148, 372, u - 1.6, 60);
+    if (u > 4.2) { x.fillStyle = AC(); x.font = SF(600, 23); x.fillText('Quick check: what does onclick do?', 120, 640); } }
+  if (k === 4) { x.fillStyle = GH.dim; x.font = SF(500, 24); x.fillText('my-first-site  /', 120, 154); rrect(x, 310, 120, 250, 50, 10, GH.bg, GH.blue); x.fillStyle = GH.fg; x.font = SM(22); x.fillText(typed('index.html', u - 0.2, 12), 328, 153);
+    rrect(x, 120, 200, w - 240, 380, 14, GH.card, GH.line); codeLines(x, 148, 262, u - 1.2, 240, 44); btn(x, w - 370, 612, 250, 'Commit changes', GH.green); }
+  if (k === 5) { ['General', 'Branches', 'Pages'].forEach((s, i) => { const on = i === 2, Y = 222 + i * 58; if (on) { rrect(x, 110, Y - 34, 240, 50, 10, GH.card); rrect(x, 110, Y - 26, 5, 34, 3, GH.blue); }
+      x.fillStyle = on ? GH.fg : GH.dim; x.font = SF(on ? 600 : 500, 23); x.fillText(s, 134, Y); });
+    x.fillStyle = GH.fg; x.font = SF(600, 42); x.fillText('Pages', 420, 180); x.fillStyle = GH.dim; x.font = SF(600, 19); x.fillText('Source', 420, 240); rrect(x, 420, 254, 330, 54, 10, GH.card, GH.line); x.fillStyle = GH.fg; x.font = SF(500, 22); x.fillText('Deploy from a branch  ▾', 438, 289);
+    x.fillStyle = GH.dim; x.font = SF(600, 19); x.fillText('Branch', 420, 356); rrect(x, 420, 370, 150, 54, 10, GH.card, u > 0.7 ? GH.blue : GH.line); x.fillStyle = GH.fg; x.font = SF(500, 22); x.fillText(u > 0.7 ? 'main  ▾' : 'None  ▾', 438, 405); btn(x, 590, 369, 110, 'Save', u > 1.3 ? GH.green : '#30363D');
+    const a = eo((u - 1.9) / 0.6); if (a > 0) { const ga = x.globalAlpha, dy = (1 - a) * 20; x.globalAlpha = ga * a; rrect(x, 420, 478 + dy, w - 540, 150, 16, 'rgba(46,160,67,0.16)', GH.green); x.fillStyle = '#3FB950'; x.beginPath(); x.arc(458, 530 + dy, 9, 0, 7); x.fill();
+      x.fillStyle = GH.fg; x.font = SF(700, 30); x.fillText('Your site is live', 482, 540 + dy); x.fillStyle = GH.blue; x.font = SF(500, 25); x.fillText('https://maya-builds.github.io/my-first-site', 458, 590 + dy); x.globalAlpha = ga; } }
+}
+SCR.steps = (x, w, h, t, o, S) => { const k = S.step || 0, u = S.at ? (performance.now() - S.at) / 1000 : 9;
+  x.fillStyle = GH.bg; x.fillRect(0, 0, w, h);
+  const a = eo(u / 0.5); if (a < 1 && S.prev != null && S.prev !== k) { x.globalAlpha = 1 - a; stepPage(x, w, h, S.prev, 9); }
+  x.globalAlpha = a; x.save(); x.translate(0, (1 - a) * 24); stepPage(x, w, h, k, Math.max(0, u - 0.3)); x.restore(); x.globalAlpha = 1;
+  x.fillStyle = '#010409'; x.fillRect(0, 0, w, 76); [0, 1, 2].forEach(i => { x.fillStyle = '#30363D'; x.beginPath(); x.arc(40 + i * 30, 38, 9, 0, 7); x.fill(); });
+  rrect(x, 190, 18, w - 380, 40, 20, '#161B22'); x.fillStyle = GH.dim; x.font = SF(500, 20); x.textAlign = 'center'; x.fillText(STEP_URL[a > 0.5 ? k : (S.prev || 0)], w / 2, 45); x.textAlign = 'left';
+  if (k) { rrect(x, w - 200, h - 70, 170, 42, 21, ACA(0.18)); x.fillStyle = AC(); x.font = SF(700, 20); x.textAlign = 'center'; x.fillText('STEP ' + k + ' OF 5', w - 115, h - 42); x.textAlign = 'left'; }
+};
+
+/* 24 · roadmap: what the project looks like at the end of each week */
+function drawWeek(x, w, h, i) { const R = (X, Y, W, H, r, f, s) => rrect(x, X, Y, W, H, r, f, s);
+  if (i === 0) { x.fillStyle = '#6B4FD8'; x.fillRect(0, 0, w, h); x.fillStyle = '#fff'; x.font = SF(700, 54); x.fillText('Hi, I’m Maya', 40, 150); R(40, 210, 190, 60, 30, '#fff'); x.fillStyle = '#6B4FD8'; x.font = SF(700, 24); x.textAlign = 'center'; x.fillText('Press me', 135, 249); x.textAlign = 'left'; }
+  if (i === 1) { x.fillStyle = '#EFECE4'; x.fillRect(0, 0, w, h); [['#FFD166', 40, 50, -0.06], ['#F4A6B7', 190, 90, 0.05], ['#9CC9F5', 330, 46, -0.03]].forEach(([c, X, Y, r], k) => { x.save(); x.translate(X + 65, Y + 65); x.rotate(r); x.fillStyle = c; x.fillRect(-65, -65, 130, 130);
+      x.fillStyle = 'rgba(0,0,0,0.45)'; for (let j = 0; j < 3; j++) x.fillRect(-45, -38 + j * 26, 90 - j * 22 - k * 6, 7); x.restore(); });
+    x.strokeStyle = '#1d1d1f'; x.lineWidth = 5; x.lineCap = 'round'; x.beginPath(); x.moveTo(60, 290); x.bezierCurveTo(150, 250, 260, 330, 430, 280); x.stroke(); x.fillStyle = '#1d1d1f'; x.font = SF(700, 26); x.fillText('pick ONE idea', 60, 340); }
+  if (i >= 2 && i <= 4) { x.fillStyle = i === 2 ? '#15151A' : '#101014'; x.fillRect(0, 0, w, h); const wire = i === 2, cols = ['#FF9F4A', '#6FA8FF', '#8FD3A5'];
+    const box = (X, Y, W, H, f) => { if (wire) { x.setLineDash([10, 8]); R(X, Y, W, H, 12, null, '#6E6E76'); x.setLineDash([]); } else R(X, Y, W, H, 12, f); };
+    box(30, 28, w - 60, 44, '#1E1E26'); box(30, 92, w - 60, 120, i === 4 ? '#2A2550' : '#24242C'); [0, 1, 2].forEach(k => box(30 + k * 150, 232, 136, 106, i === 3 && k === 1 ? '#5A2328' : (i === 4 ? cols[k] : '#2C2C36')));
+    if (!wire) { x.fillStyle = '#F5F5F7'; x.font = SF(700, 34); x.fillText(i === 4 ? 'Study Buddy' : 'Study Bud', 54, 150); x.fillStyle = '#86868B'; x.font = SF(500, 20); x.fillText(i === 4 ? 'A timer that roasts you.' : 'timer goes here', 54, 186); }
+    if (i === 3) { x.fillStyle = '#F08A8A'; x.font = SF(800, 60); x.textAlign = 'center'; x.fillText('!', 248, 306); x.textAlign = 'left'; }
+    if (i === 4) { x.fillStyle = '#8FD3A5'; x.beginPath(); x.arc(w - 66, 152, 26, 0, 7); x.fill(); x.fillStyle = '#0B0B12'; x.font = SF(800, 32); x.textAlign = 'center'; x.fillText('✓', w - 66, 164); x.textAlign = 'left'; } }
+  if (i === 5) { x.fillStyle = '#08080C'; x.fillRect(0, 0, w, h); const g = x.createRadialGradient(w / 2, -40, 10, w / 2, 120, 330); g.addColorStop(0, 'rgba(255,255,255,0.55)'); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.fillRect(0, 0, w, h);
+    for (let k = 0; k < 46; k++) { x.save(); x.translate(hash1(k) * w, hash1(k + 50) * h); x.rotate(hash1(k + 90) * 6); x.fillStyle = ['#FFD166', '#FFFFFF', '#8FD3A5', '#F08A8A', '#6FA8FF'][k % 5]; x.fillRect(-8, -4, 16, 8); x.restore(); }
+    x.fillStyle = '#fff'; x.textAlign = 'center'; x.font = SF(800, 68); x.fillText('DEMO DAY', w / 2, 210); x.font = SF(600, 24); x.fillStyle = 'rgba(255,255,255,0.75)'; x.fillText('your site, on the big screen', w / 2, 256); x.textAlign = 'left'; }
+}
 
 /* ---------- hero builders: each takes its station and returns { g, update(t, dt), build?(gi, shown, base), screens?, morphTo? } ---------- */
 const HERO = {};
@@ -1248,17 +1435,6 @@ HERO.twophones = () => { const g = new THREE.Group();
              mk(0.98, -0.3, ['“Velvet Thunder” could work!', 'What about “Group Chat Heroes”?', 'Maybe “Low Battery”?'], 0.5, 'Chat 2')]; ground(g, -1.75, 9);
   return { g, screens: P.map(p => p.D.scr), update: t => P.forEach((p, i) => { p.D.body.rotation.y = p.yaw + Math.sin(t * 0.25 + i) * 0.05; p.D.body.position.y = Math.sin(t * 0.6 + i * 1.4) * 0.05; p.D.scr.tick(t); }) }; };
 
-/* section 01: the "brain" — a chip with a machined heat spreader, gold traces and passives */
-HERO.chip = () => { const g = new THREE.Group(), c = new THREE.Group(); c.rotation.set(-1.0, 0, 0.55); c.position.y = 0.2; g.add(c);
-  c.add(mesh(slab(2.5, 2.5, 0.09, 0.12, 0.012, 2), [M.pcb, M.pcb]));
-  const topP = new THREE.Mesh(rrPlane(2.47, 2.47, 0.11), M.pcbTop); topP.position.z = 0.0455; c.add(topP);
-  c.add(mesh(slab(1.66, 1.66, 0.12, 0.16, 0.03, 4), [M.silver, M.edge], 0, 0, 0.1));
-  const lab = new THREE.Mesh(rrPlane(1.3, 1.3, 0.1), M.chipLabel); lab.position.z = 0.1605; c.add(lab);
-  const pas = new THREE.InstancedMesh(rbox(0.1, 0.05, 0.045, 0.01, 1), M.passive, 64), mtx = new THREE.Matrix4(), q = new THREE.Quaternion(), e = new THREE.Euler(), s1 = new THREE.Vector3(1, 1, 1), p = new THREE.Vector3();
-  for (let i = 0; i < 64; i++) { const side = i % 4, k = i / 4 | 0, along = -0.88 + k * 0.117, off = 0.97 + (k % 2) * 0.12;
-    p.set(side < 2 ? along : (side === 2 ? -off : off), side < 2 ? (side === 0 ? -off : off) : along, 0.068); e.set(0, 0, side < 2 ? 0 : Math.PI / 2); q.setFromEuler(e); mtx.compose(p, q, s1); pas.setMatrixAt(i, mtx); }
-  pas.castShadow = false; c.add(pas); ground(g, -1.4, 8);
-  return { g, update: t => { c.rotation.z = 0.55 + Math.sin(t * 0.22) * 0.12; c.position.y = 0.2 + Math.sin(t * 0.6) * 0.05; } }; };
 
 /* section 03: a magnifier examining a claim */
 HERO.lens = () => { const g = new THREE.Group(), m = new THREE.Group(); m.rotation.set(0.1, -0.45, -0.55); m.position.y = 0.5; g.add(m);
@@ -1270,30 +1446,24 @@ HERO.lens = () => { const g = new THREE.Group(), m = new THREE.Group(); m.rotati
   claim.position.set(0.05, 0.02, -0.35); claim.rotation.z = 0.55; m.add(claim); ground(g, -2.1, 9);
   return { g, update: t => { m.rotation.z = -0.55 + Math.sin(t * 0.3) * 0.06; m.position.y = 0.5 + Math.sin(t * 0.6) * 0.05; claim.position.x = 0.05 + Math.sin(t * 0.45) * 0.22; } }; };
 
-/* who we are / the three questions: laser-etched metal cards */
-HERO.cards3 = st => { const g = new THREE.Group(); const geo = slab(1.25, 1.75, 0.035, 0.1, 0.01, 2); const cards = [];
-  const labels = st.labels || [['LEADER', '01'], ['LEADER', '02'], ['SPONSOR', '03']];
-  const stack = [[-1.4, 0.15, -0.3, 0, 0.22, 0], [0, 0, 0.15, 0, 0, 0], [1.4, -0.1, -0.2, 0, -0.22, 0]];
-  const fan = [[-1.05, 0.1, -0.8, 0.05, 0.75, 0.04], [0.05, 0, 0, 0, 0.35, 0], [1.1, -0.1, 0.7, -0.05, -0.1, -0.04]];
-  const deck = [[-0.35, 0.35, -0.5, 0.08, 0.18, 0.06], [0, 0, 0, 0.04, 0.05, 0], [0.35, -0.35, 0.5, 0, -0.1, -0.05]];
-  stack.forEach(([x, y, z, rx, ry, rz], i) => { const c = mesh(geo, [M.card, M.edge], x, y, z); c.rotation.set(rx, ry, rz); cards.push(c); g.add(c);
-    const [lab, big] = labels[i]; const face = new THREE.Mesh(new THREE.PlaneGeometry(1.25, 1.75), new THREE.MeshStandardMaterial({ transparent: true, depthWrite: false, metalness: 0.6, roughness: 0.5,
-      map: labelTex('card' + lab + big, 500, 700, (x2, w, h) => { x2.fillStyle = '#3a3b41'; x2.font = '600 30px Inter, system-ui, sans-serif'; x2.letterSpacing = '5px'; x2.fillText(lab, 44, 74);
-        x2.letterSpacing = '0px'; x2.font = '600 170px Inter, system-ui, sans-serif'; x2.fillText(big, 36, h - 52); }) }));
-    face.position.z = 0.0178; c.add(face); const chipC = mesh(slab(0.24, 0.19, 0.012, 0.035, 0.003, 1), [M.silver, M.edge], 0.38, 0.42, 0.018); chipC.castShadow = false; c.add(chipC); });
-  ground(g, -1.3, 9); const poses = { stack, fan, deck }; let pose = 'stack';
-  return { g, poses, cards, pose: p => { pose = p; }, update: t => cards.forEach((c, i) => floatY(c, poses[pose][i][1], t, i * 2.1, 0.06)) }; };
 
-HERO.ring = () => { const g = new THREE.Group(); const r = mesh(new THREE.TorusGeometry(1.7, 0.22, 48, 160), M.graphite, 0, 0.4, 0); r.rotation.set(1.2, 0.3, 0); g.add(r);
-  const r2 = mesh(new THREE.TorusGeometry(1.15, 0.06, 24, 120), M.alu, 0, 0.4, 0); r2.rotation.set(1.6, -0.4, 0); g.add(r2); ground(g, -1.5, 8);
-  return { g, update: t => { r.rotation.z = t * 0.15; r.rotation.x = 1.2 + Math.sin(t * 0.3) * 0.08; r2.rotation.z = -t * 0.22; r2.rotation.x = 1.6 + Math.sin(t * 0.25 + 1) * 0.1; } }; };
 
-HERO.bars = () => { const g = new THREE.Group(); const anchors = {}; const lens = [3.6, 1.95, 1.3, 1.05, 0.6, 0.1]; const bars = [];
-  lens.forEach((Ln, i) => { const y = 1.3 - i * 0.5; const b = mesh(rbox(1, 0.3, 0.3, 0.14, 2), i === 0 ? M.barTop : M.bar, 0, y, 0); b.castShadow = false; b.scale.set(Ln, 1, 1); b.position.x = Ln / 2; b.scale.x = 0.001; bars.push(b); g.add(b);
-    anchorObj(g, 'w' + i, -0.3, y, 0.2, anchors); anchorObj(g, "p" + i, Ln + 0.42, y, 0.2, anchors); });
-  const axis = mesh(rbox(0.03, 3.1, 0.03, 0.01, 1), M.aluDark, -0.05, 0.05, 0); axis.castShadow = false; g.add(axis); ground(g, -1.75, 10);
-  return { g, anchors, bars, update: () => {}, build: (gi, shown, base) => { if (gi !== 1) return; bars.forEach((b, i) => { const to = shown ? lens[i] : 0.001;
-    if (base < 0) { b.scale.x = to; b.position.x = to / 2; return; } tween('bar' + i, () => b.scale.x, v => { b.scale.x = v; b.position.x = v / 2; }, to, shown ? 900 : 400, shown ? base + i * 70 : 0); }); } }; };
+/* next-word wheel: a little machine. Likelier words own more of the wheel; it spins and lands on one (usually TV, now and then something else) */
+HERO.reel = () => { const g = new THREE.Group(), r = new THREE.Group(); r.rotation.set(0.1, -0.34, 0); g.add(r);
+  const W = ['TV', 'Xbox', 'TV', 'music', 'TV', 'lights', 'Xbox', 'TV', 'PlayStation', 'music', 'TV', 'Xbox'], n = W.length, step = Math.PI * 2 / n;
+  const tex = labelTex('reel', 2048, 740, (x, w, h) => { x.fillStyle = '#F4F4F6'; x.fillRect(0, 0, w, h); const sw = w / n;
+    W.forEach((wd, i) => { x.fillStyle = 'rgba(0,0,0,0.14)'; x.fillRect(i * sw - 2, 0, 4, h); x.save(); x.translate(i * sw + sw / 2, h / 2); x.rotate(Math.PI / 2);
+      x.fillStyle = '#15151a'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.font = SF(700, wd.length > 6 ? 84 : 112); x.fillText(wd, 0, 4); x.restore(); }); });
+  const drum = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.1, 2.5, 96, 1, true), new THREE.MeshPhysicalMaterial({ map: tex, metalness: 0.05, roughness: 0.32, clearcoat: 0.7, clearcoatRoughness: 0.2 })); drum.rotation.z = Math.PI / 2; drum.castShadow = true;
+  const spin = new THREE.Group(); spin.add(drum); r.add(spin);
+  // housing: two machined side plates, an axle, a base, and a tinted window with two rails around the chosen word
+  [-1.36, 1.36].forEach(x => { const side = mesh(slab(2.5, 2.7, 0.16, 0.6, 0.03, 4), [M.spaceBlack, M.edgeDark], x, -0.12, 0); side.rotation.y = Math.PI / 2; r.add(side);
+    const hub = mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.1, 40), M.chrome, x + Math.sign(x) * 0.1, 0, 0); hub.rotation.z = Math.PI / 2; r.add(hub); });
+  const foot = mesh(slab(3.1, 1.9, 0.2, 0.16, 0.03, 3), [M.spaceBlack, M.edgeDark], 0, -1.5, 0); foot.rotation.x = Math.PI / 2; r.add(foot);
+  [-0.34, 0.34].forEach(y => { const rail = mesh(rbox(2.6, 0.05, 0.05, 0.02, 1), M.accent, 0, y, 1.12); rail.castShadow = false; r.add(rail); });
+  const band = new THREE.Mesh(new THREE.PlaneGeometry(2.56, 0.63), M.accentGlow); band.position.z = 1.115; r.add(band);
+  ground(g, -1.85, 9); const seq = [0, 6, 2, 3, 4, 1, 7, 5, 10, 8], Ln = seq.length, T = 3.0, A = k => k * Math.PI * 4 + (seq[((k % Ln) + Ln) % Ln] + 0.5) * step;
+  return { g, update: t => { const k = Math.floor(t / T), u = t - k * T; spin.rotation.x = mix(A(k - 1), A(k), CAM_EASE(Math.min(1, u / 1.9))); r.rotation.y = -0.34 + Math.sin(t * 0.25) * 0.08; r.position.y = Math.sin(t * 0.6) * 0.05; } }; };
 
 /* tokens: S T R | A W | B E R R Y keycaps that split into tokens, then the r's lift */
 HERO.keycaps = () => { const g = new THREE.Group(), k = new THREE.Group(); k.rotation.set(0.62, -0.28, 0.05); k.scale.setScalar(0.78); g.add(k);
@@ -1307,28 +1477,14 @@ HERO.keycaps = () => { const g = new THREE.Group(), k = new THREE.Group(); k.rot
     build: (gi, shown, base) => { if (gi === 1) { const to = shown ? 1 : 0; if (base < 0) { split = to; place(); return; } tween('kcs', () => split, v => { split = v; place(); }, to, shown ? 1000 : 450, shown ? base + 120 : 0); }
       if (gi === 2) { const to = shown ? 1 : 0; if (base < 0) { lift = to; tint(); return; } tween('kcl', () => lift, v => { lift = v; tint(); }, to, shown ? 800 : 400, shown ? base + 200 : 0); } } }; };
 
-HERO.slabs3 = () => { const g = new THREE.Group(); const slabs = [];
-  [[-1.5, 0, 0.4], [0, 0.25, 0], [1.5, 0.1, -0.4]].forEach(([x, y, z], i) => { const s = mesh(slab(1.1, 1.5, 0.28, 0.12, 0.03, 4), i === 2 ? [M.silver, M.edge] : [M.graphite, M.edgeDark], x, y, z); s.rotation.y = -0.25 + i * 0.1; slabs.push(s); g.add(s);
-    decal(s, String(i + 1), 0.7, 0, 0.05, 0.142, i === 2 ? 0.95 : 0.85); }); ground(g, -1.0, 8);
-  return { g, slabs, update: t => slabs.forEach((s, i) => floatY(s, [0, 0.25, 0.1][i], t, i * 1.7, 0.05)),
-    build: (gi, shown, base) => { const s = slabs[gi - 1]; if (!s) return; const to = shown ? 1 : 0.001; if (base < 0) { s.scale.setScalar(to); return; } tween('slab' + gi, () => s.scale.x, v => s.scale.setScalar(v), to, shown ? 900 : 400, shown ? base + 80 : 0); } }; };
-HERO.slabs5 = () => { const g = new THREE.Group(); const slabs = [];
-  for (let i = 0; i < 5; i++) { const s = mesh(slab(0.9, 1.25, 0.22, 0.1, 0.025, 4), i === 4 ? [M.silver, M.edge] : [M.graphite, M.edgeDark], i * 0.95 - 1.9, i * 0.22, -i * 0.9); s.rotation.y = -0.35; slabs.push(s); g.add(s);
-    decal(s, String(i + 1), 0.6, 0, 0.04, 0.112, i === 4 ? 0.95 : 0.85); } ground(g, -0.8, 12);
-  return { g, slabs, update: t => slabs.forEach((s, i) => floatY(s, i * 0.22, t, i * 1.3, 0.04)),
-    build: (gi, shown, base) => { const s = slabs[gi - 1]; if (!s) return; const to = shown ? 1 : 0.001; if (base < 0) { s.scale.setScalar(to); return; } tween('slab5' + gi, () => s.scale.x, v => s.scale.setScalar(v), to, shown ? 900 : 400, shown ? base + 80 : 0); } }; };
 HERO.loop = () => { const g = new THREE.Group(); const anchors = {}; const R = 1.9; const ring = new THREE.Group(); ring.rotation.x = 0.55; g.add(ring);
   const arcs = []; for (let i = 0; i < 4; i++) { const a = mesh(new THREE.TorusGeometry(R, 0.09, 24, 48, Math.PI / 2 - 0.26), M.graphite); a.rotation.z = Math.PI / 2 - i * Math.PI / 2 - (Math.PI / 2 - 0.26) + 0.13; a.scale.setScalar(0.001); arcs.push(a); ring.add(a); }
   const nodes = []; const ang = [Math.PI / 2 + Math.PI / 4, Math.PI / 4, -Math.PI / 4, -Math.PI / 2 - Math.PI / 4];
   ang.forEach((an, i) => { const n = mesh(new THREE.SphereGeometry(0.2, 32, 24), i === 0 ? M.chrome : M.spaceBlack, Math.cos(an) * R, Math.sin(an) * R, 0); n.scale.setScalar(0.001); nodes.push(n); ring.add(n); anchorObj(ring, 'n' + i, Math.cos(an) * R * 1.12, Math.sin(an) * R * 1.12, 0.3, anchors); });
-  const bead = mesh(new THREE.SphereGeometry(0.11, 24, 16), M.chrome); bead.visible = false; ring.add(bead); ground(g, -1.9, 10); let shownN = 0;
+  const bead = mesh(new THREE.SphereGeometry(0.13, 24, 16), M.accent); bead.visible = false; ring.add(bead); ground(g, -1.9, 10); let shownN = 0;
   return { g, anchors, update: t => { ring.rotation.z = Math.sin(t * 0.2) * 0.05; if (shownN >= 4) { bead.visible = true; const a = ang[0] - (t * 0.6) % (Math.PI * 2); bead.position.set(Math.cos(a) * R, Math.sin(a) * R, 0); } else bead.visible = false; },
     build: (gi, shown, base) => { if (gi < 1) return; const i = gi - 1; shownN = shown ? Math.max(shownN, gi) : Math.min(shownN, i); const items = [nodes[i]]; if (i > 0) items.push(arcs[i - 1]); if (i === 3) items.push(arcs[3]);
       items.forEach((o, k) => { const to = shown ? 1 : 0.001; if (base < 0) { o.scale.setScalar(to); return; } tween('loop' + gi + k, () => o.scale.x, v => o.scale.setScalar(v), to, shown ? 800 : 350, shown ? base + k * 120 : 0); }); } }; };
-HERO.tiles4 = () => { const g = new THREE.Group(); const tiles = []; [[-0.9, 0.9, 0.2], [0.9, 0.7, -0.3], [-0.8, -0.8, -0.2], [0.95, -0.9, 0.3]].forEach(([x, y, z], i) => { const t = mesh(slab(1.5, 1.3, 0.2, 0.14, 0.03, 4), i === 1 ? [M.silver, M.edge] : [M.graphite, M.edgeDark], x, y, z); t.rotation.set(-0.15, 0.3, 0); t.scale.setScalar(0.001); tiles.push(t); g.add(t);
-    decal(t, String(i + 1), 0.55, -0.42, 0.32, 0.102, i === 1 ? 0.7 : 0.85); }); ground(g, -1.9, 9);
-  return { g, update: t => tiles.forEach((o, i) => floatY(o, [0.9, 0.7, -0.8, -0.9][i], t, i * 1.4, 0.05)),
-    build: (gi, shown, base) => { const o = tiles[gi - 1]; if (!o) return; const to = shown ? 1 : 0.001; if (base < 0) { o.scale.setScalar(to); return; } tween('tile' + gi, () => o.scale.x, v => o.scale.setScalar(v), to, shown ? 900 : 400, shown ? base + 80 : 0); } }; };
 /* safety: a machined aluminium padlock with a chrome shackle */
 HERO.padlock = () => { const g = new THREE.Group(), p = new THREE.Group(); g.add(p);
   p.add(mesh(slab(2.0, 1.55, 0.72, 0.34, 0.07, 5), [M.silver, M.edge], 0, -0.5, 0));
@@ -1337,44 +1493,189 @@ HERO.padlock = () => { const g = new THREE.Group(), p = new THREE.Group(); g.add
   const kh = new THREE.Mesh(new THREE.CircleGeometry(0.075, 32), unlit(0x050506)); kh.position.set(0, -0.45, 0.364); p.add(kh); const ks = new THREE.Mesh(rrPlane(0.06, 0.2, 0.02), unlit(0x050506)); ks.position.set(0, -0.56, 0.364); p.add(ks);
   ground(g, -1.3, 8);
   return { g, update: t => { p.rotation.y = -0.4 + Math.sin(t * 0.25) * 0.12; p.position.y = Math.sin(t * 0.6) * 0.05; } }; };
-/* roadmap: six chamfered coins on a rail */
-const coinGeo = () => { if (geoCache.has('coin')) return geoCache.get('coin'); const pts = [[0, -0.065], [0.34, -0.065], [0.38, -0.028], [0.38, 0.028], [0.34, 0.065], [0, 0.065]].map(([a, b]) => new THREE.Vector2(a, b));
-  const gg = new THREE.LatheGeometry(pts, 72); geoCache.set('coin', gg); return gg; };
-HERO.discs6 = () => { const g = new THREE.Group(); const anchors = {}; const discs = [];
-  for (let i = 0; i < 6; i++) { const x = (i - 2.5) * 1.6; const d = mesh(coinGeo(), i === 5 ? M.chrome : (i === 0 ? M.silver : M.spaceBlack), x, 0, 0); discs.push(d); g.add(d);
-    anchorObj(g, 'c' + i, x, 0.09, 0, anchors); anchorObj(g, 'd' + i, x, -0.5, 0.3, anchors); }
-  const track = mesh(rbox(1.6 * 5, 0.03, 0.03, 0.01, 1), M.aluDark, 0, 0, 0); g.add(track); ground(g, -0.08, 12);
-  return { g, anchors, update: t => discs.forEach((d, i) => { d.rotation.y = t * 0.3 + i; }) }; };
+
+/* ---------- heroes that show the workshop itself (each one is the thing its slide is talking about) ---------- */
+const face = (w, h, r, key, pw, ph, draw) => new THREE.Mesh(rrPlane(w, h, r), new THREE.MeshBasicMaterial({ map: labelTex(key, pw, ph, draw), transparent: true, depthWrite: false, toneMapped: false }));
+const grow = (key, o, shown, base, delay = 80) => { const to = shown ? 1 : 0.001; if (base < 0) { o.scale.setScalar(to); return; } tween(key, () => o.scale.x, v => o.scale.setScalar(v), to, shown ? 900 : 400, shown ? base + delay : 0); };
+const mix = (a, b, u) => a + (b - a) * u;
+
+/* who we are: three workshop ID badges hanging from lanyards */
+HERO.badges3 = () => { const g = new THREE.Group(), B = [];
+  const roles = [['LEADER', '#5CC8F5'], ['LEADER', '#2FD3C2'], ['SPONSOR', '#FFAE4D']];
+  [[-1.45, -0.25, 0.22], [0, 0.2, 0], [1.45, -0.15, -0.2]].forEach(([x, z, ry], i) => { const piv = new THREE.Group(); piv.position.set(x, 4.2, z); g.add(piv);
+    const strap = new THREE.Mesh(new THREE.PlaneGeometry(0.13, 3.3), M.strap); strap.position.y = -1.65; piv.add(strap);
+    piv.add(mesh(slab(0.3, 0.2, 0.05, 0.04, 0.008, 1), M.chrome, 0, -3.36, 0));
+    const card = new THREE.Group(); card.position.y = -4.3; card.rotation.y = ry; piv.add(card); card.add(mesh(slab(1.2, 1.7, 0.035, 0.1, 0.01, 2), [M.white, M.edge]));
+    const [role, col] = roles[i]; const f = face(1.16, 1.66, 0.085, 'badge' + i, 464, 664, (c, w, h) => {
+      c.fillStyle = '#FBFBFD'; c.fillRect(0, 0, w, h); c.fillStyle = col; c.beginPath(); c.roundRect(0, 0, w, 150, [34, 34, 0, 0]); c.fill(); rrect(c, w / 2 - 50, 24, 100, 22, 11, '#1b1b20');
+      c.fillStyle = '#15151a'; c.textAlign = 'center'; c.font = SF(700, 24); c.letterSpacing = '4px'; c.fillText('BUILD · SHIP · QUESTION', w / 2, 104); c.letterSpacing = '0px';
+      c.save(); c.beginPath(); c.arc(w / 2, 300, 96, 0, 7); c.clip(); c.fillStyle = '#DCDCE1'; c.fillRect(0, 190, w, 220); c.fillStyle = '#A4A4AE'; c.beginPath(); c.arc(w / 2, 276, 36, 0, 7); c.fill(); c.beginPath(); c.ellipse(w / 2, 390, 76, 62, 0, 0, 7); c.fill(); c.restore();
+      c.fillStyle = '#15151a'; c.font = SF(700, 56); c.fillText(role, w / 2, 486); c.fillStyle = '#6E6E76'; c.font = SF(600, 21); c.letterSpacing = '3px'; c.fillText('AI BUILDER WORKSHOP', w / 2, 530); c.letterSpacing = '0px';
+      c.fillStyle = '#15151a'; let X = 92; for (let k = 0; k < 38; k++) { const bw = 2 + (hash1(k + i * 40) * 3 | 0) * 2; c.fillRect(X, 572, bw, 50); X += bw + 3 + (hash1(k + 7) * 2 | 0) * 2; if (X > w - 96) break; } });
+    f.position.z = 0.019; card.add(f); B.push({ piv, card, ry }); });
+  return { g, update: t => B.forEach(({ piv, card, ry }, i) => { piv.rotation.z = Math.sin(t * 0.8 + i * 1.9) * 0.035; card.rotation.y = ry + Math.sin(t * 0.5 + i * 1.3) * 0.2; }) }; };
+
+/* section 01: a chat bubble in the section colour, thinking, with the reply it is about to write waiting behind it */
+function pillGeo(w, h, r, depth, bev) { const key = 'pill' + [w, h, r, depth, bev].join(','); if (geoCache.has(key)) return geoCache.get(key); const pts = [], iw = w - 2 * bev, ih = h - 2 * bev, ir = r - bev;
+  // outline built point by point (no zero-length edges), so a deep bevel stays clean all the way round
+  [[iw / 2 - ir, -ih / 2 + ir, -Math.PI / 2], [iw / 2 - ir, ih / 2 - ir, 0], [-iw / 2 + ir, ih / 2 - ir, Math.PI / 2], [-iw / 2 + ir, -ih / 2 + ir, Math.PI]].forEach(([cx, cy, a0]) => {
+    for (let i = 0; i <= 20; i++) { const a = a0 + i / 20 * Math.PI / 2; pts.push(new THREE.Vector2(cx + Math.cos(a) * ir, cy + Math.sin(a) * ir)); } });
+  const g = new THREE.ExtrudeGeometry(new THREE.Shape(pts), { depth: depth - 2 * bev, bevelEnabled: true, bevelThickness: bev, bevelSize: bev, bevelSegments: 10 }); g.translate(0, 0, -(depth - 2 * bev) / 2); geoCache.set(key, g); return g; }
+HERO.bubble = () => { const g = new THREE.Group(), b = new THREE.Group(); b.position.y = 0.55; b.rotation.set(0.04, -0.4, 0.03); g.add(b);
+  b.add(mesh(pillGeo(2.9, 1.8, 0.8, 0.6, 0.2), M.accent)); b.add(mesh(new THREE.SphereGeometry(0.3, 32, 24), M.accent, -1.15, -1.12, 0)); b.add(mesh(new THREE.SphereGeometry(0.15, 24, 16), M.accent, -1.62, -1.5, 0));
+  const dots = [-0.62, 0, 0.62].map(x => { const d = mesh(new THREE.SphereGeometry(0.19, 32, 24), M.white, x, 0, 0.34); b.add(d); return d; });
+  const rp = new THREE.Group(); rp.position.set(0.95, -1.7, -0.75); rp.rotation.set(0, 0.22, -0.03); b.add(rp); rp.add(mesh(pillGeo(2.3, 1.15, 0.5, 0.4, 0.14), M.white));
+  [[0.24, 1.5], [0, 1.2], [-0.24, 0.8]].forEach(([y, len]) => { const l = mesh(rbox(len, 0.09, 0.04, 0.03, 1), M.aluDark, -0.78 + len / 2, y, 0.2); l.castShadow = false; rp.add(l); });
+  ground(g, -2.1, 9);
+  return { g, update: t => { b.rotation.y = -0.4 + Math.sin(t * 0.25) * 0.1; b.position.y = 0.55 + Math.sin(t * 0.6) * 0.05; rp.position.y = -1.7 + Math.sin(t * 0.6 + 1.6) * 0.05;
+    dots.forEach((d, i) => { const u = mod(t * 1.15 - i * 0.16, 1.5); d.position.y = u < 0.6 ? Math.sin(u / 0.6 * Math.PI) * 0.2 : 0; }); } }; };
+
+/* three steps: pages pile up (read) → scatter into a web of connections (learn patterns) → collapse into a keyboard's next-word strip (predict) */
+HERO.learn3 = () => { const g = new THREE.Group(), k = new THREE.Group(); k.position.y = 0.2; g.add(k); const N = 16, pg = slab(0.95, 1.25, 0.02, 0.05, 0.004, 1), pf = rrPlane(0.93, 1.23, 0.045);
+  const pm = new THREE.MeshStandardMaterial({ roughness: 0.85, metalness: 0, map: labelTex('page', 256, 336, (x, w, h) => { x.fillStyle = '#F3F2EE'; x.fillRect(0, 0, w, h); x.fillStyle = '#A9A8A2'; for (let i = 0; i < 11; i++) x.fillRect(28, 40 + i * 25, (i % 4 === 3 ? 110 : 200) - hash1(i) * 44, 8); }) });
+  const lm = new THREE.LineBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }); const A = [], B = [], pages = [];
+  for (let i = 0; i < N; i++) { const j1 = hash1(i + 3) - 0.5, j2 = hash1(i + 31) - 0.5, y = 1 - 2 * (i + 0.5) / N, r = Math.sqrt(1 - y * y), ph = i * 2.4;
+    A.push([j1 * 0.16, -0.75 + i * 0.045, j2 * 0.16, -Math.PI / 2, j1 * 0.7]); B.push([Math.cos(ph) * r * 1.55, y * 1.3, Math.sin(ph) * r * 0.9, 0, j2 * 0.5]);
+    const p = new THREE.Group(); p.add(mesh(pg, M.paper)); const f = new THREE.Mesh(pf, pm); f.position.z = 0.0115; p.add(f); k.add(p); pages.push(p); }
+  const seg = []; for (let a = 0; a < N; a++) for (let b = a + 1; b < N; b++) { if (Math.hypot(B[a][0] - B[b][0], B[a][1] - B[b][1], B[a][2] - B[b][2]) < 1.3) seg.push(B[a][0], B[a][1], B[a][2], B[b][0], B[b][1], B[b][2]); }
+  const lines = new THREE.LineSegments(new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(seg, 3)), lm); k.add(lines);
+  const strip = new THREE.Group(); strip.position.set(0, 0.1, 0.3); strip.rotation.y = -0.22; strip.scale.setScalar(0.001); g.add(strip); strip.add(mesh(slab(3.2, 0.78, 0.1, 0.24, 0.03, 3), [M.spaceBlack, M.edgeDark]));
+  const sf = face(3.1, 0.68, 0.2, 'sugg', 930, 204, (x, w, h) => { rrect(x, 14, 14, 290, h - 28, 60, '#F5F5F7'); x.textAlign = 'center'; x.font = SF(600, 72); x.fillStyle = '#111'; x.fillText('TV', 159, 128);
+    x.fillStyle = '#F5F5F7'; x.fillText('Xbox', 465, 128); x.fillText('music', 770, 128); x.fillStyle = 'rgba(255,255,255,0.2)'; x.fillRect(618, 50, 3, h - 100); }); sf.position.z = 0.052; strip.add(sf);
+  const tf = face(3.1, 0.5, 0.05, 'suggq', 930, 150, (x, w, h) => { x.font = SF(500, 60); x.fillStyle = '#A1A1A8'; x.fillText('…and turned on the', 20, 100); x.fillStyle = '#F5F5F7'; x.fillRect(585, 44, 5, 70); }); tf.position.set(0, 0.7, 0.02); strip.add(tf);
+  ground(g, -1.0, 8); let s = 0, target = 0;
+  return { g, update: t => { const a = cl01(s), b = eo(s - 1), c = eo(s - 2);
+      pages.forEach((p, i) => { const vis = i < 6 ? 1 : eo(a * (N - 6) - (i - 6)); p.visible = vis > 0.001 && c < 0.98; const P = A[i], Q = B[i], sx = -1.3 + 2.6 * i / (N - 1);
+        p.position.set(mix(mix(P[0], Q[0], b), sx, c), mix(mix(P[1], Q[1], b), -0.1, c) + (1 - vis) * 2.4, mix(mix(P[2], Q[2], b), 0.3, c)); p.rotation.set(mix(P[3], Q[3], b), 0, mix(P[4], Q[4], b)); p.scale.setScalar(Math.max(0.001, mix(1, 0.3, b) * (1 - c))); });
+      k.scale.setScalar(mix(1.5, 1, b)); k.rotation.x = 0.55 * (1 - b); k.rotation.y = -0.3 * (1 - b) + Math.sin(t * 0.3) * 0.3 * b * (1 - c);
+      pm.color.setRGB(mix(1, acc[0], b * 0.85), mix(1, acc[1], b * 0.85), mix(1, acc[2], b * 0.85), THREE.SRGBColorSpace); lm.color.setRGB(acc[0], acc[1], acc[2], THREE.SRGBColorSpace);
+      lm.opacity = cl01((s - 1.5) / 0.4) * cl01((2.4 - s) / 0.3); pm.emissive.setRGB(acc[0] * b * 0.3, acc[1] * b * 0.3, acc[2] * b * 0.3, THREE.SRGBColorSpace); lines.visible = lm.opacity > 0.01; strip.scale.setScalar(Math.max(0.001, eo((s - 2.2) / 0.8))); strip.position.y = 0.1 + Math.sin(t * 0.6) * 0.04; },
+    build: (gi, shown, base) => { if (gi < 1 || gi > 3) return; const to = shown ? Math.max(target, gi) : Math.min(target, gi - 1); if (to === target && base >= 0) return; target = to;
+      if (base < 0) { s = to; return; } tween('learn', () => s, v => s = v, to, shown ? 1600 : 600, shown ? base + 80 : 0, null, CAM_EASE); } }; };
+
+/* the three questions: white flash cards that flip to a verdict when the scoring appears */
+HERO.qcards3 = () => { const g = new THREE.Group(), cards = [], geo = slab(1.25, 1.75, 0.05, 0.12, 0.012, 2);
+  const tags = ['HOURS', 'MAYOR', 'FOOD'], marks = [['✗', '#E2565B', 'wrong'], ['?', '#E79A1F', 'can’t tell'], ['✓', '#2FA866', 'right']];
+  const icon = [(x, cx, cy) => { x.beginPath(); x.arc(cx, cy, 92, 0, 7); x.moveTo(cx, cy); x.lineTo(cx, cy - 56); x.moveTo(cx, cy); x.lineTo(cx + 42, cy + 22); x.stroke(); },
+    (x, cx, cy) => { x.beginPath(); x.moveTo(cx - 100, cy - 40); x.lineTo(cx, cy - 100); x.lineTo(cx + 100, cy - 40); x.closePath(); [-66, -22, 22, 66].forEach(o => { x.moveTo(cx + o, cy - 14); x.lineTo(cx + o, cy + 58); }); x.moveTo(cx - 104, cy + 86); x.lineTo(cx + 104, cy + 86); x.stroke(); },
+    (x, cx, cy) => { x.beginPath(); [-62, -40, -18].forEach(o => { x.moveTo(cx + o, cy - 92); x.lineTo(cx + o, cy - 40); }); x.moveTo(cx - 62, cy - 40); x.lineTo(cx - 18, cy - 40); x.moveTo(cx - 40, cy - 40); x.lineTo(cx - 40, cy + 92);
+      x.moveTo(cx + 44, cy + 92); x.lineTo(cx + 44, cy - 92); x.quadraticCurveTo(cx + 92, cy - 40, cx + 44, cy + 6); x.stroke(); }];
+  [[-1.45, 0.12, -0.3, 0.3], [0, 0, 0.15, 0.04], [1.45, -0.1, -0.2, -0.24]].forEach(([px, y, z, ry], i) => { const c = new THREE.Group(); c.position.set(px, y, z); g.add(c); c.add(mesh(geo, [M.white, M.edge]));
+    const f = face(1.21, 1.71, 0.1, 'qc' + i, 484, 684, (x, w, h) => { x.fillStyle = '#FBFBFD'; x.fillRect(0, 0, w, h); rrect(x, 36, 40, 112, 68, 34, '#FFAE4D'); x.fillStyle = '#15151a'; x.textAlign = 'center'; x.font = SF(800, 44); x.fillText('Q' + (i + 1), 92, 90);
+      x.strokeStyle = '#15151a'; x.lineWidth = 9; x.lineCap = 'round'; x.lineJoin = 'round'; x.save(); x.translate(w / 2, 350); x.scale(1.5, 1.5); icon[i](x, 0, 0); x.restore();
+      x.fillStyle = '#6E6E76'; x.font = SF(700, 44); x.letterSpacing = '8px'; x.fillText(tags[i], w / 2 + 4, 612); }); f.position.z = 0.027; c.add(f);
+    const bk = face(1.21, 1.71, 0.1, 'qb' + i, 484, 684, (x, w, h) => { x.fillStyle = marks[i][1]; x.fillRect(0, 0, w, h); x.textAlign = 'center'; x.fillStyle = '#FFFFFF'; x.font = SF(700, 300); x.fillText(marks[i][0], w / 2, 430); x.font = SF(700, 44); x.fillText(marks[i][2], w / 2, 580); });
+    bk.position.z = -0.027; bk.rotation.y = Math.PI; c.add(bk); cards.push({ c, y, ry, flip: 0 }); });
+  ground(g, -1.3, 9);
+  return { g, update: t => cards.forEach((k, i) => { floatY(k.c, k.y, t, i * 2.1, 0.06); k.c.rotation.y = k.ry + k.flip * Math.PI + Math.sin(t * 0.4 + i) * 0.06; }),
+    build: (gi, shown, base) => { if (gi !== 2) return; cards.forEach((k, i) => { const to = shown ? 1 : 0; if (base < 0) { k.flip = to; return; } tween('qflip' + i, () => k.flip, v => k.flip = v, to, 1100, (shown ? base : 0) + i * 140, null, CAM_EASE); }); } }; };
+
+/* the 4 habits as four objects: a mic (explain it out loud), a bulb (hints first), two cursors (pair up), a notebook (prompt journal) */
+function cursorGeo() { if (geoCache.has('cursor')) return geoCache.get('cursor'); const s = new THREE.Shape(); [[0, 0], [0, -0.92], [0.23, -0.7], [0.4, -1.06], [0.54, -0.99], [0.38, -0.64], [0.68, -0.64]].forEach(([a, b], i) => i ? s.lineTo(a, b) : s.moveTo(a, b)); s.closePath();
+  const g = new THREE.ExtrudeGeometry(s, { depth: 0.07, bevelEnabled: true, bevelThickness: 0.025, bevelSize: 0.025, bevelSegments: 3 }); g.translate(-0.3, 0.5, -0.035); geoCache.set('cursor', g); return g; }
+HERO.habits4 = () => { const g = new THREE.Group(), items = [];
+  const add = (x, y, z, make) => { const o = new THREE.Group(); o.position.set(x, y, z); o.scale.setScalar(0.001); make(o); g.add(o); items.push({ o, y });
+    const ring = mesh(new THREE.TorusGeometry(0.6, 0.02, 12, 80), M.accent, 0, -0.84, 0); ring.rotation.x = Math.PI / 2; ring.castShadow = false; o.add(mesh(new THREE.CylinderGeometry(0.6, 0.64, 0.06, 64), M.spaceBlack, 0, -0.87, 0), ring); }; // each habit stands on its own little plinth
+  add(-0.95, 0.95, 0.2, o => { const m = new THREE.Group(); m.rotation.z = 0.5; o.add(m); m.add(mesh(new THREE.SphereGeometry(0.4, 40, 28), M.micMesh, 0, 0.55, 0));
+    const band = mesh(new THREE.TorusGeometry(0.405, 0.035, 16, 64), M.chrome, 0, 0.55, 0); band.rotation.x = Math.PI / 2; m.add(band);
+    m.add(mesh(new THREE.CylinderGeometry(0.215, 0.215, 0.1, 40), M.chrome, 0, 0.2, 0)); m.add(mesh(new THREE.CylinderGeometry(0.2, 0.13, 1.15, 40), M.spaceBlack, 0, -0.42, 0)); });
+  add(0.95, 0.75, -0.3, o => { o.add(mesh(new THREE.SphereGeometry(0.5, 40, 28), M.bulb, 0, 0.2, 0));
+    const halo = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 2.6), new THREE.MeshBasicMaterial({ color: 0xffd27a, transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false,
+      map: labelTex('halo', 256, 256, (x, w, h) => { const gr = x.createRadialGradient(w / 2, h / 2, 6, w / 2, h / 2, w / 2); gr.addColorStop(0, 'rgba(255,255,255,0.9)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = gr; x.fillRect(0, 0, w, h); }) })); halo.position.set(0, 0.2, -0.35); o.add(halo); o.add(mesh(new THREE.CylinderGeometry(0.3, 0.2, 0.36, 32), M.bulb, 0, -0.33, 0));
+    [0, 1, 2].forEach(i => { const r = mesh(new THREE.TorusGeometry(0.2 - i * 0.012, 0.045, 12, 40), M.silver, 0, -0.55 - i * 0.085, 0); r.rotation.x = Math.PI / 2; o.add(r); }); o.add(mesh(new THREE.SphereGeometry(0.1, 16, 12), M.spaceBlack, 0, -0.8, 0)); });
+  add(-0.85, -0.85, -0.2, o => { const a = mesh(cursorGeo(), M.white, -0.3, 0.1, 0), b = mesh(cursorGeo(), M.accent, 0.32, -0.16, 0.16); a.rotation.z = 0.1; b.rotation.z = -0.25; o.add(a, b); });
+  add(0.95, -0.9, 0.3, o => { const n = new THREE.Group(); n.rotation.set(-0.5, 0.3, 0.12); o.add(n); n.add(mesh(slab(1.0, 1.3, 0.14, 0.06, 0.015, 2), M.spaceBlack)); n.add(mesh(slab(0.96, 1.24, 0.1, 0.04, 0.005, 1), M.paper, 0.035, 0, 0));
+    n.add(mesh(rbox(0.06, 1.32, 0.16, 0.01, 1), M.accent, 0.3, 0, 0)); const p = new THREE.Group(); p.position.set(-0.08, 0, 0.13); p.rotation.z = -0.6; n.add(p);
+    p.add(mesh(new THREE.CylinderGeometry(0.05, 0.05, 1.1, 6), M.pencil)); p.add(mesh(new THREE.ConeGeometry(0.05, 0.16, 6), M.wood, 0, 0.63, 0)); p.add(mesh(new THREE.ConeGeometry(0.018, 0.058, 6), M.spaceBlack, 0, 0.684, 0));
+    p.add(mesh(new THREE.CylinderGeometry(0.053, 0.053, 0.08, 16), M.silver, 0, -0.59, 0)); p.add(mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.1, 16), M.eraser, 0, -0.68, 0)); });
+  ground(g, -1.9, 9);
+  return { g, update: t => items.forEach(({ o, y }, i) => { floatY(o, y, t, i * 1.4, 0.05); o.rotation.y = Math.sin(t * 0.4 + i * 1.7) * 0.25; }),
+    build: (gi, shown, base) => { const it = items[gi - 1]; if (it) grow('hab' + gi, it.o, shown, base); } }; };
+
+/* 5 steps to live: one browser window that does each step as you click */
+HERO.browser = () => { const D = device({ w: 4.0, h: 2.7, d: 0.07, r: 0.14, b: 0.018, frame: M.edgeDark, back: M.spaceBlack, sw: 3.9, sh: 2.6, sr: 0.1, screen: 'steps', res: [1280, 854], fps: 30 });
+  const yaw = -0.36; D.body.rotation.set(0.03, yaw, 0.01); ground(D.g, -1.75, 9); let step = 0;
+  return { g: D.g, screens: [D.scr], update: t => { D.body.rotation.y = yaw + Math.sin(t * 0.22) * 0.07; D.body.position.y = Math.sin(t * 0.6) * 0.05; D.scr.tick(t); },
+    build: (gi, shown, base) => { if (gi < 1 || gi > 5) return; step = shown ? Math.max(step, gi) : Math.min(step, gi - 1); const S = D.scr.state; if ((S.step || 0) === step) return;
+      S.prev = S.step || 0; S.step = step; S.at = rm() || base < 0 ? 1 : performance.now() + base; D.scr.last = -1; if (rm() || base < 0) D.scr.draw(0); } }; };
+
+/* roadmap: six pages on a rail, the project as it looks at the end of each week */
+HERO.weeks6 = () => { const g = new THREE.Group(), anchors = {}, P = [], geo = slab(1.3, 0.98, 0.05, 0.09, 0.012, 2);
+  for (let i = 0; i < 6; i++) { const x = (i - 2.5) * 1.6, p = new THREE.Group(); p.position.set(x, 0.62, -Math.abs(i - 2.5) * 0.12); p.rotation.set(-0.12, -(i - 2.5) * 0.1, 0); g.add(p);
+    p.add(mesh(geo, [M.spaceBlack, i === 5 ? M.accent : M.edgeDark])); const f = face(1.24, 0.92, 0.07, 'wk' + i, 496, 368, (x2, w, h) => drawWeek(x2, w, h, i)); f.position.z = 0.027; p.add(f);
+    p.add(mesh(rbox(0.03, 0.2, 0.03, 0.01, 1), M.aluDark, 0, -0.58, 0)); anchorObj(g, 'c' + i, x, 1.36, 0, anchors); anchorObj(g, 'd' + i, x, -0.22, 0.3, anchors); P.push(p); }
+  g.add(mesh(rbox(1.6 * 5 + 0.6, 0.03, 0.03, 0.01, 1), M.aluDark, 0, 0, 0)); ground(g, -0.08, 12);
+  return { g, anchors, update: t => P.forEach((p, i) => { p.position.y = 0.62 + Math.sin(t * 0.7 + i * 0.9) * 0.03; }),
+    build: (gi, shown, base) => { if (gi === 0) P.forEach((p, i) => grow('wk' + i, p, shown, base, 250 + i * 110)); } }; };
+
+/* how it learned: a bank of dials. Guess → check (they hunt) → adjust (they settle) */
+HERO.dials = () => { const g = new THREE.Group(), b = new THREE.Group(); b.rotation.set(-0.42, -0.32, 0.02); b.position.y = 0.2; g.add(b);
+  b.add(mesh(slab(3.5, 2.6, 0.16, 0.22, 0.03, 3), [M.spaceBlack, M.edgeDark])); const K = [];
+  for (let i = 0; i < 12; i++) { const k = new THREE.Group(); k.position.set((i % 4 - 1.5) * 0.8, (1 - (i / 4 | 0)) * 0.76, 0.08); b.add(k); const hot = i === 5 || i === 10;
+    const cap = mesh(new THREE.CylinderGeometry(0.25, 0.28, 0.22, 48), hot ? M.accent : M.silver, 0, 0, 0.11); cap.rotation.x = Math.PI / 2; k.add(cap);
+    const tick = mesh(rbox(0.045, 0.2, 0.03, 0.01, 1), hot ? M.white : M.spaceBlack, 0, 0.13, 0.225); tick.castShadow = false; k.add(tick);
+    K.push({ k, a: (hash1(i + 11) - 0.5) * 4.4, c: (hash1(i + 131) - 0.5) * 1.1 }); }
+  ground(g, -1.7, 9); let s = 0, target = 0;
+  return { g, update: t => { b.rotation.y = -0.32 + Math.sin(t * 0.25) * 0.08; b.position.y = 0.2 + Math.sin(t * 0.6) * 0.05; const u = eo(s - 2), hunt = cl01(s - 1) * (1 - cl01(s - 2));
+      K.forEach(({ k, a, c }, i) => { k.rotation.z = mix(a, c, u) + Math.sin(t * 2.4 + i * 1.7) * 0.45 * hunt; }); },
+    build: (gi, shown, base) => { if (gi < 1 || gi > 3) return; const to = shown ? Math.max(target, gi) : Math.min(target, gi - 1); if (to === target && base >= 0) return; target = to;
+      if (base < 0) { s = to; return; } tween('dials', () => s, v => s = v, to, shown ? 1500 : 500, shown ? base + 80 : 0, null, CAM_EASE); } }; };
+
+/* context window: a long conversation, and the frame of what the AI can use sliding along it */
+HERO.ctxwin = () => { const g = new THREE.Group(), b = new THREE.Group(); b.rotation.set(0.02, -0.34, 0.02); g.add(b); const strip = new THREE.Group(); b.add(strip);
+  strip.add(mesh(slab(1.5, 5.2, 0.03, 0.08, 0.006, 1), M.paper));
+  const f = new THREE.Mesh(rrPlane(1.46, 5.16, 0.07), new THREE.MeshStandardMaterial({ roughness: 0.85, metalness: 0, map: labelTex('scroll', 300, 1060, (x, w, h) => { x.fillStyle = '#F6F5F1'; x.fillRect(0, 0, w, h);
+    for (let i = 0; i < 14; i++) { const left = i % 2 === 0, bw = 190 - hash1(i + 5) * 70; rrect(x, left ? 20 : w - 20 - bw, 22 + i * 73, bw, 52, 24, left ? '#D9D8D2' : '#4F9BFF'); } }) })); f.position.z = 0.017; strip.add(f);
+  [[0, 0.8, 1.9, 0.07], [0, -0.8, 1.9, 0.07], [-0.915, 0, 0.07, 1.67], [0.915, 0, 0.07, 1.67]].forEach(([x, y, w, h]) => { const m = mesh(rbox(w, h, 0.07, 0.03, 1), M.accent, x, y, 0.12); b.add(m); });
+  const band = new THREE.Mesh(new THREE.PlaneGeometry(1.76, 1.53), M.accentGlow); band.position.z = 0.1; b.add(band);
+  const dimM = new THREE.MeshBasicMaterial({ color: 0x06060a, transparent: true, opacity: 0.66, depthWrite: false });
+  const dims = [1, -1].map(sg => { const d = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 1), dimM); d.position.z = 0.06; b.add(d); return { d, sg }; }); // everything outside the frame goes dark: it can't use it
+  return { g, update: t => { strip.position.y = Math.sin(t * 0.35) * 1.1; b.rotation.y = -0.34 + Math.sin(t * 0.25) * 0.07;
+    dims.forEach(({ d, sg }) => { const end = sg * 2.6 + strip.position.y, hgt = Math.max(0.001, sg * (end - sg * 0.8)); d.scale.y = hgt; d.position.y = sg * 0.8 + sg * hgt / 2; }); } }; };
+
+/* tools: three tiles the app can hand the model: search, run code, see */
+HERO.tools3 = () => { const g = new THREE.Group(), T = [], geo = slab(1.3, 1.3, 0.08, 0.26, 0.02, 3);
+  const icon = [(x, cx, cy) => { x.beginPath(); x.arc(cx - 22, cy - 22, 92, 0, 7); x.moveTo(cx + 46, cy + 46); x.lineTo(cx + 122, cy + 122); x.stroke(); },
+    (x, cx, cy) => { x.beginPath(); x.moveTo(cx - 62, cy - 84); x.lineTo(cx - 146, cy); x.lineTo(cx - 62, cy + 84); x.moveTo(cx + 62, cy - 84); x.lineTo(cx + 146, cy); x.lineTo(cx + 62, cy + 84); x.moveTo(cx + 26, cy - 104); x.lineTo(cx - 26, cy + 104); x.stroke(); },
+    (x, cx, cy) => { x.beginPath(); x.moveTo(cx - 152, cy); x.quadraticCurveTo(cx, cy - 136, cx + 152, cy); x.quadraticCurveTo(cx, cy + 136, cx - 152, cy); x.closePath(); x.stroke(); x.beginPath(); x.arc(cx, cy, 44, 0, 7); x.fill(); }];
+  [[-1.5, 0.25, -0.2, 0.3], [0, -0.05, 0.25, 0.02], [1.5, 0.2, -0.2, -0.28]].forEach(([px, y, z, ry], i) => { const c = new THREE.Group(); c.position.set(px, y, z); c.rotation.y = ry; c.scale.setScalar(0.001); g.add(c); c.add(mesh(geo, [M.white, M.edge]));
+    const f = face(1.26, 1.26, 0.24, 'tool' + i, 504, 504, (x, w, h) => { x.fillStyle = '#FBFBFD'; x.fillRect(0, 0, w, h); x.strokeStyle = '#15151a'; x.fillStyle = '#15151a'; x.lineWidth = 26; x.lineCap = 'round'; x.lineJoin = 'round'; icon[i](x, w / 2, h / 2 - 36);
+      x.fillStyle = '#6E6E76'; x.textAlign = 'center'; x.font = SF(700, 40); x.letterSpacing = '6px'; x.fillText(['SEARCH', 'RUN CODE', 'SEE'][i], w / 2 + 3, h - 52); }); f.position.z = 0.042; c.add(f); T.push({ c, y }); });
+  ground(g, -1.4, 9);
+  return { g, update: t => T.forEach(({ c, y }, i) => floatY(c, y, t, i * 1.9, 0.06)), build: (gi, shown, base) => { const it = T[gi - 1]; if (it) grow('tool' + gi, it.c, shown, base); } }; };
 
 const heroes = new Map(); // station index -> hero api
 function heroFor(i) { const st = stations[i]; const src = st.kind === 'morph' && st.morphFrom >= 0 ? st.morphFrom : i;
   if (heroes.has(src)) return heroes.get(src);
   const build = HERO[stations[src].hero] || HERO.none; const api = build(Object.assign({ i: src }, stations[src])); api.src = src; api.g.position.fromArray(stations[src].pos); api.g.userData.y0 = stations[src].pos[1];
   if (stations[src].scale) api.g.scale.multiplyScalar(stations[src].scale); scene.add(api.g); heroes.set(src, api);
+  api.s0 = api.g.scale.x; api.lo = api.hi = src; stations.forEach((st2, k) => { if (st2.kind === 'morph' && st2.morphFrom === src) { api.lo = Math.min(api.lo, k); api.hi = Math.max(api.hi, k); } });
   // slides whose hero responds to builds
-  stations.forEach((st, k) => { if ((st.kind === 'morph' && st.morphFrom >= 0 ? st.morphFrom : k) === src && api.build) slides[k].onBuild = (gi, shown, base) => api.build(gi, shown, base); });
+  if (api.build) slides[src].onBuild = (gi, shown, base) => api.build(gi, shown, base);
   if (api.build) for (let gi = 0; gi < slides[src].n; gi++) api.build(gi, !!slides[src].groups[gi]._shown, -1);
   return api; }
 function disposeFar() { for (const [k, api] of heroes) { if (Math.abs(k - cur) > 6 && !stations.some((s, i) => Math.abs(i - cur) <= 2 && (i === k || s.morphFrom === k))) { scene.remove(api.g); (api.screens || []).forEach(sc => sc.tex.dispose()); heroes.delete(k); } } }
 
 /* ---------- backdrop: crescent of light + film grain (generated in code) ---------- */
 const BG_VS = `void main(){gl_Position=vec4(position.xy,0.0,1.0);}`;
-const BG_FS = `precision highp float;uniform vec2 uRes;uniform vec2 uC;uniform float uR;uniform float uT;uniform float uI;
+const BG_FS = `precision highp float;uniform vec2 uRes;uniform vec2 uC;uniform float uR;uniform float uT;uniform float uI;uniform vec3 uTint;uniform vec3 uTint2;
 float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
 void main(){vec2 uv=gl_FragCoord.xy/uRes;vec2 p=(uv-0.5)*vec2(uRes.x/uRes.y,1.0);vec2 c=uC;
- float d=length(p-c);vec3 base=vec3(0.043,0.043,0.07);vec3 tint=vec3(0.40,0.44,0.63);vec3 rim=vec3(0.93,0.91,0.82);
+ float d=length(p-c);vec3 base=vec3(0.04,0.042,0.056);float ang=atan(p.y-c.y,p.x-c.x);vec3 tint=mix(uTint,uTint2,0.5+0.5*sin(ang*2.0+uT*0.07)); /* two tones run along the limb and drift slowly */vec3 rim=vec3(0.93,0.91,0.82);
  float inside=1.0-smoothstep(uR-0.012,uR+0.006,d);
  float limb=pow(clamp(d/uR,0.0,1.0),2.4);                 /* bright toward the limb, dark interior */
  vec3 col=mix(base,tint,limb*inside*uI);
  float glow=exp(-max(d-uR,0.0)*3.6)*(1.0-inside);           /* soft falloff outside the disc */
  col+=tint*glow*0.5*uI;
+ col+=uTint2*0.2*uI*exp(-length(p+c*0.55)*1.5);                 /* a faint wash of the section colour opposite the crescent */
  float rimBand=exp(-pow((d-uR)*42.0,2.0));                  /* pale cream rim, soft */
  col+=rim*rimBand*0.5*uI;
  float vig=smoothstep(1.35,0.35,length((uv-0.5)*vec2(1.2,1.0)));col*=mix(0.78,1.0,vig);
- float g=hash(gl_FragCoord.xy+fract(uT*0.37)*731.0)-0.5;col+=g*0.055;
+ float g=hash(gl_FragCoord.xy+fract(uT*0.37)*731.0)-0.5;col+=g*0.016;
  gl_FragColor=vec4(col,1.0);}`;
 const cres = { c: [-0.42, -0.62], r: 0.95, i: 1 };
 let camProgress = 0, camFov = 34, camT = 0;
+let camPrev = 0, camVel = 0, bank = 0, lift = 0, flightK = 1; // flight feel: roll into the move, rise and pull back mid-flight
 let camPath, lookPath;
 function setup3d() {
   renderer.setClearColor(0x0b0b12, 1); renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;
@@ -1389,7 +1690,7 @@ function setup3d() {
   scene.add(new THREE.HemisphereLight(0x6b74a3, 0x05050a, 0.35));
   bgScene = new THREE.Scene(); bgCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
   bgMat = new THREE.ShaderMaterial({ vertexShader: BG_VS, fragmentShader: BG_FS, depthWrite: false, depthTest: false,
-    uniforms: { uRes: { value: new THREE.Vector2(1, 1) }, uC: { value: new THREE.Vector2(cres.c[0], cres.c[1]) }, uR: { value: cres.r }, uT: { value: 0 }, uI: { value: 1 } } });
+    uniforms: { uRes: { value: new THREE.Vector2(1, 1) }, uC: { value: new THREE.Vector2(cres.c[0], cres.c[1]) }, uR: { value: cres.r }, uT: { value: 0 }, uI: { value: 1 }, uTint: { value: new THREE.Vector3(0.4, 0.44, 0.63) }, uTint2: { value: new THREE.Vector3(0.4, 0.44, 0.63) } } });
   const tri = new THREE.Mesh(new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute([-1, -1, 0, 3, -1, 0, -1, 3, 0], 3)), bgMat); tri.frustumCulled = false; bgScene.add(tri);
   // camera + look splines through every station (orbit comes from the differing offsets; dolly from the z-stepped heroes)
   const cps = stations.map(s => new THREE.Vector3().fromArray(s.pos).add(new THREE.Vector3().fromArray(s.cam.off)));
@@ -1407,19 +1708,20 @@ function studioEnv() { // dark product studio: long softbox strips draw the edge
   box(22, 1.0, 0, 1.5, -14, 4, [0.72, 0.78, 1]); // lavender rim from behind
   box(10, 4, 0, -3, 14, 0.5);                   // faint front fill
   return sc; }
-function resize3d() { if (!hasGL || !camera) return; dpr = Math.min(window.devicePixelRatio || 1, 2) * [1, 0.75, 0.5, 0.5][quality]; renderer.setPixelRatio(dpr); renderer.setSize(W, H, false);
+function resize3d() { if (!hasGL || !camera) return; dpr = Math.min(window.devicePixelRatio || 1, 2) * [1, 1, 0.85, 0.85][quality]; renderer.setPixelRatio(dpr); renderer.setSize(W, H, false);
   camera.aspect = W / H; camera.updateProjectionMatrix(); bgMat.uniforms.uRes.value.set(W * dpr, H * dpr); }
 
 /* camera moves: one progress value along the spline + fov + crescent, all retargetable */
 function cameraTo(i, dur) { const st = stations[i]; const d = rm() ? 200 : dur;
-  tween('cam', () => camProgress, v => camProgress = v, i, d);
-  tween('fov', () => camFov, v => camFov = v, st.cam.fov, d);
-  tween('cresC', () => cres.c.slice(), v => cres.c = v, st.cres.c.slice(), d); tween('cresR', () => cres.r, v => cres.r = v, st.cres.r, d);
+  tween('cam', () => camProgress, v => camProgress = v, i, d, 0, null, CAM_EASE);
+  tween('fov', () => camFov, v => camFov = v, st.cam.fov, d, 0, null, CAM_EASE);
+  tween('cresC', () => cres.c.slice(), v => cres.c = v, st.cres.c.slice(), d, 0, null, CAM_EASE); tween('cresR', () => cres.r, v => cres.r = v, st.cres.r, d, 0, null, CAM_EASE);
   tween('cresI', () => cres.i, v => cres.i = v, st.cresI != null ? st.cresI : 1, d);
+  tween('acc', () => acc.slice(), v => acc = v, SECS[i].slice(), Math.max(d, 1200), 0, null, CAM_EASE); tween('acc2', () => acc2.slice(), v => acc2 = v, SECS2[i].slice(), Math.max(d, 1600), 0, null, CAM_EASE);
   for (let k = Math.max(0, i - 2); k <= Math.min(LAST, i + 2); k++) heroFor(k);
   applyMorph(i, d); disposeFar(); restartScreens(i, d / 1000 * 0.55); }
 function restartScreens(i, lead) { const st = stations[i]; const api = heroes.get(st.kind === 'morph' && st.morphFrom >= 0 ? st.morphFrom : i); if (api) (api.screens || []).forEach(sc => { sc.t0 = camT + lead; sc.last = -1; }); }
-function cameraJump(i) { const st = stations[i]; tweens.clear(); camProgress = i; camFov = st.cam.fov; cres.c = st.cres.c.slice(); cres.r = st.cres.r; cres.i = st.cresI != null ? st.cresI : 1; for (let k = Math.max(0, i - 2); k <= Math.min(LAST, i + 2); k++) heroFor(k); applyMorph(i, 0); restartScreens(i, 0.3); }
+function cameraJump(i) { const st = stations[i]; tweens.clear(); camProgress = camPrev = i; camVel = 0; acc = SECS[i].slice(); acc2 = SECS2[i].slice(); camFov = st.cam.fov; cres.c = st.cres.c.slice(); cres.r = st.cres.r; cres.i = st.cresI != null ? st.cresI : 1; for (let k = Math.max(0, i - 2); k <= Math.min(LAST, i + 2); k++) heroFor(k); applyMorph(i, 0); restartScreens(i, 0.3); }
 // shared-hero morph: the same object glides to the next station's pose
 function applyMorph(i, d) {
   stations.forEach((st, k) => { if (st.kind !== 'morph' || st.morphFrom < 0) return; const api = heroes.get(st.morphFrom); if (!api) return;
@@ -1448,19 +1750,28 @@ function frame(now) {
   if (!hasGL) return;
   const u = Math.max(0, Math.min(1, camProgress / LAST));
   camPath.getPoint(u, _p); lookPath.getPoint(u, _l);
-  camera.position.copy(_p).add(new THREE.Vector3(px * 0.18, -py * 0.12, 0)); camera.lookAt(_l); camera.fov = camFov; camera.updateProjectionMatrix();
+  const vel = dt > 0 ? (camProgress - camPrev) / dt : 0; camPrev = camProgress; camVel += (Math.max(-2.4, Math.min(2.4, vel)) - camVel) * 0.16; const fv = rm() ? 0 : camVel;
+  bank += (fv * 0.075 - bank) * 0.1; lift += (Math.min(1, Math.abs(fv) / 1.3) * flightK - lift) * 0.09;
+  camera.position.copy(_p); camera.position.x += px * 0.18; camera.position.y += -py * 0.12 + lift * 1.0; camera.position.z += lift * 3.2;
+  camera.lookAt(_l); camera.rotateZ(-bank); camera.fov = camFov + lift * 7; camera.updateProjectionMatrix();
   keyLight.position.set(_l.x - 4, _l.y + 7, _l.z + 6); keyLight.target.position.copy(_l); keyLight.target.updateMatrixWorld(); rimLight.position.set(_l.x - 6, _l.y - 2, _l.z - 5); rimLight.target.position.copy(_l); rimLight.target.updateMatrixWorld();
-  for (const [k, api] of heroes) { api.g.visible = Math.abs(k - camProgress) < 0.8 || stations.some((s, i) => s.morphFrom === k && Math.abs(i - camProgress) < 0.8); if (api.g.visible && !rm()) api.update(camT, dt); }
+  // each object swells and turns to face the lens as the camera arrives, and turns away as it leaves
+  for (const [k, api] of heroes) { const d = camProgress < api.lo ? api.lo - camProgress : camProgress > api.hi ? api.hi - camProgress : 0;
+    api.g.visible = Math.abs(d) < 0.8; if (!api.g.visible) continue;
+    const q = rm() ? 1 : 1 - Math.abs(d) / 0.8, p = q * q * (3 - 2 * q); api.g.scale.setScalar(api.s0 * (0.5 + 0.5 * p)); api.g.rotation.y = rm() ? 0 : d * 1.5;
+    api.update(rm() ? 0 : camT, dt); }
   bgMat.uniforms.uC.value.set(cres.c[0], cres.c[1]); bgMat.uniforms.uR.value = cres.r; bgMat.uniforms.uT.value = camT; bgMat.uniforms.uI.value = cres.i;
+  bgMat.uniforms.uTint.value.set(acc[0] * 0.66, acc[1] * 0.66, acc[2] * 0.72); bgMat.uniforms.uTint2.value.set(acc2[0] * 0.62, acc2[1] * 0.62, acc2[2] * 0.68);
+  rimLight.color.setRGB(acc[0], acc[1], acc[2], THREE.SRGBColorSpace); M.accent.color.copy(rimLight.color); M.accent.emissive.copy(rimLight.color); M.deckGlow.color.copy(rimLight.color); M.accentGlow.color.copy(rimLight.color);
   renderer.clear(); renderer.render(bgScene, bgCam); renderer.render(scene, camera);
   projectAnchors();
   // governor: avg frame time over ~2s above the display budget → step down DPR, then shadows, then glass transmission
   const ft = dt * 1000; ema += (ft - ema) * 0.05;
   if (cadenceN < 8) { if (cadenceN) cadenceSum += ft; if (++cadenceN === 8) cadence = Math.min(34, Math.max(16, cadenceSum / 7)); }
   const budget = Math.max(18, (cadence || 16.7) * 1.32);
-  if (ema > budget) { if (!slowSince) slowSince = now; if (now - slowSince > 2000 && quality < 3) { quality++; slowSince = 0; ema = 16; applyQuality(); } } else slowSince = 0;
+  if (ema > budget) { if (!slowSince) slowSince = now; if (now - slowSince > 4000 && quality < 3) { quality++; slowSince = 0; ema = 16; applyQuality(); } } else slowSince = 0;
 }
-function applyQuality() { resize3d(); if (quality >= 2) { renderer.shadowMap.enabled = false; scene.traverse(o => { if (o.material) o.material.needsUpdate = true; }); }
+function applyQuality() { resize3d(); if (quality >= 1) { renderer.shadowMap.enabled = false; scene.traverse(o => { if (o.material) o.material.needsUpdate = true; }); }
   if (quality >= 3) { [M.glass, M.frost].forEach(m => { m.transmission = 0; m.opacity = 0.4; m.needsUpdate = true; }); } }
 function projectAnchors() { // HTML elements pinned to 3D points (used by the chart etc.)
   slides.forEach((s, i) => { if (!s.anchors.length || !s.el.classList.contains('live')) return; const api = heroes.get(stations[i].kind === 'morph' && stations[i].morphFrom >= 0 ? stations[i].morphFrom : i); if (!api || !api.anchors) return;
