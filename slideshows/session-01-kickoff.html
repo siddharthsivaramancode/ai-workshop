@@ -1,0 +1,1008 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Session 1 · Kickoff</title>
+<meta name="description" content="Session 1 of the teen AI builder workshop: Kickoff. Keynote-style presenter.">
+<style>
+/* =====================================================================
+   Session 1 · Kickoff presenter. Every rule is scoped under .kickoff-deck.
+   DESIGN TOKENS live in this first block and nowhere else.
+   ===================================================================== */
+.kickoff-deck {
+  --kd-font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif;
+  --kd-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --kd-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --kd-radius: 24px;
+  --kd-gap: 20px;
+  /* dark */
+  --kd-d-bg: #000000; --kd-d-card: #1D1D1F; --kd-d-text: #F5F5F7; --kd-d-sec: #86868B;
+  --kd-d-line: rgba(255,255,255,0.12); --kd-d-accent: #2997FF;
+  --kd-d-red: #FF453A; --kd-d-green: #30D158; --kd-d-amber: #FF9F0A; --kd-d-yellow: #FFD60A;
+  --kd-d-grad: linear-gradient(90deg, #4FA3FF 0%, #9C6BFF 50%, #F06BAA 100%);
+  --kd-silver: linear-gradient(180deg, #FFFFFF 0%, #A1A1A6 100%);
+  /* light */
+  --kd-l-bg: #F5F5F7; --kd-l-card: #FFFFFF; --kd-l-text: #1D1D1F; --kd-l-sec: #6E6E73;
+  --kd-l-line: rgba(0,0,0,0.08); --kd-l-accent: #0066CC;
+  --kd-l-red: #D70015; --kd-l-green: #248A3D; --kd-l-amber: #B25000;
+  --kd-l-grad: linear-gradient(90deg, #0058C4 0%, #6E3FD6 50%, #C2306E 100%);
+}
+.kickoff-deck .kd-slide[data-theme="dark"], .kickoff-deck .kd-inv {
+  --bg: var(--kd-d-bg); --card: var(--kd-d-card); --text: var(--kd-d-text); --sec: var(--kd-d-sec);
+  --line: var(--kd-d-line); --accent: var(--kd-d-accent); --red: var(--kd-d-red);
+  --green: var(--kd-d-green); --amber: var(--kd-d-amber); --grad: var(--kd-d-grad);
+}
+.kickoff-deck .kd-slide[data-theme="light"] {
+  --bg: var(--kd-l-bg); --card: var(--kd-l-card); --text: var(--kd-l-text); --sec: var(--kd-l-sec);
+  --line: var(--kd-l-line); --accent: var(--kd-l-accent); --red: var(--kd-l-red);
+  --green: var(--kd-l-green); --amber: var(--kd-l-amber); --grad: var(--kd-l-grad);
+}
+
+/* ---------- page shell (this file is standalone; body only hosts the deck) ---------- */
+html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+.kickoff-deck { position: fixed; inset: 0; font-family: var(--kd-font); -webkit-font-smoothing: antialiased;
+  user-select: none; -webkit-user-select: none; touch-action: none; }
+.kickoff-deck *, .kickoff-deck *::before, .kickoff-deck *::after { box-sizing: border-box; }
+.kickoff-deck .kd-bg { position: absolute; inset: 0; transition: opacity 700ms var(--kd-ease); }
+.kickoff-deck .kd-bg.d { background: var(--kd-d-bg); }
+.kickoff-deck .kd-bg.l { background: var(--kd-l-bg); opacity: 0; }
+.kickoff-deck[data-theme="light"] .kd-bg.l { opacity: 1; }
+.kickoff-deck .kd-stage { position: absolute; inset: 0; cursor: default; }
+/* fixed 16:9 canvas, 1600x900 design units, scaled to fit (letterboxed in slide bg) */
+.kickoff-deck .kd-canvas { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px;
+  transform: translate(-50%, -50%) scale(var(--kd-scale, 0.5)); overflow: hidden; }
+
+/* ---------- slides ---------- */
+.kickoff-deck .kd-slide { position: absolute; inset: 0; background: var(--bg); color: var(--text);
+  opacity: 0; visibility: hidden; transform-origin: 50% 50%; contain: layout paint; }
+.kickoff-deck .kd-slide.is-live { visibility: visible; }
+.kickoff-deck .kd-dim { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; z-index: 5; }
+.kickoff-deck .kd-in { position: absolute; inset: 80px 128px 120px; display: flex; flex-direction: column; }
+.kickoff-deck .kd-note { display: none; }
+
+/* ---------- type ---------- */
+.kickoff-deck h1, .kickoff-deck h2, .kickoff-deck h3, .kickoff-deck p { margin: 0; }
+.kickoff-deck .kd-kick { font-size: 22px; font-weight: 600; color: var(--accent); letter-spacing: 0; margin-bottom: 14px; }
+.kickoff-deck .kd-kick.red { color: var(--red); }
+.kickoff-deck .kd-kick.green { color: var(--green); }
+.kickoff-deck .kd-title { font-size: 60px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; text-wrap: balance; }
+.kickoff-deck .kd-hd { margin-bottom: 44px; }
+.kickoff-deck .kd-grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.kickoff-deck .kd-silver { background: var(--kd-silver); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.kickoff-deck .sec { color: var(--sec); }
+.kickoff-deck .mono { font-family: var(--kd-mono); }
+.kickoff-deck [data-a] { display: block; }
+.kickoff-deck .kd-nowrap { white-space: nowrap; }
+
+/* ---------- cards / bento ---------- */
+.kickoff-deck .kd-body { flex: 1; min-height: 0; display: grid; gap: var(--kd-gap); }
+.kickoff-deck .kd-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--kd-radius);
+  padding: 40px; font-size: 24px; line-height: 1.4; font-weight: 400; min-width: 0; }
+.kickoff-deck .kd-card.tight { padding: 32px; }
+.kickoff-deck .kd-card.ink { background: #1D1D1F; color: #F5F5F7; border-color: transparent; }
+.kickoff-deck .kd-label { font-size: 18px; font-weight: 600; letter-spacing: 0.06em; color: var(--accent); }
+.kickoff-deck .kd-big { font-size: 44px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; }
+.kickoff-deck .kd-h3 { font-size: 34px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; }
+.kickoff-deck .kd-num { font-size: 96px; font-weight: 600; letter-spacing: -0.04em; line-height: 1; }
+
+/* ---------- hero / section / closing ---------- */
+.kickoff-deck .s-hero .kd-in { justify-content: center; }
+.kickoff-deck .kd-hero { font-size: 140px; font-weight: 700; letter-spacing: -0.035em; line-height: 1.02; margin: 18px 0 40px; }
+.kickoff-deck .kd-hero-sub { font-size: 30px; font-weight: 600; line-height: 1.4; }
+.kickoff-deck .kd-hero-sub .sec { display: block; font-size: 24px; font-weight: 500; }
+.kickoff-deck .s-sec .kd-in { justify-content: flex-end; }
+.kickoff-deck .kd-secnum { font-size: 220px; font-weight: 700; letter-spacing: -0.05em; line-height: 0.9; margin-bottom: 36px; }
+.kickoff-deck .kd-secnum.plain { color: var(--sec); }
+.kickoff-deck .kd-sectitle { font-size: 96px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; text-wrap: balance; }
+.kickoff-deck .kd-secsub { font-size: 36px; font-weight: 500; color: var(--sec); margin-top: 20px; letter-spacing: -0.01em; }
+.kickoff-deck .kd-secsub.kd-grad { font-weight: 600; }
+
+/* ---------- motion primitives (initial hidden state; JS animates) ---------- */
+.kickoff-deck [data-g] { opacity: 0; }
+
+/* ---------- control pill ---------- */
+.kickoff-deck .kd-pill { position: absolute; left: 50%; bottom: max(20px, env(safe-area-inset-bottom));
+  transform: translateX(-50%); display: flex; align-items: center; gap: 6px; padding: 6px;
+  border-radius: 999px; border: 1px solid rgba(255,255,255,0.14); isolation: isolate;
+  -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%);
+  color: #F5F5F7; transition: opacity 600ms var(--kd-ease), color 500ms var(--kd-ease), border-color 500ms var(--kd-ease);
+  font-family: var(--kd-font); z-index: 20; }
+.kickoff-deck .kd-pill::before, .kickoff-deck .kd-pill::after { content: ""; position: absolute; inset: 0;
+  border-radius: inherit; z-index: -1; transition: opacity 600ms var(--kd-ease); }
+.kickoff-deck .kd-pill::before { background: rgba(30,30,30,0.6); }
+.kickoff-deck .kd-pill::after { background: rgba(255,255,255,0.7); opacity: 0; }
+.kickoff-deck[data-theme="light"] .kd-pill { color: #1D1D1F; border-color: rgba(0,0,0,0.08); }
+.kickoff-deck[data-theme="light"] .kd-pill::before { opacity: 0; }
+.kickoff-deck[data-theme="light"] .kd-pill::after { opacity: 1; }
+.kickoff-deck .kd-pill.is-idle { opacity: 0.12; }
+.kickoff-deck .kd-pill button { font: inherit; color: inherit; border: 0; margin: 0; background: none; cursor: pointer;
+  min-height: 44px; border-radius: 999px; position: relative; -webkit-tap-highlight-color: transparent;
+  transition: transform 300ms var(--kd-ease), opacity 300ms var(--kd-ease); }
+.kickoff-deck .kd-pill button::after { content: ""; position: absolute; inset: 0; border-radius: inherit;
+  background: currentColor; opacity: 0; transition: opacity 250ms var(--kd-ease); pointer-events: none; }
+.kickoff-deck .kd-pill button:hover::after { opacity: 0.08; }
+.kickoff-deck .kd-pill button:active { transform: scale(0.97); }
+.kickoff-deck .kd-pill button:focus-visible { outline: 2px solid #2997FF; outline-offset: 2px; }
+.kickoff-deck .kd-pill button:disabled { opacity: 0.3; cursor: default; }
+.kickoff-deck .kd-pill button:disabled::after { opacity: 0; }
+.kickoff-deck .kd-ib { width: 44px; display: grid; place-items: center; }
+.kickoff-deck .kd-ib svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5;
+  stroke-linecap: round; stroke-linejoin: round; }
+.kickoff-deck .kd-fs .min { display: none; }
+.kickoff-deck.is-fs .kd-fs .max { display: none; }
+.kickoff-deck.is-fs .kd-fs .min { display: block; }
+.kickoff-deck .kd-dots { position: relative; display: flex; gap: 10px; padding: 0 10px; height: 44px; align-items: center; }
+.kickoff-deck .kd-dot { width: 6px; height: 6px; border-radius: 3px; background: currentColor; opacity: 0.28;
+  transition: opacity 400ms var(--kd-ease); }
+.kickoff-deck .kd-dot.done { opacity: 0.6; }
+.kickoff-deck .kd-cap { position: absolute; left: 0; top: 19px; width: 20px; height: 6px; border-radius: 3px;
+  background: currentColor; transition: transform 500ms var(--kd-ease); }
+.kickoff-deck .kd-prog { font-size: 15px; font-weight: 500; font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em; padding: 0 8px 0 2px; opacity: 0.8; white-space: nowrap; }
+.kickoff-deck .kd-next { width: 112px; padding: 0; overflow: hidden; font-size: 16px; font-weight: 600; margin-left: 2px; }
+.kickoff-deck .kd-skin { position: absolute; inset: 0; border-radius: inherit; display: grid; place-items: center;
+  transition: opacity 600ms var(--kd-ease); }
+.kickoff-deck .kd-skin.d { background: #FFFFFF; color: #1D1D1F; }
+.kickoff-deck .kd-skin.l { background: #1D1D1F; color: #FFFFFF; opacity: 0; }
+.kickoff-deck[data-theme="light"] .kd-skin.d { opacity: 0; }
+.kickoff-deck[data-theme="light"] .kd-skin.l { opacity: 1; }
+.kickoff-deck .kd-lbl { grid-area: 1 / 1; transition: opacity 300ms var(--kd-ease); }
+.kickoff-deck .kd-lbl.r { opacity: 0; }
+.kickoff-deck.is-end .kd-lbl.n { opacity: 0; }
+.kickoff-deck.is-end .kd-lbl.r { opacity: 1; }
+
+@media (max-width: 480px) {
+  .kickoff-deck .kd-dots, .kickoff-deck .kd-notes-btn { display: none !important; }
+  .kickoff-deck .kd-next { width: 96px; }
+}
+
+/* ---------- speaker notes drawer (N) ---------- */
+.kickoff-deck .kd-notes { position: absolute; top: 20px; left: 20px; width: min(700px, calc(100vw - 40px));
+  max-height: calc(100vh - 140px); overflow: auto; padding: 20px 22px; border-radius: 18px;
+  background: rgba(29,29,31,0.94); color: #F5F5F7; border: 1px solid rgba(255,255,255,0.12);
+  font: 400 15px/1.5 var(--kd-font); white-space: pre-wrap; opacity: 0; pointer-events: none;
+  transform: translateY(-8px); transition: opacity 300ms var(--kd-ease), transform 300ms var(--kd-ease); z-index: 30;
+  user-select: text; -webkit-user-select: text; }
+.kickoff-deck .kd-notes.is-open { opacity: 1; pointer-events: auto; transform: none; }
+.kickoff-deck .kd-notes b { display: block; font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: #86868B; margin-bottom: 8px; }
+
+/* ===================================================================== per-slide layouts */
+/* 2 who */
+.kickoff-deck .s2 .kd-body { grid-template-columns: 1fr 1fr 2fr; }
+.kickoff-deck .s2 .kd-card { display: flex; flex-direction: column; }
+.kickoff-deck .s2 .name { font-size: 48px; font-weight: 600; letter-spacing: -0.03em; margin: 14px 0 6px; }
+.kickoff-deck .s2 .built { margin-top: auto; }
+.kickoff-deck .s2 .wide { display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px; align-content: stretch; }
+.kickoff-deck .s2 .wide .built { grid-column: 2; grid-row: 1 / span 3; align-self: end; }
+/* 3 icebreaker */
+.kickoff-deck .s3 .kd-in { justify-content: space-between; }
+.kickoff-deck .s3 .q { font-size: 96px; font-weight: 700; letter-spacing: -0.035em; line-height: 1.04; margin-top: 30px; }
+.kickoff-deck .s3 .chips { display: grid; grid-template-columns: 1fr 1fr 1.6fr; gap: var(--kd-gap); }
+.kickoff-deck .s3 .kd-card { font-size: 30px; font-weight: 600; letter-spacing: -0.01em; padding: 36px 40px; }
+/* 5 guess */
+.kickoff-deck .s5 .kd-body { grid-template-columns: 2fr 1fr; grid-template-rows: 1fr auto; }
+.kickoff-deck .s5 .sent { grid-row: 1 / span 2; display: flex; align-items: center; padding: 56px; }
+.kickoff-deck .s5 .sent p { font-size: 60px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.12; text-wrap: balance; }
+.kickoff-deck .s5 .blank { display: inline-block; width: 230px; height: 8px; border-radius: 4px; background: var(--accent);
+  vertical-align: baseline; margin-left: 12px; transform-origin: 0 50%; }
+.kickoff-deck .s5 .shout { grid-column: 2; grid-row: 2; }
+/* 6 bars */
+.kickoff-deck .s6 .kd-body { grid-template-columns: 2.1fr 1fr; }
+.kickoff-deck .s6 .chart { display: flex; flex-direction: column; justify-content: center; gap: 18px; padding: 40px 48px; }
+.kickoff-deck .s6 .row { display: grid; grid-template-columns: 170px 1fr; align-items: center; gap: 24px; }
+.kickoff-deck .s6 .w { font-size: 24px; font-weight: 600; text-align: right; }
+.kickoff-deck .s6 .track { display: flex; align-items: center; gap: 14px; }
+.kickoff-deck .s6 .bar { height: 26px; border-radius: 13px; background: #C7C7CC; transform-origin: 0 50%; flex: none; }
+.kickoff-deck .s6 .row:first-child .bar { background: var(--accent); }
+.kickoff-deck .s6 .pct { font-size: 22px; font-weight: 600; color: var(--sec); font-variant-numeric: tabular-nums; }
+.kickoff-deck .s6 .foot { font-size: 18px; color: var(--sec); margin-top: 10px; }
+.kickoff-deck .s6 .pick { align-self: end; }
+/* 7 three steps */
+.kickoff-deck .s7 .kd-body { grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr auto; }
+.kickoff-deck .s7 .step .kd-h3 { margin: 18px 0 10px; }
+.kickoff-deck .s7 .step p:last-child { font-size: 22px; color: var(--sec); }
+.kickoff-deck .s7 .punch { grid-column: 1 / -1; font-size: 46px; letter-spacing: -0.025em; line-height: 1.1; color: var(--sec); padding: 36px 48px; }
+.kickoff-deck .s7 .punch strong { color: var(--text); font-weight: 700; }
+/* 9 demo */
+.kickoff-deck .s9 .kd-body { grid-template-columns: 2.1fr 1fr; }
+.kickoff-deck .s9 .term { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+.kickoff-deck .s9 .bar3 { display: flex; gap: 9px; padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.kickoff-deck .s9 .bar3 i { width: 12px; height: 12px; border-radius: 6px; background: #48484A; }
+.kickoff-deck .s9 .lines { padding: 36px 44px; font-family: var(--kd-mono); font-size: 25px; line-height: 1.75; }
+.kickoff-deck .s9 .lines .p { color: #2997FF; font-weight: 700; }
+.kickoff-deck .s9 .call p { font-size: 26px; font-weight: 600; }
+.kickoff-deck .s9 .call .kd-h3 { margin-bottom: 26px; }
+.kickoff-deck .s9 .call .say { color: var(--sec); font-weight: 500; margin-top: 6px; }
+/* 10 loop */
+.kickoff-deck .s10 .loop { flex: 1; display: grid; grid-template-columns: 1fr 150px 1fr; grid-template-rows: 1fr 96px 1fr;
+  max-width: 1160px; width: 100%; margin: 0 auto; }
+.kickoff-deck .s10 .node { display: flex; align-items: center; font-size: 40px; font-weight: 600; letter-spacing: -0.025em; padding: 0 44px; }
+.kickoff-deck .s10 .node.first { background: #1D1D1F; color: #F5F5F7; border-color: transparent; }
+.kickoff-deck .s10 .arr { display: grid; place-items: center; color: var(--sec); }
+.kickoff-deck .s10 .arr svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+/* 12 activity */
+.kickoff-deck .s12 .kd-body { grid-template-columns: 2.4fr 1fr; grid-template-rows: 1fr auto; }
+.kickoff-deck .s12 .qs { display: flex; flex-direction: column; gap: 16px; }
+.kickoff-deck .s12 .qs .kd-card { flex: 1; display: flex; align-items: center; gap: 22px; font-size: 26px; font-weight: 600; padding: 0 36px; letter-spacing: -0.01em; }
+.kickoff-deck .s12 .qn { color: var(--accent); font-weight: 700; }
+.kickoff-deck .s12 .score { font-size: 26px; }
+.kickoff-deck .s12 .score .kd-h3 { font-size: 30px; margin-bottom: 26px; }
+.kickoff-deck .s12 .score p { margin-bottom: 14px; font-weight: 500; }
+.kickoff-deck .s12 .check { grid-column: 1 / -1; font-size: 26px; padding: 28px 40px; }
+.kickoff-deck .s12 .check strong { font-weight: 600; }
+.kickoff-deck .ok { color: var(--green); font-weight: 700; }
+.kickoff-deck .no { color: var(--red); font-weight: 700; }
+.kickoff-deck .maybe { color: var(--amber); font-weight: 700; }
+/* 13 why */
+.kickoff-deck .s13 .kd-body { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr auto; column-gap: 56px; }
+.kickoff-deck .s13 .bubble { position: relative; display: flex; align-items: center; font-size: 30px; line-height: 1.35; letter-spacing: -0.01em; padding: 44px; }
+.kickoff-deck .s13 .stampw { position: absolute; right: 40px; bottom: 34px; }
+.kickoff-deck .s13 .stamp { transform: rotate(-6deg); border: 3px solid var(--red); color: var(--red); background: var(--card);
+  border-radius: 12px; padding: 8px 20px; font-size: 30px; font-weight: 700; letter-spacing: 0.08em; }
+.kickoff-deck .s13 .reasons { display: flex; flex-direction: column; justify-content: center; gap: 30px; }
+.kickoff-deck .s13 .reasons p { font-size: 24px; line-height: 1.35; color: var(--sec); }
+.kickoff-deck .s13 .reasons strong { display: block; color: var(--text); font-size: 28px; font-weight: 600; letter-spacing: -0.015em; }
+.kickoff-deck .s13 .you { grid-column: 1 / -1; font-size: 40px; font-weight: 600; letter-spacing: -0.025em; padding: 30px 44px; }
+/* 14 habits */
+.kickoff-deck .s14 .kd-body { grid-template-columns: repeat(12, 1fr); grid-template-rows: 1fr 1fr; }
+.kickoff-deck .s14 .h1, .kickoff-deck .s14 .h4 { grid-column: span 7; }
+.kickoff-deck .s14 .h2, .kickoff-deck .s14 .h3 { grid-column: span 5; }
+.kickoff-deck .s14 .kd-card { display: flex; flex-direction: column; justify-content: flex-end; }
+.kickoff-deck .s14 .n { font-size: 22px; font-weight: 600; color: var(--sec); margin-bottom: auto; font-variant-numeric: tabular-nums; }
+.kickoff-deck .s14 .kd-h3 { font-size: 36px; margin-bottom: 10px; }
+.kickoff-deck .s14 .d { font-size: 22px; color: var(--sec); max-width: 560px; }
+/* 15 safety */
+.kickoff-deck .s15 .kd-body { grid-template-columns: 1fr 1fr 1.15fr; grid-template-rows: repeat(3, 1fr); }
+.kickoff-deck .s15 .chip { display: flex; align-items: center; gap: 16px; font-size: 27px; font-weight: 600; padding: 0 32px; letter-spacing: -0.01em; }
+.kickoff-deck .s15 .always { grid-column: 3; grid-row: 1 / span 3; display: flex; align-items: flex-end; font-size: 38px;
+  font-weight: 600; letter-spacing: -0.025em; line-height: 1.15; padding: 44px; }
+.kickoff-deck .s15 .always .y { color: #FFD60A; }
+/* 17 five steps */
+.kickoff-deck .s17 .tl { position: relative; flex: none; margin: auto 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 28px; padding-top: 30px; }
+.kickoff-deck .s17 .track { position: absolute; left: 36px; right: calc((100% - 112px) / 5 - 36px); top: 65px; height: 2px;
+  background: rgba(0,0,0,0.12); transform-origin: 0 50%; }
+.kickoff-deck .s17 .dot { position: relative; width: 72px; height: 72px; border-radius: 36px; background: #1D1D1F; color: #F5F5F7;
+  display: grid; place-items: center; font-size: 30px; font-weight: 600; margin-bottom: 30px; }
+.kickoff-deck .s17 .lab .kd-h3 { font-size: 30px; margin-bottom: 10px; }
+.kickoff-deck .s17 .lab p:last-child { font-size: 22px; color: var(--sec); line-height: 1.4; }
+/* 18 tutor */
+.kickoff-deck .s18 .kd-body { grid-template-columns: 1.9fr 1fr; }
+.kickoff-deck .s18 .prompt { font-family: var(--kd-mono); font-size: 25px; line-height: 1.6; white-space: pre-line; padding: 44px 48px; }
+.kickoff-deck .s18 .first .kd-h3 { font-size: 30px; margin-bottom: 22px; }
+.kickoff-deck .s18 .first p:last-child { font-size: 26px; line-height: 1.4; }
+/* 19 url */
+.kickoff-deck .s19 .kd-in { justify-content: center; }
+.kickoff-deck .s19 .url { font-family: var(--kd-mono); font-size: 50px; font-weight: 700; letter-spacing: -0.02em; padding: 44px 48px; margin: 6px 0 52px; white-space: nowrap; }
+.kickoff-deck .s19 .url .u { color: var(--accent); }
+.kickoff-deck .s19 .tips p { font-size: 32px; line-height: 1.3; letter-spacing: -0.01em; padding: 18px 0; border-top: 1px solid var(--line); }
+.kickoff-deck .s19 .tips p:first-child { border-top: 0; }
+/* 20 shipped */
+.kickoff-deck .s20 .kd-body { grid-template-columns: 1.35fr 1fr; grid-template-rows: 1fr 1fr; }
+.kickoff-deck .s20 .r1 { grid-row: 1 / span 2; display: flex; flex-direction: column; padding: 48px; }
+.kickoff-deck .s20 .r1 .kd-num { margin-bottom: auto; }
+.kickoff-deck .s20 .r1 .t { font-size: 48px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.08; margin-bottom: 18px; text-wrap: balance; }
+.kickoff-deck .s20 .r1 .when { font-size: 28px; }
+.kickoff-deck .s20 .rs { display: flex; flex-direction: column; justify-content: space-between; }
+.kickoff-deck .s20 .rs .n { font-size: 22px; font-weight: 600; color: var(--sec); }
+.kickoff-deck .s20 .rs .t { font-size: 30px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; }
+.kickoff-deck .s20 .rs .when { font-size: 22px; color: var(--amber); font-weight: 600; margin-top: 8px; }
+.kickoff-deck .s20 .r1 .when { color: var(--green); font-weight: 600; }
+/* 21 roadmap */
+.kickoff-deck .s21 .road { position: relative; flex: none; margin: auto 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; padding-top: 56px; }
+.kickoff-deck .s21 .track { position: absolute; left: 40px; right: calc((100% - 100px) / 6 - 40px); top: 96px; height: 2px; background: rgba(0,0,0,0.14); transform-origin: 0 50%; }
+.kickoff-deck .s21 .wk .c { position: relative; width: 80px; height: 80px; border-radius: 40px; background: var(--card); border: 1px solid rgba(0,0,0,0.14);
+  display: grid; place-items: center; font-size: 32px; font-weight: 600; margin-bottom: 30px; }
+.kickoff-deck .s21 .wk.now .c { background: #1D1D1F; color: #F5F5F7; border-color: transparent; }
+.kickoff-deck .s21 .wk.last .c { background: var(--accent); color: #fff; border-color: transparent; }
+.kickoff-deck .s21 .wk .t { font-size: 26px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 8px; }
+.kickoff-deck .s21 .wk .cp { font-size: 19px; color: var(--sec); }
+/* 22 closing */
+.kickoff-deck .s22 .kd-in { justify-content: center; }
+.kickoff-deck .s22 .t { font-size: 96px; font-weight: 700; letter-spacing: -0.035em; line-height: 1.05; margin-bottom: 56px; }
+.kickoff-deck .s22 .hw { display: grid; grid-template-columns: 56px 1fr; margin-bottom: 30px; }
+.kickoff-deck .s22 .hw .n { font-size: 34px; font-weight: 600; color: var(--sec); }
+.kickoff-deck .s22 .hw p { font-size: 36px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
+.kickoff-deck .s22 .hw p .sec { display: block; font-size: 24px; font-weight: 400; letter-spacing: 0; margin-top: 4px; }
+.kickoff-deck .s22 .bye { font-size: 24px; font-weight: 600; color: var(--sec); margin-top: 34px; }
+</style>
+</head>
+<body>
+<div class="kickoff-deck" data-theme="dark">
+  <div class="kd-bg d"></div><div class="kd-bg l"></div>
+  <div class="kd-stage" aria-roledescription="slide deck" aria-label="Session 1 · Kickoff">
+  <div class="kd-canvas">
+
+<!-- 1 ─ Title ──────────────────────────────────────────── dark · 1 build -->
+<section class="kd-slide s-hero s1" data-theme="dark" aria-label="Slide 1">
+  <div class="kd-in">
+    <p class="kd-kick" data-g="0" data-a="head" data-d="0">SESSION 1 OF 6 &nbsp;·&nbsp; KICKOFF</p>
+    <h1 class="kd-hero">
+      <span data-g="0" data-a="head" data-d="150">Build it.</span>
+      <span data-g="0" data-a="head" data-d="320"><span class="kd-grad">Ship it.</span></span>
+      <span data-g="0" data-a="head" data-d="490">Question it.</span>
+    </h1>
+    <p class="kd-hero-sub" data-g="0" data-a="head" data-d="820">A free AI builder workshop for teens<span class="sec">Burch Library &nbsp;·&nbsp; Collierville, TN</span></p>
+  </div>
+  <aside class="kd-note">Welcome everyone in while people sit down. Let the title animate on its own.
+"Welcome to Build it, Ship it, Question it. In six weeks every single one of you is
+going to have a real website, live on the internet, that you built with AI —
+and you'll know exactly where the AI messed up along the way."</aside>
+</section>
+
+<!-- 2 ─ Who we are ─────────────────────────────────────── light · 2 builds -->
+<section class="kd-slide s2" data-theme="light" aria-label="Slide 2">
+  <div class="kd-in">
+    <header class="kd-hd" data-g="0" data-a="head"><p class="kd-kick">Who's running this</p><h2 class="kd-title">We're students too.</h2></header>
+    <div class="kd-body">
+      <div class="kd-card" data-g="1" data-a="card"><p class="kd-label">LEADER</p><p class="name">[Name]</p><p class="sec">[Grade · school]</p><div class="built"><p class="sec">Something I built:</p><p>[one line]</p></div></div>
+      <div class="kd-card" data-g="1" data-a="card"><p class="kd-label">LEADER</p><p class="name">[Name]</p><p class="sec">[Grade · school]</p><div class="built"><p class="sec">Something I built:</p><p>[one line]</p></div></div>
+      <div class="kd-card wide" data-g="1" data-a="card"><div><p class="kd-label">ADULT SPONSOR</p><p class="name">[Name]</p><p class="sec">[Grade · school]</p></div><div class="built"><p class="sec">Something I built:</p><p>[one line]</p></div></div>
+    </div>
+  </div>
+  <aside class="kd-note">Each of you: name, grade, and ONE thing you've built (with or without AI).
+Adult sponsor introduces themselves and explains why they're here:
+"Some of the tools we'll show, like Claude, are 18+. I'm the adult who runs those
+demos and I'm here every week."
+Fill in the [brackets] before the session.</aside>
+</section>
+
+<!-- 3 ─ Icebreaker ─────────────────────────────────────── dark · 2 builds -->
+<section class="kd-slide s3" data-theme="dark" aria-label="Slide 3">
+  <div class="kd-in">
+    <h2 class="q" data-g="0" data-a="head">If you could build<br><span class="kd-grad">ANY</span> website…<br>what would it be?</h2>
+    <div class="chips">
+      <div class="kd-card" data-g="1" data-a="card">Your name</div>
+      <div class="kd-card" data-g="1" data-a="card">Grade + school</div>
+      <div class="kd-card" data-g="1" data-a="card">Dream site in 5 words</div>
+    </div>
+  </div>
+  <aside class="kd-note">Go around the room, fast — 20 seconds each. Write a few of the dream sites on a
+whiteboard or sticky notes; we'll come back to them in Session 2 when people pick projects.</aside>
+</section>
+
+<!-- 4 ─ Section 01 ─────────────────────────────────────── dark · 1 build -->
+<section class="kd-slide s-sec s4" data-theme="dark" aria-label="Slide 4">
+  <div class="kd-in">
+    <p class="kd-secnum kd-silver" data-g="0" data-a="head" data-d="0">01</p>
+    <h2 class="kd-sectitle" data-g="0" data-a="head" data-d="140">What is AI, really?</h2>
+    <p class="kd-secsub" data-g="0" data-a="head" data-d="300">Spoiler: it's a very, very good guesser.</p>
+  </div>
+  <aside class="kd-note">Transition: before we use AI, let's figure out what it actually is.</aside>
+</section>
+
+<!-- 5 ─ Guess the next word ────────────────────────────── light · 2 builds -->
+<section class="kd-slide s5" data-theme="light" aria-label="Slide 5">
+  <div class="kd-in">
+    <header class="kd-hd" data-g="0" data-a="head"><p class="kd-kick">Game</p><h2 class="kd-title">Guess the next word.</h2></header>
+    <div class="kd-body">
+      <div class="kd-card sent" data-g="0" data-a="card"><p>After school I grabbed a snack and turned on the<span class="blank" data-g="0" data-a="bar" data-d="520" style="display:inline-block"></span></p></div>
+      <div class="kd-card shout" data-g="1" data-a="card"><p class="kd-big">Shout it out!</p></div>
+    </div>
+  </div>
+  <aside class="kd-note">Read the sentence out loud and pause. Let people shout guesses. Collect 4–5 answers.
+Most people will say TV, Xbox/PlayStation, music… Nobody says "oven". Why? Because
+you've seen thousands of sentences like this. Your brain predicted the next word.</aside>
+</section>
+
+<!-- 6 ─ Probability bars ───────────────────────────────── light · 3 builds -->
+<section class="kd-slide s6" data-theme="light" aria-label="Slide 6">
+  <div class="kd-in">
+    <header class="kd-hd" data-g="0" data-a="head"><p class="kd-kick">That's literally what a chatbot does</p><h2 class="kd-title">It ranks every possible next word.</h2></header>
+    <div class="kd-body">
+      <div class="kd-card chart" data-g="0" data-a="card">
+        <div class="row"><p class="w">TV</p><div class="track"><span class="bar" data-g="1" data-a="bar" style="width:480px"></span><span class="pct" data-g="1" data-a="fade">41%</span></div></div>
+        <div class="row"><p class="w">Xbox</p><div class="track"><span class="bar" data-g="1" data-a="bar" style="width:258px"></span><span class="pct" data-g="1" data-a="fade">22%</span></div></div>
+        <div class="row"><p class="w">music</p><div class="track"><span class="bar" data-g="1" data-a="bar" style="width:176px"></span><span class="pct" data-g="1" data-a="fade">15%</span></div></div>
+        <div class="row"><p class="w">lights</p><div class="track"><span class="bar" data-g="1" data-a="bar" style="width:140px"></span><span class="pct" data-g="1" data-a="fade">12%</span></div></div>
+        <div class="row"><p class="w">PlayStation</p><div class="track"><span class="bar" data-g="1" data-a="bar" style="width:82px"></span><span class="pct" data-g="1" data-a="fade">7%</span></div></div>
+        <div class="row"><p class="w">oven</p><div class="track"><span class="bar" data-g="1" data-a="bar" style="width:13px"></span><span class="pct" data-g="1" data-a="fade">1%</span></div></div>
+        <p class="foot">Numbers are made up to show the idea.</p>
+      </div>
+      <div class="kd-card pick" data-g="2" data-a="card"><p class="kd-h3">Then it picks one,<br>adds it, and<br>guesses again.</p></div>
+    </div>
+  </div>
+  <aside class="kd-note">Click once: bars grow. "A chatbot gives every possible next word a score like this.
+It picks one (usually a likely one, sometimes a surprising one), adds it to the
+sentence, and does the whole thing again. Word by word. That's how it writes an essay,
+a poem, or code."
+Click again for the takeaway box.</aside>
+</section>
+
+<!-- 7 ─ Three steps ────────────────────────────────────── dark · 5 builds -->
+<section class="kd-slide s7" data-theme="dark" aria-label="Slide 7">
+  <div class="kd-in">
+    <header class="kd-hd" data-g="0" data-a="head"><p class="kd-kick">How a chatbot is made</p><h2 class="kd-title">Three steps. No magic.</h2></header>
+    <div class="kd-body">
+      <div class="kd-card step" data-g="1" data-a="card"><p class="kd-num">1</p><p class="kd-h3">Read</p><p>a gigantic amount of text: websites, books, code.</p></div>
+      <div class="kd-card step" data-g="2" data-a="card"><p class="kd-num">2</p><p class="kd-h3">Learn patterns</p><p>which words tend to follow which, in what situations.</p></div>
+      <div class="kd-card step" data-g="3" data-a="card"><p class="kd-num">3</p><p class="kd-h3">Predict</p><p>the next word, one at a time, over and over.</p></div>
+      <div class="kd-card punch" data-g="4" data-a="card">It predicts what <strong>sounds</strong> right — not what <strong>is</strong> right.</div>
+    </div>
+  </div>
+  <aside class="kd-note">One click per step. Keep it short.
+Last click is the most important sentence of today: "It predicts what SOUNDS right,
+not what IS right." Ask them to remember it — we're going to prove it in 20 minutes.</aside>
+</section>
+
+<!-- 8 ─ Section 02 ─────────────────────────────────────── dark · 1 build -->
+<section class="kd-slide s-sec s8" data-theme="dark" aria-label="Slide 8">
+  <div class="kd-in">
+    <p class="kd-secnum kd-silver" data-g="0" data-a="head" data-d="0">02</p>
+    <h2 class="kd-sectitle" data-g="0" data-a="head" data-d="140">Watch an AI build.</h2>
+    <p class="kd-secsub" data-g="0" data-a="head" data-d="300">One sentence in. A real website out.</p>
+  </div>
+  <aside class="kd-note">Hand off to the adult sponsor for the live demo.</aside>
+</section>
+
+<!-- 9 ─ Demo prompt ────────────────────────────────────── light · 2 builds -->
+<section class="kd-slide s9" data-theme="light" aria-label="Slide 9">
+  <div class="kd-in">
+    <header class="kd-hd" data-g="0" data-a="head"><p class="kd-kick">Live demo · Claude Code</p><h2 class="kd-title">What we're asking it to do</h2></header>
+    <div class="kd-body">
+      <div class="kd-card ink term" data-g="0" data-a="card" data-d="80">
+        <div class="bar3"><i></i><i></i><i></i></div>
+        <div class="lines">
+          <span class="p" data-g="0" data-a="head" data-d="260">&gt; claude</span>
+          <span data-g="0" data-a="head" data-d="420">Build a one-page website for our teen AI</span>
+          <span data-g="0" data-a="head" data-d="580">workshop. Include a countdown to demo day,</span>
+          <span data-g="0" data-a="head" data-d="740">the list of 6 sessions, and a button that</span>
+          <span data-g="0" data-a="head" data-d="900">shows a random fun fact about AI.</span>
+          <span data-g="0" data-a="head" data-d="1060">Then publish it on GitHub Pages.</span>
+        </div>
+      </div>
+      <div class="kd-card call" data-g="1" data-a="card"><p class="kd-h3">Your job:</p><p>Call out changes!</p><p class="say">“Dark mode.”</p><p class="say">“Add confetti.”</p><p class="say">“Make it purple.”</p></div>
+    </div>
+  </div>
+  <aside class="kd-note">ADULT SPONSOR runs this live from their own Claude account on the projector.
+(Claude is 18+, so the teens don't log in to Claude themselves. Say this out loud.)
+1. Type the prompt shown. Narrate what Claude is doing: planning, creating files, running.
+2. Open the result. Take 2–3 change requests from the room and make them.
+3. Push / publish so the room sees a real URL.
+Keep it to ~12 minutes. If Wi-Fi fails: play the backup recording.</aside>
+</section>
+
+<!-- 10 ─ Agent loop ────────────────────────────────────── light · 5 builds -->
+<section class="kd-slide s10" data-theme="light" aria-label="Slide 10">
+  <div class="kd-in">
+    <header class="kd-hd" data-g="0" data-a="head"><p class="kd-kick">What just happened?</p><h2 class="kd-title">An AI agent works in a loop.</h2></header>
+    <div class="loop">
+      <div class="kd-card node first" data-g="1" data-a="card">Plan</div>
+      <div class="arr" data-g="2" data-a="fade"><svg width="110" height="24" viewBox="0 0 110 24"><path d="M4 12h100M94 4l10 8-10 8"/></svg></div>
+      <div class="kd-card node" data-g="2" data-a="card">Write code</div>
+      <div class="arr" data-g="4" data-a="fade"><svg width="24" height="70" viewBox="0 0 24 70"><path d="M12 66V4M4 14l8-10 8 10"/></svg></div>
+      <div></div>
+      <div class="arr" data-g="3" data-a="fade"><svg width="24" height="70" viewBox="0 0 24 70"><path d="M12 4v62M4 56l8 10 8-10"/></svg></div>
+      <div class="kd-card node" data-g="4" data-a="card">Spot a problem &amp; fix</div>
+      <div class="arr" data-g="4" data-a="fade"><svg width="110" height="24" viewBox="0 0 110 24"><path d="M106 12H6M16 4L6 12l10 8"/></svg></div>
+      <div class="kd-card node" data-g="3" data-a="card">Run it</div>
+    </div>
+  </div>
+  <aside class="kd-note">"A chatbot answers once. An agent like Claude Code keeps going: plans, writes code,
+runs it, sees what broke, fixes it, repeats. That's why it could build a whole site."
+"You'll use the same loop — except YOU are the one checking each step."</aside>
+</section>
+
+<!-- 11 ─ Section 03 ────────────────────────────────────── dark · 1 build -->
+<section class="kd-slide s-sec s11" data-theme="dark" aria-label="Slide 11">
+  <div class="kd-in">
+    <p class="kd-secnum plain" data-g="0" data-a="head" data-d="0">03</p>
+    <h2 class="kd-sectitle" data-g="0" data-a="head" data-d="140">AI Checkpoint</h2>
+    <p class="kd-secsub" data-g="0" data-a="head" data-d="300"><span class="kd-grad">Confident ≠ Correct.</span></p>
+  </div>
+  <aside class="kd-note">Every session has an AI Checkpoint. Today: catching the AI being confidently wrong.</aside>
+</section>
+
+<!-- 12 ─ Activity ──────────────────────────────────────── light · 4 builds -->
+<section class="kd-slide s12" data-theme="light" aria-label="Slide 12">
+  <div class="kd-in">
+    <header class="kd-hd" data-g="0" data-a="head"><p class="kd-kick">With your partner · 8 minutes</p><h2 class="kd-title">Ask your AI these. Then check.</h2></header>
+    <div class="kd-body">
+      <div class="qs">
+        <div class="kd-card" data-g="1" data-a="card"><span class="qn">Q1</span><span>What time does the Burch Library close on Saturdays?</span></div>
+        <div class="kd-card" data-g="1" data-a="card"><span class="qn">Q2</span><span>Who is the mayor of Collierville right now?</span></div>
+        <div class="kd-card" data-g="1" data-a="card"><span class="qn">Q3</span><span>What's the newest restaurant on the Town Square?</span></div>
+      </div>
+      <div class="kd-card score" data-g="2" data-a="card"><p class="kd-h3">Score each:</p><p><span class="ok">✓</span> right</p><p><span class="no">✗</span> wrong</p><p><span class="maybe">?</span> made up / can't tell</p></div>
+      <div class="kd-card check" data-g="3" data-a="card"><strong>Check against:</strong> the official website · a map app · a librarian</div>
+    </div>
+  </div>
+  <aside class="kd-note">Pairs use ChatGPT (or whatever AI they're allowed to use). Timer: 8 minutes.
+LEADERS: look up the real answers the day before from official sources, and
+swap in fresher questions if these become too easy.
+Debrief: hands up — who got at least one ✗ or ? ... Ask a pair to read out the most
+confident wrong answer. Did the AI sound unsure? (Usually no.)</aside>
+</section>
+
+<!-- 13 ─ Why ───────────────────────────────────────────── light · 4 builds -->
+<section class="kd-slide s13" data-theme="light" aria-label="Slide 13">
+  <div class="kd-in">
+    <header class="kd-hd" data-g="0" data-a="head"><p class="kd-kick">Why does that happen?</p><h2 class="kd-title">Fluent is not the same as true.</h2></header>
+    <div class="kd-body">
+      <div class="kd-card bubble" data-g="0" data-a="card"><p>“Great question! The Burch Library is open until 9 PM on Saturdays, so you have plenty of time to visit.”</p>
+        <div class="stampw" data-g="1" data-a="card"><div class="stamp">UNVERIFIED</div></div></div>
+      <div class="reasons">
+        <p data-g="2" data-a="head"><strong>It's guessing words,</strong>not looking things up (unless it searches).</p>
+        <p data-g="2" data-a="head"><strong>Its knowledge has a cutoff,</strong>so local + recent facts are weak.</p>
+        <p data-g="2" data-a="head"><strong>It's trained to sound helpful,</strong>so it rarely says “I don't know.”</p>
+      </div>
+      <div class="kd-card ink kd-inv you" data-g="3" data-a="card">So <span class="kd-grad">you</span> are the fact-checker. Always.</div>
+    </div>
+  </div>
+  <aside class="kd-note">The bubble is an example of a confident answer (we made it up for the slide — it's
+the kind of thing AIs say). Click: stamp.
+Then the three reasons. Connect back to slide 7: it predicts what SOUNDS right.
+This is also why AI-written code can look perfect and still be broken.</aside>
+</section>
+
+<!-- 14 ─ Four habits ───────────────────────────────────── dark · 5 builds -->
+<section class="kd-slide s14" data-theme="dark" aria-label="Slide 14">
+  <div class="kd-in">
+    <header class="kd-hd" data-g="0" data-a="head"><p class="kd-kick">How we use AI here</p><h2 class="kd-title"><span class="kd-silver">The 4 habits.</span></h2></header>
+    <div class="kd-body">
+      <div class="kd-card h1" data-g="1" data-a="card"><p class="n">1</p><p class="kd-h3">Explain-back</p><p class="d">No AI code goes in your project until you can explain it out loud.</p></div>
+      <div class="kd-card h2" data-g="2" data-a="card"><p class="n">2</p><p class="kd-h3">Tutor mode</p><p class="d">Ask for hints and a plan first. Full code second.</p></div>
+      <div class="kd-card h3" data-g="3" data-a="card"><p class="n">3</p><p class="kd-h3">Pair up</p><p class="d">The beginner types. The partner navigates. Leaders never grab your keyboard.</p></div>
+      <div class="kd-card h4" data-g="4" data-a="card"><p class="n">4</p><p class="kd-h3">Prompt journal</p><p class="d">Write down what you asked, what came back, what broke.</p></div>
+    </div>
+  </div>
+  <aside class="kd-note">One click per habit. These are the rules every week, not just today.
+Why? Research on beginners using AI to code: the ones who let AI do everything end up
+unable to fix or change their own project. The ones who use it like a tutor get better.
+Hand out the printed habits card.</aside>
+</section>
+
+<!-- 15 ─ Safety ────────────────────────────────────────── light · 3 builds -->
+<section class="kd-slide s15" data-theme="light" aria-label="Slide 15">
+  <div class="kd-in">
+    <header class="kd-hd" data-g="0" data-a="head"><p class="kd-kick red">Non-negotiable · not in prompts, not on your site</p><h2 class="kd-title">Never share these online.</h2></header>
+    <div class="kd-body">
+      <div class="kd-card chip" data-g="1" data-a="card"><span class="no">✗</span><span>Your full name</span></div>
+      <div class="kd-card chip" data-g="1" data-a="card"><span class="no">✗</span><span>Your school</span></div>
+      <div class="kd-card chip" data-g="1" data-a="card"><span class="no">✗</span><span>Your address</span></div>
+      <div class="kd-card chip" data-g="1" data-a="card"><span class="no">✗</span><span>Phone numbers</span></div>
+      <div class="kd-card chip" data-g="1" data-a="card"><span class="no">✗</span><span>Photos of people</span></div>
+      <div class="kd-card chip" data-g="1" data-a="card"><span class="no">✗</span><span>Passwords or keys</span></div>
+      <div class="kd-card ink always" data-g="2" data-a="card"><p><span class="y">And always:</span> an adult checks your site before you share the link.</p></div>
+    </div>
+  </div>
+  <aside class="kd-note">Use a nickname or first name only on your site. No sign-up forms, no collecting
+other people's info. If you're not sure, ask a leader.</aside>
+</section>
+
+<!-- 16 ─ Section 04 ────────────────────────────────────── dark · 1 build -->
+<section class="kd-slide s-sec s16" data-theme="dark" aria-label="Slide 16">
+  <div class="kd-in">
+    <p class="kd-secnum kd-silver" data-g="0" data-a="head" data-d="0">04</p>
+    <h2 class="kd-sectitle" data-g="0" data-a="head" data-d="140">Your turn: ship a page.</h2>
+    <p class="kd-secsub" data-g="0" data-a="head" data-d="300">Goal: a live URL in 40 minutes.</p>
+  </div>
+  <aside class="kd-note">Energy up. Everyone opens their laptop now.</aside>
+</section>
+
+<!-- 17 ─ Five steps ────────────────────────────────────── light · 6 builds -->
+<section class="kd-slide s17" data-theme="light" aria-label="Slide 17">
+  <div class="kd-in">
+    <header class="kd-hd" data-g="0" data-a="head"><p class="kd-kick">5 steps to live</p><h2 class="kd-title">From nothing to on-the-internet.</h2></header>
+    <div class="tl">
+      <span class="track" data-g="0" data-a="bar" data-d="200"></span>
+      <div><div class="dot" data-g="1" data-a="card">1</div><div class="lab" data-g="1" data-a="head"><p class="kd-h3">Log in</p><p>github.com</p></div></div>
+      <div><div class="dot" data-g="2" data-a="card">2</div><div class="lab" data-g="2" data-a="head"><p class="kd-h3">New repo</p><p>name it my-first-site · Public</p></div></div>
+      <div><div class="dot" data-g="3" data-a="card">3</div><div class="lab" data-g="3" data-a="head"><p class="kd-h3">Ask your AI</p><p>for index.html (use tutor mode →)</p></div></div>
+      <div><div class="dot" data-g="4" data-a="card">4</div><div class="lab" data-g="4" data-a="head"><p class="kd-h3">Add file</p><p>Add file → Create new file → index.html → Commit</p></div></div>
+      <div><div class="dot" data-g="5" data-a="card">5</div><div class="lab" data-g="5" data-a="head"><p class="kd-h3">Turn on Pages</p><p>Settings → Pages → Deploy from branch: main</p></div></div>
+    </div>
+  </div>
+  <aside class="kd-note">Walk through all five together, one click at a time, with the room following along.
+Both leaders circulate. Remember: hands off the keyboard — point, don't type.
+No GitHub account / no permission form? They pair with someone and watch today.</aside>
+</section>
+
+<!-- 18 ─ Tutor mode ────────────────────────────────────── light · 2 builds -->
+<section class="kd-slide s18" data-theme="light" aria-label="Slide 18">
+  <div class="kd-in">
+    <header class="kd-hd" data-g="0" data-a="head"><p class="kd-kick">Copy this into your AI first</p><h2 class="kd-title">Tutor mode.</h2></header>
+    <div class="kd-body">
+      <div class="kd-card ink prompt" data-g="0" data-a="card" data-d="80">I'm a beginner learning to code.
+Help me build a single index.html file.
+
+Before giving code, explain your plan
+in 3 short bullet points.
+Keep the code short, with a comment
+above each part explaining it.
+After the code, ask me one question
+to check I understand it.</div>
+      <div class="kd-card first" data-g="1" data-a="card"><p class="kd-h3">Your first ask:</p><p>“Make a page that says Hi, I'm [first name], uses my favorite color, and has one button that does something fun.”</p></div>
+    </div>
+  </div>
+  <aside class="kd-note">Put the tutor-mode text somewhere they can copy it (printed handout, or a shared link).
+Before they paste the code into GitHub: explain-back to their partner. What does the
+button do? Which part makes it that color?</aside>
+</section>
+
+<!-- 19 ─ Your URL ──────────────────────────────────────── dark · 2 builds -->
+<section class="kd-slide s19" data-theme="dark" aria-label="Slide 19">
+  <div class="kd-in">
+    <p class="kd-kick" data-g="0" data-a="head">YOUR SITE LIVES HERE</p>
+    <p class="kd-card url" data-g="0" data-a="card" data-d="120"><span class="sec">https://</span><span class="kd-grad">YOUR-USERNAME</span>.github.io/<span class="u">my-first-site</span></p>
+    <div class="tips">
+      <p data-g="1" data-a="head">Takes 1–2 minutes. Refresh.</p>
+      <p data-g="1" data-a="head">Open it on your phone. Text it to someone.</p>
+      <p data-g="1" data-a="head">Stuck? Backup: drag your folder onto app.netlify.com/drop</p>
+    </div>
+  </div>
+  <aside class="kd-note">As people get live: have them type their URL into a shared doc / form so it can go
+on the "wall of URLs" next.</aside>
+</section>
+
+<!-- 20 ─ Shipped ───────────────────────────────────────── light · 4 builds -->
+<section class="kd-slide s20" data-theme="light" aria-label="Slide 20">
+  <div class="kd-in">
+    <header class="kd-hd" data-g="0" data-a="head"><p class="kd-kick green">Wall of URLs &nbsp;→&nbsp; then:</p><h2 class="kd-title">What “shipped” means here.</h2></header>
+    <div class="kd-body">
+      <div class="kd-card r1" data-g="1" data-a="card"><p class="kd-num sec">1</p><p class="t">A public URL that loads on a phone</p><p class="when">✓ done today</p></div>
+      <div class="kd-card rs" data-g="2" data-a="card"><p class="n">2</p><div><p class="t">At least one interactive thing that works</p><p class="when">weeks 2–4</p></div></div>
+      <div class="kd-card rs" data-g="3" data-a="card"><p class="n">3</p><div><p class="t">A README: what the AI did, what you did</p><p class="when">week 5</p></div></div>
+    </div>
+  </div>
+  <aside class="kd-note">First: show the shared list of everyone's URLs on the projector and click a few. Cheer.
+Then the three criteria. Today you hit #1. By demo day you'll hit all three.</aside>
+</section>
+
+<!-- 21 ─ Roadmap ───────────────────────────────────────── light · 1 build -->
+<section class="kd-slide s21" data-theme="light" aria-label="Slide 21">
+  <div class="kd-in">
+    <header class="kd-hd" data-g="0" data-a="head" data-d="0"><p class="kd-kick">The next 6 weeks</p><h2 class="kd-title">Where this is going.</h2></header>
+    <div class="road">
+      <span class="track" data-g="0" data-a="bar" data-d="160"></span>
+      <div class="wk now" data-g="0" data-a="card" data-d="260"><div class="c">1</div><p class="t">Kickoff</p><p class="cp">checkpoint: live URL</p></div>
+      <div class="wk" data-g="0" data-a="card" data-d="380"><div class="c">2</div><p class="t">Idea + scope</p><p class="cp">checkpoint: privacy</p></div>
+      <div class="wk" data-g="0" data-a="card" data-d="500"><div class="c">3</div><p class="t">Build</p><p class="cp">checkpoint: bug bounty</p></div>
+      <div class="wk" data-g="0" data-a="card" data-d="620"><div class="c">4</div><p class="t">Build + debug</p><p class="cp">checkpoint: bias</p></div>
+      <div class="wk" data-g="0" data-a="card" data-d="740"><div class="c">5</div><p class="t">Polish + test</p><p class="cp">checkpoint: who owns it?</p></div>
+      <div class="wk last" data-g="0" data-a="card" data-d="860"><div class="c">6</div><p class="t"><span class="kd-grad">DEMO DAY</span></p><p class="cp">checkpoint: show the world</p></div>
+    </div>
+  </div>
+  <aside class="kd-note">Point at Demo Day: parents, library staff, and guests will see what you built.
+Each week also has an AI Checkpoint like today's.</aside>
+</section>
+
+<!-- 22 ─ Closing ───────────────────────────────────────── dark · 1 build -->
+<section class="kd-slide s22" data-theme="dark" aria-label="Slide 22">
+  <div class="kd-in">
+    <h2 class="t" data-g="0" data-a="head" data-d="0"><span class="kd-silver">Before next week</span></h2>
+    <div class="hw" data-g="0" data-a="head" data-d="200"><span class="n">1</span><p>Bring 3 project ideas.<span class="sec">What would you actually use, or show off?</span></p></div>
+    <div class="hw" data-g="0" data-a="head" data-d="380"><span class="n">2</span><p>Journal: one thing the AI got wrong today.<span class="sec">Be specific.</span></p></div>
+    <div class="hw" data-g="0" data-a="head" data-d="560"><span class="n">3</span><p>Show your site to one person.<span class="sec">Parent, friend, sibling.</span></p></div>
+    <p class="bye" data-g="0" data-a="head" data-d="820">See you next week. &nbsp;Build it. Ship it. Question it.</p>
+  </div>
+  <aside class="kd-note">Hand out prompt-journal sheets; 3 minutes to write the first entry before leaving.
+Exit ticket (optional): one word for how today felt.</aside>
+</section>
+
+  </div><!-- /canvas -->
+  </div><!-- /stage -->
+
+  <nav class="kd-pill" aria-label="Presenter controls">
+    <button class="kd-ib kd-back" type="button" aria-label="Back"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
+    <div class="kd-dots" aria-hidden="true"><span class="kd-cap"></span></div>
+    <span class="kd-prog" aria-live="polite">01 / 22</span>
+    <button class="kd-next" type="button" aria-label="Next">
+      <span class="kd-skin d"><span class="kd-lbl n">Next</span><span class="kd-lbl r">Restart</span></span>
+      <span class="kd-skin l"><span class="kd-lbl n">Next</span><span class="kd-lbl r">Restart</span></span>
+    </button>
+    <button class="kd-ib kd-notes-btn" type="button" aria-label="Speaker notes (N)" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg></button>
+    <button class="kd-ib kd-fs" type="button" aria-label="Fullscreen (F)">
+      <svg class="max" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+      <svg class="min" viewBox="0 0 24 24"><path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7"/></svg>
+    </button>
+  </nav>
+  <div class="kd-notes" role="region" aria-label="Speaker notes"></div>
+</div>
+
+<script>
+/* Session 1 · Kickoff presenter engine. WAAPI only, no dependencies.
+   Every animation reads the element's *current* rendered transform/opacity and
+   retargets from there, so rapid input never queues, drops or restarts. */
+(function () {
+  'use strict';
+  const EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
+  const root = document.querySelector('.kickoff-deck');
+  const stage = root.querySelector('.kd-stage');
+  const canvas = root.querySelector('.kd-canvas');
+  const pill = root.querySelector('.kd-pill');
+  const btnBack = pill.querySelector('.kd-back');
+  const btnNext = pill.querySelector('.kd-next');
+  const btnFs = pill.querySelector('.kd-fs');
+  const btnNotes = pill.querySelector('.kd-notes-btn');
+  const dotsEl = pill.querySelector('.kd-dots');
+  const capEl = pill.querySelector('.kd-cap');
+  const progEl = pill.querySelector('.kd-prog');
+  const notesEl = root.querySelector('.kd-notes');
+  const rm = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  const slides = Array.from(root.querySelectorAll('.kd-slide')).map((el, i) => {
+    const dim = document.createElement('div');
+    dim.className = 'kd-dim';
+    el.appendChild(dim);
+    const items = Array.from(el.querySelectorAll('[data-g]'));
+    const groups = [];
+    items.forEach((it) => { const g = +it.dataset.g; (groups[g] = groups[g] || []).push(it); });
+    return { el, dim, groups, n: groups.length, theme: el.dataset.theme,
+             note: (el.querySelector('.kd-note') || {}).textContent || '', i };
+  });
+  const LAST = slides.length - 1;
+  let cur = 0, rev = 1; // rev = number of build groups revealed on current slide (>= 1)
+
+  /* ---------- state tables ---------- */
+  const HIDDEN = { head: 'translateY(24px)', card: 'scale(0.96)', bar: 'scaleX(0)', fade: 'none' };
+  function itemState(el, shown) {
+    if (shown) return { opacity: '1', transform: 'none' };
+    return { opacity: '0', transform: rm.matches ? 'none' : HIDDEN[el.dataset.a || 'fade'] };
+  }
+  const SLIDE = {
+    cur:    { opacity: '1', transform: 'none' },
+    past:   { opacity: '0', transform: 'scale(0.92)' },   // exited forward (receded)
+    future: { opacity: '0', transform: 'scale(1.04)' },   // not yet reached (in front)
+  };
+  function slideState(k) { const s = SLIDE[k]; return rm.matches ? { opacity: s.opacity, transform: 'none' } : s; }
+
+  /* ---------- retargetable animation core (batched read → write) ---------- */
+  function run(jobs) {
+    // jobs: [{el, to, dur, delay}]
+    const froms = jobs.map(({ el }) => {
+      const cs = getComputedStyle(el);
+      return { opacity: cs.opacity, transform: cs.transform === 'none' ? 'none' : cs.transform };
+    });
+    jobs.forEach((j, k) => {
+      const { el, to } = j;
+      let dur = j.dur, delay = j.delay || 0;
+      if (rm.matches) { dur = 200; delay = 0; }
+      if (el._kdA) el._kdA.cancel();
+      el.style.opacity = to.opacity;
+      el.style.transform = to.transform;
+      if (froms[k].opacity === String(to.opacity) && sameT(froms[k].transform, to.transform)) { el._kdA = null; return; }
+      el.style.willChange = 'transform, opacity';
+      const a = el.animate([froms[k], to], { duration: dur, delay, easing: EASE, fill: 'backwards' });
+      el._kdA = a;
+      a.onfinish = () => { if (el._kdA === a) { el._kdA = null; el.style.willChange = ''; if (j.done) j.done(); } };
+    });
+  }
+  function sameT(a, b) { return (a === 'none' || a === 'matrix(1, 0, 0, 1, 0, 0)') && b === 'none'; }
+  function setNow(el, to) {
+    if (el._kdA) { el._kdA.cancel(); el._kdA = null; }
+    el.style.opacity = to.opacity; el.style.transform = to.transform; el.style.willChange = '';
+  }
+
+  /* ---------- builds ---------- */
+  function groupJobs(s, g, show, base) {
+    const list = s.groups[g] || [];
+    const jobs = [];
+    if (show) {
+      let h = 0, c = 0;
+      const hasHead = list.some((e) => e.dataset.a === 'head');
+      list.forEach((el) => {
+        let delay;
+        if (el.dataset.d != null) delay = +el.dataset.d;
+        else if (el.dataset.a === 'head') delay = (h++) * 90;
+        else delay = (hasHead ? 80 : 0) + (c++) * 60;
+        jobs.push({ el, to: itemState(el, true), dur: el.dataset.a === 'head' ? 900 : 800, delay: base + delay });
+      });
+    } else {
+      list.forEach((el) => jobs.push({ el, to: itemState(el, false), dur: 420, delay: 0 }));
+    }
+    return jobs;
+  }
+  // Animate a slide's builds toward `n` revealed groups; untouched if already in place.
+  function revealTo(s, n, base) {
+    let jobs = [];
+    for (let g = 0; g < s.n; g++) {
+      const want = g < n;
+      if (s.groups[g]._shown === want) continue;
+      s.groups[g]._shown = want;
+      jobs = jobs.concat(groupJobs(s, g, want, base));
+    }
+    if (jobs.length) run(jobs);
+  }
+  function revealNow(s, n) {
+    for (let g = 0; g < s.n; g++) {
+      const want = g < n;
+      s.groups[g]._shown = want;
+      s.groups[g].forEach((el) => setNow(el, itemState(el, want)));
+    }
+  }
+
+  /* ---------- slide transitions (depth of field) ---------- */
+  function isWarm(s) { return !!s.el._kdA || s.el === slides[cur].el; }
+  function live(s, on) { s.el.classList.toggle('is-live', on); }
+
+  function show(to, n, dir, instant) {
+    const from = slides[cur];
+    const next = slides[to];
+    if (to === cur) { revealTo(next, n, 0); rev = n; update(); return; }
+    const fwd = dir > 0;
+    const warm = !!next.el._kdA;
+    slides.forEach((s) => (s.el.style.zIndex = ''));
+    next.el.style.zIndex = fwd ? 3 : 2;
+    from.el.style.zIndex = fwd ? 2 : 3;
+    live(next, true);
+
+    if (instant) {
+      [from, next].forEach((s) => s.el._kdA && s.el._kdA.cancel());
+      setNow(from.el, slideState(fwd ? 'past' : 'future')); setNow(from.dim, { opacity: '0', transform: 'none' });
+      setNow(next.el, slideState('cur')); setNow(next.dim, { opacity: '0', transform: 'none' });
+      revealNow(next, n);
+      cur = to; rev = n; settle(); update(); return;
+    }
+    // outgoing
+    const outK = fwd ? 'past' : 'future';
+    run([
+      { el: from.el, to: slideState(outK), dur: 700, delay: 0, done: settle },
+      { el: from.dim, to: { opacity: fwd && !rm.matches ? '0.5' : '0', transform: 'none' }, dur: 700 },
+    ]);
+    // incoming
+    if (!warm) {
+      setNow(next.el, slideState(fwd ? 'future' : 'past'));
+      setNow(next.dim, { opacity: fwd || rm.matches ? '0' : '0.5', transform: 'none' });
+      if (fwd) revealNow(next, 0); else revealNow(next, n);
+    }
+    run([
+      { el: next.el, to: slideState('cur'), dur: 900, delay: rm.matches ? 0 : 120 },
+      { el: next.dim, to: { opacity: '0', transform: 'none' }, dur: 900, delay: 120 },
+    ]);
+    revealTo(next, n, warm ? 0 : 220);
+    cur = to; rev = n;
+    update();
+    prewarm();
+  }
+  // Hide slides that are no longer animating and not adjacent (keeps neighbours pre-rendered).
+  function settle() {
+    slides.forEach((s, i) => {
+      const keep = Math.abs(i - cur) <= 1 || !!s.el._kdA;
+      live(s, keep);
+    });
+  }
+  function prewarm() { settle(); }
+
+  /* ---------- navigation ---------- */
+  function next() {
+    const s = slides[cur];
+    if (rev < s.n) { revealTo(s, rev + 1, 0); rev++; update(); return; }
+    if (cur < LAST) show(cur + 1, 1, +1);
+    else show(0, 1, +1); // Restart
+  }
+  function back() {
+    const s = slides[cur];
+    if (rev > 1) { revealTo(s, rev - 1, 0); rev--; update(); return; }
+    if (cur > 0) show(cur - 1, slides[cur - 1].n, -1);
+  }
+  function goTo(i, n, instant) {
+    i = Math.max(0, Math.min(LAST, i));
+    n = Math.max(1, Math.min(slides[i].n, n));
+    show(i, n, i >= cur ? +1 : -1, instant);
+  }
+
+  /* ---------- pill + hash ---------- */
+  let dotCount = -1;
+  function update() {
+    const s = slides[cur];
+    root.dataset.theme = s.theme;
+    const end = cur === LAST && rev >= s.n;
+    root.classList.toggle('is-end', end);
+    btnNext.setAttribute('aria-label', end ? 'Restart' : 'Next');
+    btnBack.disabled = cur === 0 && rev <= 1;
+    progEl.textContent = String(cur + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+    if (dotCount !== s.n) {
+      dotsEl.querySelectorAll('.kd-dot').forEach((d) => d.remove());
+      for (let k = 0; k < s.n; k++) { const d = document.createElement('span'); d.className = 'kd-dot'; dotsEl.insertBefore(d, capEl); }
+      dotCount = s.n;
+      dotsEl.style.display = s.n > 1 ? '' : 'none';
+    }
+    dotsEl.querySelectorAll('.kd-dot').forEach((d, k) => d.classList.toggle('done', k < rev));
+    // capsule centred on active dot: slot 6px, gap 10px, padding 10px, capsule 20px
+    capEl.style.transform = 'translateX(' + (10 + (rev - 1) * 16 + 3 - 10) + 'px)';
+    notesEl.innerHTML = '';
+    const b = document.createElement('b'); b.textContent = 'SLIDE ' + (cur + 1) + ' · NOTES';
+    notesEl.append(b, document.createTextNode(s.note.trim()));
+    const h = '#' + (cur + 1) + '-' + rev;
+    if (location.hash !== h) history.replaceState(null, '', h);
+  }
+  function parseHash() {
+    const m = /^#(\d+)(?:-(\d+))?$/.exec(location.hash);
+    return m ? [+m[1] - 1, m[2] ? +m[2] : 1] : null;
+  }
+
+  /* ---------- fit ---------- */
+  function fit() {
+    const sc = Math.min(window.innerWidth / 1600, window.innerHeight / 900);
+    canvas.style.setProperty('--kd-scale', sc);
+  }
+
+  /* ---------- input ---------- */
+  function editable(t) {
+    return t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));
+  }
+  function toggleFs() {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else (root.requestFullscreen ? root.requestFullscreen() : Promise.reject()).catch(() => {});
+  }
+  function toggleNotes() {
+    const on = notesEl.classList.toggle('is-open');
+    btnNotes.setAttribute('aria-pressed', on);
+  }
+  function onKey(e) {
+    if (editable(e.target) || e.ctrlKey || e.metaKey || e.altKey) return;
+    const onBtn = e.target && e.target.tagName === 'BUTTON';
+    wake();
+    switch (e.key) {
+      case 'Enter': case ' ': case 'Spacebar':
+        if (onBtn) return; // native button activation handles it
+        e.preventDefault(); next(); break;
+      case 'ArrowRight': case 'ArrowDown': case 'PageDown':
+        e.preventDefault(); next(); break;
+      case 'ArrowLeft': case 'ArrowUp': case 'PageUp':
+        e.preventDefault(); back(); break;
+      case 'Home': e.preventDefault(); goTo(0, 1); break;
+      case 'End': e.preventDefault(); goTo(LAST, slides[LAST].n); break;
+      case 'f': case 'F': e.preventDefault(); toggleFs(); break;
+      case 'n': case 'N': e.preventDefault(); toggleNotes(); break;
+      case 'Escape': if (document.fullscreenElement) document.exitFullscreen(); break;
+    }
+  }
+  let px = 0, py = 0, pid = null;
+  function onDown(e) { if (e.button !== 0) return; px = e.clientX; py = e.clientY; pid = e.pointerId; }
+  function onUp(e) {
+    if (pid !== e.pointerId) return; pid = null;
+    const dx = e.clientX - px, dy = e.clientY - py;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { dx < 0 ? next() : back(); }
+    else if (Math.abs(dx) < 10 && Math.abs(dy) < 10) next();
+  }
+  // idle-dim the pill while presenting (fullscreen)
+  let idleT = 0;
+  function wake() {
+    pill.classList.remove('is-idle');
+    clearTimeout(idleT);
+    if (document.fullscreenElement) idleT = setTimeout(() => pill.classList.add('is-idle'), 3000);
+  }
+  function onFs() { root.classList.toggle('is-fs', !!document.fullscreenElement); fit(); wake(); }
+  function onHash() { const p = parseHash(); if (p && (p[0] !== cur || p[1] !== rev)) goTo(p[0], p[1]); }
+
+  const nextClick = (e) => { e.stopPropagation(); next(); };
+  const backClick = (e) => { e.stopPropagation(); back(); };
+  const fsClick = (e) => { e.stopPropagation(); toggleFs(); };
+  const notesClick = (e) => { e.stopPropagation(); toggleNotes(); };
+  const listeners = [
+    [window, 'keydown', onKey], [window, 'resize', fit], [window, 'hashchange', onHash],
+    [window, 'mousemove', wake], [document, 'fullscreenchange', onFs],
+    [stage, 'pointerdown', onDown], [stage, 'pointerup', onUp],
+    [btnNext, 'click', nextClick], [btnBack, 'click', backClick],
+    [btnFs, 'click', fsClick], [btnNotes, 'click', notesClick],
+  ];
+
+  /* ---------- init / destroy (listeners live only while Session 1 is mounted) ---------- */
+  function init() {
+    fit();
+    slides.forEach((s) => { setNow(s.el, slideState('future')); revealNow(s, 0); });
+    const p = parseHash() || [0, 1];
+    cur = Math.max(0, Math.min(LAST, p[0]));
+    rev = Math.max(1, Math.min(slides[cur].n, p[1]));
+    const s = slides[cur];
+    live(s, true);
+    setNow(s.el, slideState('cur'));
+    if (p[0] === 0 && rev === 1 && !location.hash.match(/^#1-1$/)) { revealNow(s, 0); revealTo(s, 1, 250); }
+    else revealNow(s, rev);
+    settle();
+    update();
+    listeners.forEach(([t, ev, fn]) => t.addEventListener(ev, fn));
+    wake();
+  }
+  function destroy() {
+    listeners.forEach(([t, ev, fn]) => t.removeEventListener(ev, fn));
+    clearTimeout(idleT);
+  }
+  window.KickoffDeck = { next, back, goTo, destroy, get position() { return { slide: cur + 1, step: rev, steps: slides[cur].n }; } };
+  init();
+})();
+</script>
+</body>
+</html>
