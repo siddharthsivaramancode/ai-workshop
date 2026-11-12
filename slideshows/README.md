@@ -5,6 +5,7 @@ All workshop decks are in this folder, one per session, plus the demo day certif
 | File | Session |
 |---|---|
 | `session-01-kickoff.pptx` | 1: Kickoff. Get a page live at a URL. AI Checkpoint: Confident ≠ Correct. |
+| `session-01-kickoff.html` | 1: Kickoff, same 22 slides as a browser presenter. Open the file, press F for fullscreen, N for notes, → to advance. Deep link: `#slide-step`, e.g. `#12-3`. |
 | `session-02-idea-and-scope.pptx` | 2: Idea and scope. AI Checkpoint: Privacy. |
 | `session-03-build.pptx` | 3: Build. AI Checkpoint: Bug bounty. |
 | `session-04-debug-and-bias.pptx` | 4: Build and debug. AI Checkpoint: Bias. |
