@@ -189,6 +189,7 @@ html, body { margin: 0; height: 100%; background: #0B0B12; overflow: hidden; }
 /* list + punchline slides (how it learned, context window, tools, catch it) */
 .k3 .lp .list { width: 800px; } .k3 .lp .punch { position: absolute; left: 0; bottom: 0; width: 900px; font-size: 40px; font-weight: 500; letter-spacing: -0.025em; line-height: 1.15; color: var(--sec); padding: 30px 42px; }
 /* 9 demo */
+.k3 .s9 .title { font-size: 62px; }   /* keeps the title clear of the laptop on its right */
 .k3 .s9 .term { position: absolute; left: 0; top: 190px; width: 820px; padding: 0; overflow: hidden; }
 .k3 .s9 .bar3 { display: flex; gap: 8px; padding: 18px 22px; border-bottom: 1px solid var(--line); } .k3 .s9 .bar3 i { width: 11px; height: 11px; border-radius: 6px; background: #3a3a40; }
 .k3 .s9 .lines { padding: 30px 36px; font-size: 23px; line-height: 1.7; } .k3 .tl { display: block; white-space: nowrap; } .k3 .tl.p { color: var(--accent); font-weight: 600; }
@@ -280,6 +281,25 @@ html, body { margin: 0; height: 100%; background: #0B0B12; overflow: hidden; }
 .k3 .badge b { position: absolute; inset: 0; display: grid; place-items: center; font-size: 22px; font-weight: 600; letter-spacing: -0.02em; }
 .k3 .s22 .bye { display: flex; align-items: center; margin-top: 18px; }
 @keyframes k3spin { to { transform: rotate(1turn); } }
+/* four-item list slides (family tree, four jobs, tool map) */
+.k3 .lp.l4 .li { padding: 15px 0; } .k3 .lp.l4 .li:first-child { padding-top: 0; } .k3 .lp.l4 .h3 { font-size: 34px; } .k3 .lp.l4 .li .sec { font-size: 24px; }
+/* model vs chatbot vs agent */
+.k3 .s-cmp .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.k3 .s-cmp .panel { display: flex; flex-direction: column; padding: 26px 30px; }
+.k3 .s-cmp .h3 { font-size: 32px; margin: 6px 0 10px; }
+.k3 .s-cmp .row { padding: 10px 0; border-top: 1px solid var(--line); font-size: 22px; line-height: 1.3; }
+.k3 .s-cmp .row .tag { display: inline-block; margin-bottom: 6px; } .k3 .s-cmp .row p { white-space: nowrap; }
+.k3 .s-cmp .punch { margin-top: 16px; font-size: 32px; font-weight: 500; letter-spacing: -0.02em; color: var(--sec); padding: 22px 36px; }
+/* the big questions */
+.k3 .s-big .grid4 { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 16px; height: 520px; }
+.k3 .s-big .panel { display: flex; flex-direction: column; padding: 26px 32px; }
+.k3 .s-big .h3 { font-size: 32px; margin: 8px 0 10px; } .k3 .s-big .d { font-size: 22px; line-height: 1.38; }
+/* prompting: vague on top, the clear (tutor-mode) prompt below, laptop on the right */
+.k3 .s-pr2 .cmp { display: block; width: 820px; }
+.k3 .s-pr2 .vague { flex-direction: row; align-items: baseline; gap: 22px; padding: 22px 34px; }
+.k3 .s-pr2 .vague .pq { margin: 0; padding: 0; font-size: 28px; } .k3 .s-pr2 .vague .res { font-size: 24px; }
+.k3 .s-pr2 .clear { margin-top: 14px; padding: 26px 34px; } .k3 .s-pr2 .part { font-size: 22px; padding: 11px 0; }
+.k3 .grid4, .k3 .cols { transform-style: preserve-3d; }
 @media (prefers-reduced-motion: reduce) { .k3 .caret, .k3 .badge svg { animation: none; } .k3 .panel::after { animation: none !important; } }
 </style>
 </head>
@@ -290,7 +310,9 @@ html, body { margin: 0; height: 100%; background: #0B0B12; overflow: hidden; }
   <div class="stage">
   <div class="canvas">
 
-<!-- 1 ─ Title ─ hero: glass monolith · orbit -->
+<!-- ═════════════════════════ INTRO ═════════════════════════ -->
+
+<!-- 1 ─ Title ─ hero: laptop (light streaks) -->
 <section class="slide s1" data-title="Build it. Ship it. Question it.">
   <div class="in">
     <p class="kick" data-g="0" data-a="fade" data-d="0">SESSION 1 OF 6 &nbsp;·&nbsp; KICKOFF</p>
@@ -302,12 +324,16 @@ html, body { margin: 0; height: 100%; background: #0B0B12; overflow: hidden; }
     <p class="sub z1" data-g="0" data-a="head" data-d="760">A free AI builder workshop for teens<span class="sec">Burch Library &nbsp;·&nbsp; Collierville, TN</span></p>
   </div>
   <aside class="note">Welcome everyone in while people sit down. Let the title animate on its own.
-"Welcome to Build it, Ship it, Question it. In six weeks every single one of you is
-going to have a real website, live on the internet, that you built with AI —
-and you'll know exactly where the AI messed up along the way."</aside>
+"Welcome to Build it, Ship it, Question it. Today is the big one: by the end you'll know what AI
+actually is, how it works on the inside, where it can hurt people, and you'll start building a real
+website with it. You'll finish that site at home."
+
+TIME PLAN (about 65 min): intro 3 · 01 what AI is 5 · 02 how it works 10 · 03 LLMs vs other AI 4 ·
+04 model/chatbot/agent 8 · 05 ethics 11 · 06 build-with-it teaching 4 = 45 min teaching,
+then the guided build 20 (they finish at home). Skip list if you're late: see the lesson plan.</aside>
 </section>
 
-<!-- 2 ─ Who we are ─ hero: three frosted cards · dolly -->
+<!-- 2 ─ Who we are ─ hero: ID badges -->
 <section class="slide s2" data-title="We're students too.">
   <div class="in">
     <header class="hd z1">
@@ -320,14 +346,14 @@ and you'll know exactly where the AI messed up along the way."</aside>
       <div class="panel wide" data-g="1" data-a="card"><div><p class="label">ADULT SPONSOR</p><p class="name">[Name]</p><p class="sec">[Grade · school]</p></div><div class="built"><p class="sec">Something I built:</p><p>[one line]</p></div></div>
     </div>
   </div>
-  <aside class="note">Each of you: name, grade, and ONE thing you've built (with or without AI).
+  <aside class="note">~1 min. Each of you: name, grade, and ONE thing you've built (with or without AI).
 Adult sponsor introduces themselves and explains why they're here:
 "Some of the tools we'll show, like Claude, are 18+. I'm the adult who runs those
 demos and I'm here every week."
 Fill in the [brackets] before the session.</aside>
 </section>
 
-<!-- 3 ─ Icebreaker ─ hero: the three cards fan out · morph -->
+<!-- 3 ─ Icebreaker ─ hero: tablet (dream sites) -->
 <section class="slide s3" data-title="If you could build ANY website… what would it be?">
   <div class="in">
     <h2 class="q z2">
@@ -341,36 +367,182 @@ Fill in the [brackets] before the session.</aside>
       <div class="panel" data-g="1" data-a="card">Dream site in 5 words</div>
     </div>
   </div>
-  <aside class="note">Go around the room, fast — 15 seconds each (we need the minutes for the new slides). Write a few of the dream sites on a
-whiteboard or sticky notes; we'll come back to them in Session 2 when people pick projects.</aside>
+  <aside class="note">~2 min. Go around the room fast: 10 seconds each. Write a few dream sites on a
+whiteboard or sticky notes. We'll come back to them in Session 2 when people pick projects.</aside>
 </section>
 
-<!-- 4 ─ Section 01 ─ hero: graphite ring · section move -->
+<!-- ═════════════════════════ 01 · WHAT AI REALLY IS ═════════════════════════ -->
+
+<!-- 4 ─ Section 01 ─ hero: chat bubble -->
 <section class="slide sec s4" data-title="01 What is AI, really?">
   <div class="in">
     <p class="secnum" data-g="0" data-a="head" data-d="0">01</p>
     <h2 class="sectitle z1"><span class="mask"><span data-g="0" data-a="line" data-d="140" data-scramble>What is AI, really?</span></span></h2>
-    <p class="secsub" data-g="0" data-a="head" data-d="300">Spoiler: it's a very, very good guesser.</p>
+    <p class="secsub" data-g="0" data-a="head" data-d="300">Not magic. Not a brain. A pattern-finder.</p>
   </div>
-  <aside class="note">Transition: before we use AI, let's figure out what it actually is.</aside>
+  <aside class="note">Ask the room first: "Finish this sentence: AI is…" Take 3 answers (you'll hear "a robot",
+"a brain", "ChatGPT"). "Let's replace all of those with what it actually is."</aside>
 </section>
 
-<!-- 5 ─ Guess the next word ─ hero: glass speech bubble · orbit -->
+<!-- 5 ─ Rules vs examples ─ hero: laptop (rules.js vs learned filter) -->
+<section class="slide lp s-rules" data-title="Rules vs. examples.">
+  <div class="in">
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">The big idea</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Rules vs. examples.</span></span></h2></header>
+    <div class="list">
+      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Normal code: a person writes the rules</p><p class="sec">“If the subject says FREE PRIZE, it's spam.” Spell it FR3E and it slips through.</p></div></div>
+      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">AI: show it examples instead</p><p class="sec">10,000 emails labeled spam or not spam. It works out the pattern on its own.</p></div></div>
+      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">That's machine learning</p><p class="sec">Software whose behavior was learned from data, not typed in line by line.</p></div></div>
+    </div>
+    <div class="panel punch" data-g="4" data-a="card"><p>AI learns its rules <span class="em hl">from examples.</span></p></div>
+  </div>
+  <aside class="note">~2 min. The laptop acts it out: on the left, rules a person wrote. A sneaky email ("FR3E PR1ZE")
+gets past because no rule matches. On the right, a filter that learned from thousands of labeled emails
+catches it, even though nobody wrote a rule about weird spelling.
+Click 1: normal code. Every rule is typed by a human. Humans can't think of every trick.
+Click 2: machine learning. You don't write rules; you collect examples with the right answers (labels).
+Click 3: that's the definition. Everything we call "AI" today is built this way.
+Ask: "What's one job you'd rather teach with examples than with rules?" (recognizing your friend's face,
+knowing a song is sad, spotting a cat). Those are hard to write as rules, easy to show with examples.</aside>
+</section>
+
+<!-- 6 ─ Training vs using ─ hero: pages → web of patterns → next-word strip -->
+<section class="slide s7" data-title="Learn once. Use it a billion times.">
+  <div class="in">
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Training vs. using</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Learn once. Use it a billion times.</span></span></h2></header>
+    <div class="list">
+      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Read</p><p class="sec">Trillions of words: websites, books, code.</p></div></div>
+      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Practice for months</p><p class="sec">Hide the next word, guess it, check it. Patterns form.</p></div></div>
+      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Freeze it, then use it</p><p class="sec">Every chat after that is called inference: prediction only.</p></div></div>
+    </div>
+    <div class="panel punch" data-g="4" data-a="card"><p>It predicts what <span class="em hl">sounds</span> right — not what <span class="em hl">is</span> right.</p></div>
+  </div>
+  <aside class="note">~2 min. One click per step. The model on the right follows you: pages pile up (read),
+spread into a web of connections (patterns), then collapse into a phone's next-word strip (predict).
+Two vocabulary words to leave with:
+- TRAINING: the expensive part. Months, thousands of special chips (GPUs), huge electricity bills. Done once.
+- INFERENCE: using the finished model. Your message in, a prediction out, in seconds.
+Important: after training, the model does NOT keep learning from your chat. That's why it has a
+"knowledge cutoff": it doesn't know what happened after its training data was collected.
+Last click is the most important sentence of today: "It predicts what SOUNDS right, not what IS right."
+Have the room say it back. We'll prove it in the ethics section.</aside>
+</section>
+
+<!-- 7 ─ Parameters ─ hero: a bank of dials -->
+<section class="slide lp s-train" data-title="Billions of tiny dials.">
+  <div class="in">
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">What's inside a model</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Billions of tiny dials.</span></span></h2></header>
+    <div class="list">
+      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Parameters</p><p class="sec">A model is a giant list of numbers. Each one is a dial, also called a weight.</p></div></div>
+      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Wrong guess? Nudge the dials.</p><p class="sec">Each mistake turns millions of dials a tiny bit toward the right answer.</p></div></div>
+      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">More dials, more patterns</p><p class="sec">GPT-2 (2019): 1.5 billion. GPT-3 (2020): 175 billion. Llama 3.1 (2024): 405 billion.</p></div></div>
+    </div>
+    <div class="panel punch" data-g="4" data-a="card"><p>No one wrote the rules. <span class="em hl">Training did.</span></p></div>
+  </div>
+  <aside class="note">~2 min. The dials on the model: click 1 shows the bank, click 2 they hunt back and forth (guess and check),
+click 3 they settle (adjusted).
+Analogy: tuning a guitar with billions of strings at once. You don't know which string is off, so after
+every wrong note you nudge ALL of them a tiny bit in the direction that would have sounded better.
+The math that figures out which way to nudge is called gradient descent. You don't need the math; you need
+the idea: small corrections, repeated billions of times.
+The numbers on click 3 are public: GPT-2 and GPT-3 from OpenAI's papers, Llama 3.1 405B from Meta.
+Many newer companies don't publish their counts anymore.
+Why it matters: nobody wrote "after 'turned on the', say TV". The pattern was found, not programmed.
+That's why even the people who build these models can't always explain one specific answer.</aside>
+</section>
+
+<!-- ═════════════════════════ 02 · HOW IT WORKS ═════════════════════════ -->
+
+<!-- 8 ─ Section 02 ─ hero: phone (the AI writing word by word) -->
+<section class="slide sec s4b" data-title="02 How does it actually work?">
+  <div class="in">
+    <p class="secnum" data-g="0" data-a="head" data-d="0">02</p>
+    <h2 class="sectitle z1"><span class="mask"><span data-g="0" data-a="line" data-d="140" data-scramble>How does it actually work?</span></span></h2>
+    <p class="secsub" data-g="0" data-a="head" data-d="300">Follow one sentence through the machine.</p>
+  </div>
+  <aside class="note">"Now we open the box. We'll follow one sentence through the five steps an LLM takes every
+time it writes a single word. This is the stuff we'll build on for the next five weeks."
+The phone is already doing it: watch it pick words one at a time.</aside>
+</section>
+
+<!-- 9 ─ Guess the next word ─ hero: the phone glides over -->
 <section class="slide s5" data-title="Guess the next word.">
   <div class="in">
     <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Quick game</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Guess the next word.</span></span></h2></header>
     <div class="panel sent" data-g="0" data-a="card" data-d="200"><p>After school I grabbed a snack and turned on the<span class="caret" aria-hidden="true"></span></p></div>
     <div class="panel shout" data-g="1" data-a="card"><p class="h3">Shout it out!</p></div>
   </div>
-  <aside class="note">Read the sentence out loud and pause. Let people shout guesses. Collect 4–5 answers.
-Most people will say TV, Xbox/PlayStation, music… Nobody says "oven". Why? Because
-you've seen thousands of sentences like this. Your brain predicted the next word.</aside>
+  <aside class="note">~1 min. Read the sentence out loud and pause. Let people shout guesses. Collect 4–5 answers.
+Most people say TV, Xbox, music… Nobody says "oven". Why? You've seen thousands of sentences like this,
+so your brain predicted the next word. An LLM plays this exact game, every single word.
+"Let's watch the five steps it goes through to make ONE guess."</aside>
 </section>
 
-<!-- 6 ─ Probability bars ─ hero: the bars themselves, extruded in 3D · dolly -->
+<!-- 10 ─ Step 1 · Tokens ─ hero: STRAWBERRY keycaps -->
+<section class="slide s-tok" data-title="It sees tokens, not letters.">
+  <div class="in">
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Step 1 · Tokens</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">It sees tokens. Not letters.</span></span></h2></header>
+    <div class="toks">
+      <div class="tokrow" data-g="0" data-a="card" data-d="200"><span class="t">un</span><span class="t">believ</span><span class="t">able</span></div>
+      <div class="tokrow" data-g="0" data-a="card" data-d="320"><span class="t">st<b class="rr">r</b></span><span class="t">aw</span><span class="t">be<b class="rr">rr</b>y</span></div>
+      <p class="tfoot sec" data-g="1" data-a="fade">Each chunk becomes an ID number. Every AI cuts words a little differently.</p>
+    </div>
+    <div class="panel try" data-g="2" data-a="card"><p class="h3">Try it:</p><p>How many r's are in “strawberry”?</p><p class="sec">Too famous? Ask: how many s's are in “Mississippi assessments”?</p></div>
+  </div>
+  <aside class="note">~2 min. Click once: the words split into tokens (the keycaps split too).
+"Step one: chop the text into chunks called tokens. A token is often part of a word; roughly 3/4 of a word
+on average in English. Each token gets an ID number. The model never sees letters, only those numbers."
+Why it matters: counting letters is weirdly hard for it, and long chats are measured (and priced) in tokens.
+Click again: the r's light up. Try it live.
+Heads-up: many newer AIs now get "strawberry" right because the riddle went viral. That's memorizing,
+not seeing. Use the Mississippi one: the answer is 9 (4 in Mississippi + 5 in assessments).</aside>
+</section>
+
+<!-- 11 ─ Step 2 · Embeddings ─ hero: tablet (a map of meaning) -->
+<section class="slide lp s-emb" data-title="Every token becomes a list of numbers.">
+  <div class="in">
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Step 2 · Embeddings</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Tokens become numbers.</span></span></h2></header>
+    <div class="list">
+      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Each token gets a list of numbers</p><p class="sec">“dog” → [0.21, −1.40, 0.88, …], often thousands of numbers long.</p></div></div>
+      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Similar meanings land close together</p><p class="sec">cat sits near dog. pizza sits near taco. Training put them there.</p></div></div>
+      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Directions mean things</p><p class="sec">king − man + woman lands near queen.</p></div></div>
+    </div>
+    <div class="panel punch" data-g="4" data-a="card"><p>To an AI, meaning is <span class="em hl">where a word sits.</span></p></div>
+  </div>
+  <aside class="note">~2 min. The tablet shows a flattened map: real embeddings have hundreds to thousands of dimensions,
+we squash them to 2D so humans can see.
+Analogy: every word gets a GPS address in "meaning space". Words used in similar ways get nearby addresses.
+Click 3: the famous trick. Walk from "man" to "woman" on the map. Take the same walk starting from "king"
+and you land near "queen". That direction means something like "female version of".
+(This classic example comes from an older word model, word2vec. Modern LLMs do a fancier version, but the idea holds.)
+Bridge: these numbers are also how AI search works: find text whose numbers sit near your question's numbers.
+Also a sneak peek at ethics: if the training text links certain jobs with certain genders, the map does too.</aside>
+</section>
+
+<!-- 12 ─ Step 3 · Attention ─ hero: laptop (bank → river / money) -->
+<section class="slide lp s-attn" data-title="Words look at each other.">
+  <div class="in">
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Step 3 · Attention</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Words look at each other.</span></span></h2></header>
+    <div class="list">
+      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Same word, different meaning</p><p class="sec">“river bank” vs. “bank account.” The word alone can't tell you which.</p></div></div>
+      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Every word scores every other word</p><p class="sec">“How much should you change what I mean?” Big score, big influence.</p></div></div>
+      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Stacked dozens of layers deep</p><p class="sec">This is the transformer, the “T” in GPT. Invented in 2017.</p></div></div>
+    </div>
+    <div class="panel punch" data-g="4" data-a="card"><p>Context <span class="em hl">changes the meaning.</span></p></div>
+  </div>
+  <aside class="note">~2 min. The laptop: two sentences take turns. Watch how "bank" pays most attention to "river" in the
+first and to "money" in the second, then its meaning updates.
+Click 2: every word does this with every other word at the same time, and the scores add up to 100%.
+The word's numbers (its spot on the meaning map) get updated toward the words it paid attention to.
+Click 3: one round of attention is a "layer". Big models stack dozens to over a hundred layers, so meaning gets
+refined again and again: by the top, "bank" knows it's a riverbank in a story about fishing.
+GPT = Generative Pre-trained Transformer. The 2017 Google paper was called "Attention Is All You Need".
+This is also why the context window matters (coming up): attention can only look at what's on the page.</aside>
+</section>
+
+<!-- 13 ─ Step 4 · Scores ─ hero: the next-word wheel -->
 <section class="slide s6" data-title="Every word gets a score.">
   <div class="in">
-    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">That's all a chatbot does</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Every word gets a score.</span></span></h2></header>
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Step 4 · Score every option</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Every word gets a score.</span></span></h2></header>
     <div class="chart" data-g="1" data-a="fade">
       <div class="bar top"><span class="w">TV</span><span class="track"><i style="--p:41;--k:0"></i></span><span class="p">41%</span></div>
       <div class="bar"><span class="w">Xbox</span><span class="track"><i style="--p:22;--k:1"></i></span><span class="p">22%</span></div>
@@ -379,150 +551,147 @@ you've seen thousands of sentences like this. Your brain predicted the next word
       <div class="bar"><span class="w">PlayStation</span><span class="track"><i style="--p:7;--k:4"></i></span><span class="p">7%</span></div>
       <div class="bar"><span class="w">oven</span><span class="track"><i style="--p:1;--k:5"></i></span><span class="p">1%</span></div>
     </div>
-    <div class="panel pick" data-g="2" data-a="card"><p class="h3">Pick one. Add it.<br>Guess again.</p><p class="sec" style="font-size:17px;margin-top:14px">Numbers are made up to show the idea.</p></div>
+    <div class="panel pick" data-g="2" data-a="card"><p class="h3">Every token in its vocabulary gets a score.</p><p class="sec" style="font-size:17px;margin-top:14px">Numbers are made up to show the idea.</p></div>
   </div>
-  <aside class="note">The wheel on the right is the same idea in motion: likelier words own more of the wheel, so it usually
-lands on TV, and now and then it doesn't.
-Click once: bars grow. "A chatbot gives every possible next word a score like this.
-It picks one (usually a likely one, sometimes a surprising one), adds it to the
-sentence, and does the whole thing again. Word by word. That's how it writes an essay,
-a poem, or code."
-Click again for the takeaway box.</aside>
+  <aside class="note">~1 min. Click once: bars grow.
+"After the attention layers, the model looks at the last position and gives EVERY token it knows a score.
+A typical vocabulary is 50,000 to 200,000 tokens, so that's a lot of scores. They're turned into
+probabilities that add up to 100%. Those are the bars."
+The wheel on the right is the same idea in motion: likelier words own more of the wheel, so it usually
+lands on TV, and now and then it doesn't. That "now and then" is the next step.</aside>
 </section>
 
-<!-- 7 ─ Tokens (new) ─ hero: STRAWBERRY keycaps that split into tokens -->
-<section class="slide s-tok" data-title="It sees tokens, not letters.">
-  <div class="in">
-    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Plot twist</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">It sees tokens. Not letters.</span></span></h2></header>
-    <div class="toks">
-      <div class="tokrow" data-g="0" data-a="card" data-d="200"><span class="t">un</span><span class="t">believ</span><span class="t">able</span></div>
-      <div class="tokrow" data-g="0" data-a="card" data-d="320"><span class="t">st<b class="rr">r</b></span><span class="t">aw</span><span class="t">be<b class="rr">rr</b>y</span></div>
-      <p class="tfoot sec" data-g="1" data-a="fade">Each chunk becomes a number. Every AI cuts words a little differently.</p>
-    </div>
-    <div class="panel try" data-g="2" data-a="card"><p class="h3">Try it:</p><p>How many r's are in “strawberry”?</p><p class="sec">Too famous? Ask: how many s's are in “Mississippi assessments”?</p></div>
-  </div>
-  <aside class="note">~3 min. Click once: the words split into tokens (the keycaps split too).
-"An AI never sees the letters inside a chunk. Each chunk is turned into a number, and it
-predicts the next number. So counting letters is weirdly hard for it."
-Click again: the r's light up. Ask the room to try it on their phones or watch you try it.
-Heads-up: many newer AIs now get "strawberry" right because the riddle went viral and
-ended up in what they read. That's memorizing, not seeing. Use the Mississippi one:
-the correct answer is 9 (4 in Mississippi + 5 in assessments).
-Link back: it predicts what SOUNDS right.</aside>
-</section>
-
-<!-- 7 ─ Three steps ─ hero: three numbered graphite slabs · orbit -->
-<section class="slide s7" data-title="Three steps. No magic.">
-  <div class="in">
-    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">How a chatbot is made</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Three steps. No magic.</span></span></h2></header>
-    <div class="list">
-      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Read</p><p class="sec">Mountains of text: websites, books, code.</p></div></div>
-      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Learn patterns</p><p class="sec">Which words tend to follow which.</p></div></div>
-      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Predict</p><p class="sec">The next word. Then the next. Then the next.</p></div></div>
-    </div>
-    <div class="panel punch" data-g="4" data-a="card"><p>It predicts what <span class="em hl">sounds</span> right — not what <span class="em hl">is</span> right.</p></div>
-  </div>
-  <aside class="note">One click per step. Keep it short. The model on the right follows you: pages pile up (read),
-spread into a web of connections (patterns), then collapse into a phone's next-word strip (predict).
-Last click is the most important sentence of today: "It predicts what SOUNDS right,
-not what IS right." Ask them to remember it — we're going to prove it in 20 minutes.</aside>
-</section>
-
-<!-- How it learned (new) ─ hero: a bank of dials that settle -->
-<section class="slide lp s-train" data-title="Guess. Check. Adjust.">
-  <div class="in">
-    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">How it learned the patterns</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Guess. Check. Adjust.</span></span></h2></header>
-    <div class="list">
-      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Guess</p><p class="sec">Hide the next word of a real sentence. Make it guess.</p></div></div>
-      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Check</p><p class="sec">Compare its guess with the real word.</p></div></div>
-      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Adjust</p><p class="sec">Nudge billions of tiny dials so the right word scores higher next time.</p></div></div>
-    </div>
-    <div class="panel punch" data-g="4" data-a="card"><p>Repeat billions of times. <span class="em hl">Nobody typed in the rules.</span></p></div>
-  </div>
-  <aside class="note">~3 min. This is the inside of step 2 from the last slide. One click per step.
-"It learned by playing the game you just played. Hide the next word, guess it, check, and adjust."
-The dials: a model is a giant pile of numbers, called parameters or weights. Big models have billions.
-Training means turning those dials a tiny bit after every guess. Click 3: the dials on the model settle.
-Last click: nobody wrote rules like "after 'turned on the' say TV". The patterns were found, not programmed.
-That is why even the people who built it can't always say exactly why it gave one answer.
-If asked "is it thinking?": it is doing a LOT of math to predict text. Whether that counts as thinking is
-a real debate, and you don't have to settle it today.</aside>
-</section>
-
-<!-- 9 ─ Same question (new) ─ hero: two phones, two chats, two answers -->
+<!-- 14 ─ Step 5 · Pick + repeat ─ hero: two phones, two answers -->
 <section class="slide s-same" data-title="Same question. Different answer.">
   <div class="in">
-    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Watch closely</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Same question. Different answer.</span></span></h2></header>
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Step 5 · Pick one, then repeat</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Same question. Different answer.</span></span></h2></header>
     <div class="list">
-      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">It doesn't always pick #1</p><p class="sec">It picks from the top few, with a little randomness.</p></div></div>
-      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Two answers disagree? At least one is wrong.</p><p class="sec">Asking twice is a free fact-check.</p></div></div>
+      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">It doesn't always pick #1</p><p class="sec">A setting called temperature adds randomness. Low = safe and samey. High = creative and weird.</p></div></div>
+      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Two answers disagree? One is wrong.</p><p class="sec">Asking twice in new chats is a free fact-check.</p></div></div>
     </div>
-    <div class="panel punch" data-g="3" data-a="card"><p>One answer is never <span class="em hl">the</span> answer.</p></div>
+    <div class="panel punch" data-g="3" data-a="card"><p>Add the word. Repeat. <span class="em hl">That's everything.</span></p></div>
   </div>
   <aside class="note">~2 min, live. Open two NEW chats on the projector and ask both: "Give my band a name."
-The room will see two different answers. (The phones on the slide show the same thing.)
-Click 1: why. It picks from the top few words with a little randomness, not always #1.
-Click 2: the useful trick. Now ask both chats a local fact question whose answer YOU
-already checked. If the two answers disagree, at least one is wrong. Different answers
-to a fact = red flag.
-Click 3: one answer is never THE answer.</aside>
+The room sees two different answers (the phones on the slide do the same).
+Click 1: why. It samples from the scores with a bit of randomness (temperature). Temperature 0 picks the top
+word almost every time; higher temperatures pick unlikely words more often.
+Click 2: useful trick. Ask both chats a fact question you already checked. Different answers = red flag.
+Click 3: the full loop. Pick a token, add it to the text, run ALL five steps again for the next token.
+An essay of 500 words is this loop running roughly 650 times. Recap the five steps out loud:
+tokens → embeddings → attention → scores → pick. Then repeat.</aside>
 </section>
 
-<!-- Context window (new) ─ hero: a long chat with a sliding frame -->
+<!-- 15 ─ Context window ─ hero: long chat with a sliding frame -->
 <section class="slide lp s-ctx" data-title="It only knows what's on the page.">
   <div class="in">
-    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">What it can see</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">It only knows what's on the page.</span></span></h2></header>
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">The context window</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">It only knows what's on the page.</span></span></h2></header>
     <div class="list">
-      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">The page is this chat</p><p class="sec">Everything you typed and everything it answered. That's the context window.</p></div></div>
-      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">New chat, blank page</p><p class="sec">It doesn't remember you, unless the app saves notes about you.</p></div></div>
-      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Long chat, fuzzy start</p><p class="sec">In a very long chat, early details can drop out.</p></div></div>
+      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">The page is this chat</p><p class="sec">Everything you typed and everything it answered, measured in tokens.</p></div></div>
+      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">New chat, blank page</p><p class="sec">The model doesn't remember you. Apps with “memory” paste saved notes in for you.</p></div></div>
+      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Long chat, fuzzy start</p><p class="sec">Once the page is full, the oldest parts fall off or get blurry.</p></div></div>
     </div>
     <div class="panel punch" data-g="4" data-a="card"><p>If it needs to know it, <span class="em hl">put it on the page.</span></p></div>
   </div>
-  <aside class="note">~3 min. The model on the right: a long conversation, and a frame showing the part the AI can use.
-"When it answers, it has two things: the patterns from training, and the text in front of it right now."
-Click 1: that text is called the context window. Your messages, its answers, any file you pasted.
-Click 2: open a new chat and it starts from nothing. (Some apps keep a memory of you. That's the app
-saving notes and pasting them onto the page for you, not the model remembering.)
-Click 3: very long chats can lose the beginning. If it forgets a rule you gave it, say the rule again.
-Why this matters for building: when your code breaks, paste the code AND the error. It can't see your screen.</aside>
+  <aside class="note">~2 min. The model on the right: a long conversation, and a frame showing the part the AI can use.
+"When it answers it has exactly two things: the frozen patterns from training (the dials), and the text in
+front of it right now. That text is the context window."
+Click 1: context windows are measured in tokens. Today's big models handle hundreds of thousands, some a million+.
+Click 2: memory features are the app writing notes about you and quietly pasting them into the page.
+Click 3: in very long chats, early rules get lost. Say the important rule again.
+Building tip: when your code breaks, paste the code AND the error message. It can't see your screen.</aside>
 </section>
 
-<!-- Tools (new) ─ hero: three tool tiles -->
-<section class="slide lp s-tools" data-title="The model guesses. Tools let it look.">
+<!-- ═════════════════════════ 03 · LLMs VS OTHER AI ═════════════════════════ -->
+
+<!-- 16 ─ Section 03 ─ hero: tablet (AI family tree) -->
+<section class="slide sec s4c" data-title="03 LLMs vs. the rest of AI">
   <div class="in">
-    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Why some chatbots seem smarter</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">The model guesses. Tools let it look.</span></span></h2></header>
+    <p class="secnum" data-g="0" data-a="head" data-d="0">03</p>
+    <h2 class="sectitle z1"><span class="mask"><span data-g="0" data-a="line" data-d="140" data-scramble>LLMs vs. the rest of AI</span></span></h2>
+    <p class="secsub" data-g="0" data-a="head" data-d="300">One family. Many different jobs.</p>
+  </div>
+  <aside class="note">"Everything we just learned is how ONE kind of AI works: a large language model. Most of the AI
+you touch every day is not an LLM. Let's sort them out."</aside>
+</section>
+
+<!-- 17 ─ Family tree ─ hero: the tablet glides over -->
+<section class="slide lp l4 s-tree" data-title="Where LLMs fit.">
+  <div class="in">
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">The AI family tree</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Where LLMs fit.</span></span></h2></header>
     <div class="list">
-      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Search</p><p class="sec">It can read live web pages, then write from them.</p></div></div>
-      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Run code</p><p class="sec">It can do the math or test the program, instead of guessing.</p></div></div>
-      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">See</p><p class="sec">Photos, screenshots, files.</p></div></div>
+      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Artificial intelligence</p><p class="sec">Any computer doing something that seems smart. Even 1997's chess champion, Deep Blue.</p></div></div>
+      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Machine learning</p><p class="sec">AI that learns from examples instead of hand-written rules.</p></div></div>
+      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Deep learning</p><p class="sec">Machine learning with many stacked layers: a neural network.</p></div></div>
+      <div class="li" data-g="4" data-a="card"><span class="n">4</span><div><p class="h3">Generative AI → LLMs</p><p class="sec">Deep learning that makes new things. LLMs make text: ChatGPT, Gemini, Claude.</p></div></div>
     </div>
-    <div class="panel punch" data-g="4" data-a="card"><p>With tools it's <span class="em hl">reading,</span> not remembering. It can still misread.</p></div>
   </div>
-  <aside class="note">~3 min. One click per tool; each tile appears on the model.
-"The model on its own can only predict text. The app around it can hand it tools."
-Search: it looks things up right now, so it isn't stuck at its training cutoff. Look for links or a
-"searched the web" label under the answer.
-Run code: for math and data it can write a tiny program and run it, which beats guessing digits.
-See: you can show it a screenshot of your broken page.
-Last click: tools make it better, not perfect. It can pick a bad source or misread a good one.
-Bridge to the demo: a model + tools + a loop is called an AGENT. You're about to watch one.</aside>
+  <aside class="note">~1.5 min. The tablet lights up each ring, outside in, with examples.
+Each ring sits inside the one before it. Every LLM is generative AI, which is deep learning, which is
+machine learning, which is AI. But not the other way around.
+Deep Blue (IBM, beat world champion Kasparov in 1997) is AI but mostly NOT machine learning: it searched
+millions of chess moves using rules and scoring that people wrote. Good example of "AI ≠ learning".
+"LLM" = Large (billions of parameters, trillions of training tokens) Language (trained on text) Model
+(the frozen pile of dials). Many are now "multimodal": they also take images and audio.</aside>
 </section>
 
-<!-- 8 ─ Section 02 -->
-<section class="slide sec s8" data-title="02 Watch an AI build.">
+<!-- 18 ─ Four kinds of AI ─ hero: two phones (feed + Face ID) -->
+<section class="slide lp l4 s-kinds" data-title="Four jobs AI does.">
   <div class="in">
-    <p class="secnum" data-g="0" data-a="head" data-d="0">02</p>
-    <h2 class="sectitle z1"><span class="mask"><span data-g="0" data-a="line" data-d="140" data-scramble>Watch an AI build.</span></span></h2>
-    <p class="secsub" data-g="0" data-a="head" data-d="300">One sentence in. A real website out.</p>
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">You probably used all four today</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Four jobs AI does.</span></span></h2></header>
+    <div class="list">
+      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Recommend</p><p class="sec">Your For You feed, YouTube, Spotify. Learns from what you watch and skip.</p></div></div>
+      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Recognize</p><p class="sec">Face ID, spam filters, photo search. Sorts what it sees into labels.</p></div></div>
+      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Create images</p><p class="sec">Image generators. Different machine from an LLM (next slide).</p></div></div>
+      <div class="li" data-g="4" data-a="card"><span class="n">4</span><div><p class="h3">Create text</p><p class="sec">LLMs. Predict the next token, over and over.</p></div></div>
+    </div>
   </div>
-  <aside class="note">Hand off to the adult sponsor for the live demo.</aside>
+  <aside class="note">~1.5 min. Hands up after each one: "Who used this today?" (Almost everyone, for 1 and 2.)
+The phones: a feed telling you WHY it picked a video, and a face unlock recognizing a face.
+1 Recommend: predicts how likely YOU are to watch, like, or finish something. Every swipe is training data.
+2 Recognize (classify): input → a label. Face → "owner / not owner". Email → "spam / not spam".
+3 & 4 Generate: make something new.
+Key point: same core idea (learn patterns from examples), very different jobs and training data.
+A recommender is not an LLM and can't chat. An LLM isn't built to recommend your next video.</aside>
 </section>
 
-<!-- 9 ─ Demo prompt ─ hero: laptop lit by the crescent · orbit -->
+<!-- 19 ─ Image AI ─ hero: laptop (denoising a picture) -->
+<section class="slide lp s-diff" data-title="Image AIs paint from static.">
+  <div class="in">
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Not every AI is an LLM</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Image AIs paint from static.</span></span></h2></header>
+    <div class="list">
+      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Start with pure noise</p><p class="sec">Random colored dots, like old TV static.</p></div></div>
+      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Remove a little noise, many times</p><p class="sec">Each step it guesses what the picture should look like, steered by your prompt.</p></div></div>
+      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Trained on captioned images</p><p class="sec">Millions of pictures with descriptions. It learns patterns, and sometimes memorizes.</p></div></div>
+    </div>
+    <div class="panel punch" data-g="4" data-a="card"><p>Text AI: next token. <span class="em hl">Image AI: less noise.</span></p></div>
+  </div>
+  <aside class="note">~1.5 min. The laptop runs a pretend generation: static → blocky shapes → a fox in the snow.
+This is called a DIFFUSION model (Stable Diffusion, Midjourney and many others work roughly this way).
+How it was trained: take a real photo, add noise to it, and teach the model to predict the noise you added.
+Do that millions of times. Then at generation time, start from pure noise and keep removing predicted noise,
+nudged toward the prompt.
+Contrast with an LLM: an LLM builds text left to right, one token at a time. A diffusion model refines the
+WHOLE image at once, a little better each step.
+Click 3 plants a seed for ethics: those training images came from real artists and photographers.</aside>
+</section>
+
+<!-- ═════════════════════════ 04 · MODEL / CHATBOT / AGENT ═════════════════════════ -->
+
+<!-- 20 ─ Section 04 ─ hero: laptop, lid shut -->
+<section class="slide sec s8" data-title="04 Model. Chatbot. Agent.">
+  <div class="in">
+    <p class="secnum" data-g="0" data-a="head" data-d="0">04</p>
+    <h2 class="sectitle z1"><span class="mask"><span data-g="0" data-a="line" data-d="140" data-scramble>Model. Chatbot. Agent.</span></span></h2>
+    <p class="secsub" data-g="0" data-a="head" data-d="300">Three words people mix up. First, watch one.</p>
+  </div>
+  <aside class="note">Hand off to the adult sponsor for the live demo. "We'll watch an AI agent build something, then
+take apart what we saw: what's the model, what's the chatbot, what's the agent."</aside>
+</section>
+
+<!-- 21 ─ Demo ─ hero: the laptop opens -->
 <section class="slide s9" data-title="One prompt. Watch it build.">
   <div class="in">
-    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Live demo · Claude Code</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">One prompt. Watch it build.</span></span></h2></header>
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Live demo · an AI agent (Claude Code)</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">One prompt. Watch it build.</span></span></h2></header>
     <div class="panel term" data-g="0" data-a="card" data-d="200">
       <div class="bar3"><i></i><i></i><i></i></div>
       <div class="lines mono">
@@ -536,15 +705,16 @@ Bridge to the demo: a model + tools + a loop is called an AGENT. You're about to
     </div>
     <div class="panel call" data-g="1" data-a="card"><p class="h3">Your job:</p><p class="em">Call out changes!</p><p class="sec">“Dark mode.”</p><p class="sec">“Add confetti.”</p><p class="sec">“Make it purple.”</p></div>
   </div>
-  <aside class="note">ADULT SPONSOR runs this live from their own Claude account on the projector.
+  <aside class="note">~3 min (keep it tight). ADULT SPONSOR runs this live from their own Claude account on the projector.
 (Claude is 18+, so the teens don't log in to Claude themselves. Say this out loud.)
-1. Type the prompt shown. Narrate what Claude is doing: planning, creating files, running.
-2. Open the result. Take 2–3 change requests from the room and make them.
+1. Type the prompt shown. Narrate what it's doing: planning, creating files, running commands.
+2. Open the result. Take ONE change request from the room and make it.
 3. Push / publish so the room sees a real URL.
-Keep it to ~10 minutes. If Wi-Fi fails: play the backup recording.</aside>
+Point out the moments it RUNS something and READS the result. That's the difference we're about to name.
+If Wi-Fi fails: play the backup recording.</aside>
 </section>
 
-<!-- 10 ─ Agent loop ─ hero: ring with a bead orbiting through the four nodes -->
+<!-- 22 ─ Agent loop ─ hero: ring with four nodes -->
 <section class="slide s10" data-title="An AI agent works in a loop.">
   <div class="in">
     <header class="hd z1"><p class="kick" data-g="0" data-a="fade">What just happened?</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">An AI agent works in a loop.</span></span></h2></header>
@@ -553,25 +723,126 @@ Keep it to ~10 minutes. If Wi-Fi fails: play the backup recording.</aside>
   <span class="anchor node" data-anchor="n1" data-ax="0" data-ay="1" data-g="2" data-a="card">Write code</span>
   <span class="anchor node" data-anchor="n3" data-ax="1" data-ay="0" data-g="4" data-a="card">Fix what broke</span>
   <span class="anchor node" data-anchor="n2" data-ax="0" data-ay="0" data-g="3" data-a="card">Run it</span>
-  <aside class="note">"A chatbot answers once. An agent like Claude Code keeps going: plans, writes code,
-runs it, sees what broke, fixes it, repeats. That's why it could build a whole site."
-"You'll use the same loop — except YOU are the one checking each step."</aside>
+  <aside class="note">~1 min. "A chatbot answers once and waits for you. An agent keeps going on its own: plans, writes code,
+runs it, reads what broke, fixes it, repeats until the job is done. That's why it could build a whole site."
+Under the hood it's the same next-token model. The difference is what's wrapped around it. Next two slides.
+"You'll use the same loop when you build, except YOU are the one checking each step."</aside>
 </section>
 
-<!-- 11 ─ Section 03 -->
-<section class="slide sec s11" data-title="03 AI Checkpoint">
+<!-- 23 ─ Model → chatbot ─ hero: tablet (raw model vs coached chatbot) -->
+<section class="slide lp s-coach" data-title="A raw model just keeps typing.">
   <div class="in">
-    <p class="secnum" data-g="0" data-a="head" data-d="0">03</p>
-    <h2 class="sectitle z1"><span class="mask"><span data-g="0" data-a="line" data-d="140" data-scramble>AI Checkpoint</span></span></h2>
-    <p class="secsub em" data-g="0" data-a="head" data-d="300">Confident ≠ Correct.</p>
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Model → chatbot</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">A raw model just keeps typing.</span></span></h2></header>
+    <div class="list">
+      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Raw (base) model</p><p class="sec">Ask “How do I bake a cake?” and it may continue: “How do I bake bread? How do I…”</p></div></div>
+      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Coaching makes it an assistant</p><p class="sec">Trained on example chats, then people rate answers. Better answers win.</p></div></div>
+      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">An app wraps it</p><p class="sec">Hidden instructions (the system prompt), safety rules, chat history, a nice screen.</p></div></div>
+    </div>
+    <div class="panel punch" data-g="4" data-a="card"><p>Chatbot = model + <span class="em hl">coaching</span> + an app.</p></div>
   </div>
-  <aside class="note">Every session has an AI Checkpoint. Today: catching the AI being confidently wrong.</aside>
+  <aside class="note">~2 min. Left side of the tablet: a raw model "answering" by continuing the text, because that's all
+pre-training taught it: predict what comes next on a web page (and web pages often list more questions).
+Click 2: two coaching stages.
+- Instruction tuning: train on thousands of example conversations written by people.
+- Learning from human feedback (RLHF): show two answers, a person picks the better one, nudge the dials
+  toward answers people prefer. The tablet shows the 👍.
+This is also where "be helpful, be honest, refuse dangerous stuff" gets taught, and where the
+habit of sounding confident sneaks in: people tend to rate confident answers higher.
+Click 3: the app (ChatGPT, Gemini, Claude.ai) adds a hidden system prompt you never see, safety filters,
+and your chat history. Same model, different app = different behavior.</aside>
 </section>
 
-<!-- 12 ─ Activity ─ hero: three question cards · dolly -->
+<!-- 24 ─ Chatbot → agent ─ hero: three tool tiles -->
+<section class="slide lp s-tools" data-title="The model guesses. Tools let it act.">
+  <div class="in">
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Chatbot → agent</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">The model guesses. Tools let it act.</span></span></h2></header>
+    <div class="list">
+      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Search</p><p class="sec">It can read live web pages, then write from them.</p></div></div>
+      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Run code</p><p class="sec">It can test the program or do the math, instead of guessing.</p></div></div>
+      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">See</p><p class="sec">Photos, screenshots, files.</p></div></div>
+    </div>
+    <div class="panel punch" data-g="4" data-a="card"><p>Model + tools + a loop = <span class="em hl">an agent.</span></p></div>
+  </div>
+  <aside class="note">~1.5 min. One click per tool; each tile appears on the model.
+How tools work: the model can't touch the internet. It writes a special message like
+"search: Burch Library hours". The app runs the search, pastes the results back onto the page (the context
+window!), and the model keeps writing. Same next-token trick, just with fresh text to read.
+Search: not stuck at its training cutoff. Look for links or a "searched the web" label.
+Run code: math and data by actually computing. See: show it a screenshot of your broken page.
+Last click: give it tools AND let it decide its next step on its own, over and over = an agent.
+Tools make it better, not perfect. It can pick a bad source, misread a good one, or run the wrong command.</aside>
+</section>
+
+<!-- 25 ─ Compare ─ no hero: the table is the picture -->
+<section class="slide s-cmp" data-title="Model vs. chatbot vs. agent.">
+  <div class="in">
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Put it together</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Model vs. chatbot vs. agent.</span></span></h2></header>
+    <div class="cols">
+      <div class="panel" data-g="1" data-a="card"><p class="label">MODEL</p><p class="h3">The engine</p>
+        <div class="row"><span class="tag">DOES</span><p>Predicts the next token</p></div>
+        <div class="row"><span class="tag">REMEMBERS</span><p>Only the page it's given</p></div>
+        <div class="row"><span class="tag">CAN ACT?</span><p>No. Text out only.</p></div>
+        <div class="row"><span class="tag">EXAMPLE</span><p class="sec">The GPT, Gemini, Claude models</p></div></div>
+      <div class="panel" data-g="2" data-a="card"><p class="label">CHATBOT</p><p class="h3">Engine + an app</p>
+        <div class="row"><span class="tag">DOES</span><p>Answers one message at a time</p></div>
+        <div class="row"><span class="tag">REMEMBERS</span><p>Chat history, saved notes</p></div>
+        <div class="row"><span class="tag">CAN ACT?</span><p>Mostly talks. Some search.</p></div>
+        <div class="row"><span class="tag">EXAMPLE</span><p class="sec">ChatGPT, the Gemini app</p></div></div>
+      <div class="panel" data-g="3" data-a="card"><p class="label">AGENT</p><p class="h3">Engine + tools + loop</p>
+        <div class="row"><span class="tag">DOES</span><p>Works step by step to a goal</p></div>
+        <div class="row"><span class="tag">REMEMBERS</span><p>Files, notes, its own results</p></div>
+        <div class="row"><span class="tag">CAN ACT?</span><p>Runs code, edits files, browses</p></div>
+        <div class="row"><span class="tag">EXAMPLE</span><p class="sec">Claude Code, Copilot agent mode</p></div></div>
+    </div>
+    <div class="panel punch" data-g="4" data-a="card"><p>Same engine. <span class="em hl">More built around it.</span></p></div>
+  </div>
+  <aside class="note">~1.5 min. One column per click. Quick quiz after: point at things and ask "model, chatbot, or agent?"
+- "GPT" or "Gemini 2.5" by itself → model.  - The ChatGPT app → chatbot.  - The demo we just watched → agent.
+- Siri setting a timer → closer to an agent (it takes an action), though older Siri wasn't an LLM at all.
+Why it matters: more power = more risk. A chatbot can be wrong in words. An agent can be wrong in ACTIONS
+(delete a file, send an email). That's why agents ask permission, and why we check their work.</aside>
+</section>
+
+<!-- ═════════════════════════ 05 · AI ETHICS ═════════════════════════ -->
+
+<!-- 26 ─ Section 05 ─ hero: magnifier -->
+<section class="slide sec s11" data-title="05 AI ethics">
+  <div class="in">
+    <p class="secnum" data-g="0" data-a="head" data-d="0">05</p>
+    <h2 class="sectitle z1"><span class="mask"><span data-g="0" data-a="line" data-d="140" data-scramble>Question it: AI ethics</span></span></h2>
+    <p class="secsub em" data-g="0" data-a="head" data-d="300">Who it helps. Who it hurts. Who checks.</p>
+  </div>
+  <aside class="note">"You now know more about how AI works than most adults. That's exactly why you get a say in how it's
+used. Five big issues: bias, truth, fakes, privacy, and the big questions about ownership, honesty,
+jobs and energy. Every week has an AI Checkpoint on one of these."</aside>
+</section>
+
+<!-- 27 ─ Bias ─ hero: tablet (a résumé screener) -->
+<section class="slide lp s-bias" data-title="It learned from us. Biases too.">
+  <div class="in">
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Ethics 1 · Bias</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">It learned from us. Biases too.</span></span></h2></header>
+    <div class="list">
+      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Unfair examples, unfair patterns</p><p class="sec">The dials copy whatever is in the data. They can't tell fair from unfair.</p></div></div>
+      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">It has happened</p><p class="sec">Amazon scrapped a hiring AI that marked down résumés with the word “women's.”</p></div></div>
+      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Who gets missed?</p><p class="sec">A 2018 study found face AIs far less accurate for darker-skinned women.</p></div></div>
+    </div>
+    <div class="panel punch" data-g="4" data-a="card"><p>Always ask: <span class="em hl">who is this unfair to?</span></p></div>
+  </div>
+  <aside class="note">~2 min. The tablet is a simulation of the Amazon case: same skills, but the résumé that mentions a
+women's club scores lower, because the AI learned from ten years of past hires who were mostly men.
+Click 2: reported by Reuters in 2018. Amazon said the tool was never used on its own to make hiring decisions,
+and it was scrapped. The point: nobody programmed "prefer men". The pattern was in the examples.
+Click 3: the "Gender Shades" study (Joy Buolamwini & Timnit Gebru, MIT, 2018). Commercial face tools guessing
+gender were wrong up to 34.7% of the time for darker-skinned women vs. 0.8% for lighter-skinned men.
+Why: the training photos had far fewer darker-skinned faces.
+Discussion (30 sec): "What could go wrong if an AI like this decided who gets into a school? Who gets a loan?"
+Building tip for later weeks: test your project with different kinds of users, not just people like you.</aside>
+</section>
+
+<!-- 28 ─ Activity ─ hero: three question cards -->
 <section class="slide s12" data-title="Ask your AI these. Then check.">
   <div class="in">
-    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">With your partner · 8 minutes</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Ask your AI these. Then check.</span></span></h2></header>
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Ethics 2 · Truth &nbsp;·&nbsp; with your partner · 3 minutes</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Ask your AI these. Then check.</span></span></h2></header>
     <div class="grid">
       <div class="qs">
         <div class="panel" data-g="1" data-a="card"><span class="qn">Q1</span><span>What time does the Burch Library close on Saturdays?</span></div>
@@ -582,17 +853,16 @@ runs it, sees what broke, fixes it, repeats. That's why it could build a whole s
       <div class="panel check" data-g="3" data-a="card"><span class="em">Check against:</span> the official website · a map app · a librarian</div>
     </div>
   </div>
-  <aside class="note">Pairs use ChatGPT (or whatever AI they're allowed to use). Timer: 8 minutes.
+  <aside class="note">~3 min. Pairs use ChatGPT, Gemini, or whatever AI they're allowed to use. Timer: 3 minutes.
 LEADERS: look up the real answers the day before from official sources, and
 swap in fresher questions if these become too easy.
 Click 2 (Score each): the three cards top-right flip to ✗ ? ✓. They show the three possible scores,
 not the real answers.
 If an AI searched the web it may get these right. Then score its SOURCES: open one. Does the page say that?
-Debrief: hands up — who got at least one ✗ or ? ... Ask a pair to read out the most
-confident wrong answer. Did the AI sound unsure? (Usually no.)</aside>
+Debrief: hands up, who got at least one ✗ or ?  Ask a pair to read out the most confident wrong answer.</aside>
 </section>
 
-<!-- 13 ─ Why ─ hero: the speech bubble returns · morph -->
+<!-- 29 ─ Why ─ hero: phone with an UNVERIFIED answer -->
 <section class="slide s13" data-title="Fluent is not the same as true.">
   <div class="in">
     <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Why does that happen?</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Fluent is not the same as true.</span></span></h2></header>
@@ -600,61 +870,48 @@ confident wrong answer. Did the AI sound unsure? (Usually no.)</aside>
       <div class="spot" aria-hidden="true"></div>
       <p class="cap sec" data-g="1" data-a="fade">Sounds certain. Nobody checked.</p>
       <div class="reasons">
-        <p data-g="2" data-a="head"><strong>It's guessing words,</strong>not looking things up (unless it searches).</p>
+        <p data-g="2" data-a="head"><strong>It's predicting words,</strong>not looking things up (unless it searches).</p>
         <p data-g="2" data-a="head"><strong>Its knowledge has a cutoff,</strong>so local + recent facts are weak.</p>
-        <p data-g="2" data-a="head"><strong>It's trained to sound helpful,</strong>so it rarely says “I don't know.”</p>
+        <p data-g="2" data-a="head"><strong>Coaching rewarded sounding sure,</strong>so it rarely says “I don't know.”</p>
       </div>
       <div class="panel you" data-g="3" data-a="card">So <span class="em">you</span> are the fact-checker. Always.</div>
     </div>
   </div>
-  <aside class="note">The phone types out an example of a confident answer (we made it up for the slide —
+  <aside class="note">~1.5 min. The phone types out an example of a confident answer (we made it up for the slide;
 it's the kind of thing AIs say). Click: UNVERIFIED stamp.
-Then the three reasons. Connect back to slide 8: it predicts what SOUNDS right.
+This has a name: HALLUCINATION. Connect each reason to what we learned:
+1. Step 4–5: it picks likely-sounding tokens. A made-up time "sounds like" a library's hours.
+2. Training vs. using: training froze its knowledge at a cutoff date.
+3. Coaching (human ratings): people tend to rate confident answers higher, so it learned confidence.
 This is also why AI-written code can look perfect and still be broken.</aside>
 </section>
 
-<!-- Catch it (new) ─ hero: the phone from the last slide glides over -->
-<section class="slide lp s-catch" data-title="Three ways to catch it.">
+<!-- 30 ─ Fakes ─ hero: laptop (a fake post and a cloned voice) -->
+<section class="slide lp s-fake" data-title="Seeing isn't believing.">
   <div class="in">
-    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Your move</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Three ways to catch it.</span></span></h2></header>
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Ethics 3 · Deepfakes</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Seeing isn't believing.</span></span></h2></header>
     <div class="list">
-      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Ask twice</p><p class="sec">New chat, same question. Different answers are a red flag.</p></div></div>
-      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Ask for the source</p><p class="sec">Then open it. Does the page really say that?</p></div></div>
-      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Check the real thing</p><p class="sec">The official site, a map app, a person who knows.</p></div></div>
+      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Fake photos, video and voices</p><p class="sec">A few seconds of someone's voice can be enough to clone it.</p></div></div>
+      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Check before you share</p><p class="sec">Who posted it first? Is a trusted news site reporting it? Ask for the source.</p></div></div>
+      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Make a family code word</p><p class="sec">If “Mom” calls panicking and asks for money, ask for the word.</p></div></div>
     </div>
-    <div class="panel punch" data-g="4" data-a="card"><p>Sounding sure costs it <span class="em hl">nothing.</span> Checking is your job.</p></div>
+    <div class="panel punch" data-g="4" data-a="card"><p>Too shocking? <span class="em hl">Check before you share.</span></p></div>
   </div>
-  <aside class="note">~2 min. The phone with the UNVERIFIED answer slides over from the last slide.
-Three habits, one click each. They use what we learned today:
-1. Ask twice works because it picks words with a little randomness (the wheel).
-2. Ask for the source works because with search it is reading pages, and you can read them too.
-   No source, or a link that doesn't say it? Treat the answer as a guess.
-3. For anything that matters, go to the real thing.
-Have everyone say the last line out loud.</aside>
+  <aside class="note">~2 min. The laptop shows two scenes we made up for the slide: a viral "shark on Main Street" post
+getting fact-checked, and a phone call from a cloned voice.
+Click 1: image generators (slide 19!) and voice models make fakes cheap. Voice-clone scams are real: a short
+clip from a video you posted can be enough.
+Click 2: the checks. Find the ORIGINAL poster (new account? no name?). Search the claim: are real news outlets
+reporting it? Reverse image search (Google Lens) to see where the photo first appeared. Look for oddities,
+but don't rely on spotting glitches; good fakes don't have any.
+Click 3: agree on a family code word tonight. It costs nothing and beats any detector.
+Also: making a deepfake of a real person (especially a classmate) can be bullying, and in many places it's illegal.</aside>
 </section>
 
-<!-- 14 ─ Four habits ─ hero: four graphite tiles · orbit -->
-<section class="slide s14" data-title="The 4 habits.">
-  <div class="in">
-    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">How we use AI here</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">The 4 habits.</span></span></h2></header>
-    <div class="bento">
-      <div class="panel h1" data-g="1" data-a="card"><p class="n">1</p><p class="h3">Explain-back</p><p class="d sec">No AI code goes in your project until you can explain it out loud.</p></div>
-      <div class="panel h2" data-g="2" data-a="card"><p class="n">2</p><p class="h3">Tutor mode</p><p class="d sec">Hints and a plan first. Full code second.</p></div>
-      <div class="panel h3b" data-g="3" data-a="card"><p class="n">3</p><p class="h3">Pair up</p><p class="d sec">The beginner types. The partner navigates. Leaders never grab your keyboard.</p></div>
-      <div class="panel h4" data-g="4" data-a="card"><p class="n">4</p><p class="h3">Prompt journal</p><p class="d sec">Write down what you asked, what came back, what broke.</p></div>
-    </div>
-  </div>
-  <aside class="note">One click per habit, and each brings in its object: a mic (explain it out loud), a bulb (hints first),
-two cursors (pair up), a notebook (journal). These are the rules every week, not just today.
-Why? Research on beginners using AI to code: the ones who let AI do everything end up
-unable to fix or change their own project. The ones who use it like a tutor get better.
-Hand out the printed habits card.</aside>
-</section>
-
-<!-- 15 ─ Safety ─ hero: matte padlock · dolly -->
+<!-- 31 ─ Privacy ─ hero: padlock -->
 <section class="slide s15" data-title="Never share these online.">
   <div class="in">
-    <header class="hd z1"><p class="kick red" data-g="0" data-a="fade">Non-negotiable · not in prompts, not on your site</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Never share these online.</span></span></h2></header>
+    <header class="hd z1"><p class="kick red" data-g="0" data-a="fade">Ethics 4 · Privacy &nbsp;·&nbsp; not in prompts, not on your site</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Never share these online.</span></span></h2></header>
     <div class="grid">
       <div class="panel chip" data-g="1" data-a="card"><span class="no">✗</span><span>Your full name</span></div>
       <div class="panel chip" data-g="1" data-a="card"><span class="no">✗</span><span>Your school</span></div>
@@ -662,140 +919,183 @@ Hand out the printed habits card.</aside>
       <div class="panel chip" data-g="1" data-a="card"><span class="no">✗</span><span>Phone numbers</span></div>
       <div class="panel chip" data-g="1" data-a="card"><span class="no">✗</span><span>Photos of people</span></div>
       <div class="panel chip" data-g="1" data-a="card"><span class="no">✗</span><span>Passwords or keys</span></div>
-      <div class="panel always" data-g="2" data-a="card"><p><span class="em">And always:</span> an adult checks your site before you share the link.</p></div>
+      <div class="panel always" data-g="2" data-a="card"><p>Chats can be saved and used to train AI. <span class="em">And always:</span> an adult checks your site before you share it.</p></div>
     </div>
   </div>
-  <aside class="note">Use a nickname or first name only on your site. No sign-up forms, no collecting
-other people's info. If you're not sure, ask a leader.</aside>
+  <aside class="note">~1.5 min. "A chat feels private. It isn't a diary."
+- What you type is stored on the company's servers.
+- Depending on the app and your settings, it can be read by reviewers and used to train future models.
+  (Show where the "improve the model for everyone" / training setting lives in one app.)
+- Anything on your website is public to the whole planet.
+Rule of thumb: if you wouldn't post it publicly, don't put it in a prompt.
+Use a nickname or first name only on your site. No sign-up forms, no collecting other people's info.
+If you're not sure, ask a leader.</aside>
 </section>
 
-<!-- 16 ─ Section 04 -->
-<section class="slide sec s16" data-title="04 Your turn: ship a page.">
+<!-- 32 ─ The big questions ─ no hero -->
+<section class="slide s-big" data-title="Who owns it? Who pays?">
   <div class="in">
-    <p class="secnum" data-g="0" data-a="head" data-d="0">04</p>
-    <h2 class="sectitle z1"><span class="mask"><span data-g="0" data-a="line" data-d="140" data-scramble>Your turn: ship a page.</span></span></h2>
-    <p class="secsub" data-g="0" data-a="head" data-d="300">Goal: a live URL in 40 minutes.</p>
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Ethics 5 · The big questions</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Who owns it? Who pays?</span></span></h2></header>
+    <div class="grid4">
+      <div class="panel" data-g="1" data-a="card"><p class="label">OWNERSHIP</p><p class="h3">Whose work did it learn from?</p><p class="d sec">Artists' and writers' work, often without asking. Lawsuits are ongoing. In the U.S., purely AI-made work can't be copyrighted.</p></div>
+      <div class="panel" data-g="2" data-a="card"><p class="label">HONESTY</p><p class="h3">When is it cheating?</p><p class="d sec">Using AI isn't cheating when it's allowed and you say so. Passing off AI work as your own is.</p></div>
+      <div class="panel" data-g="3" data-a="card"><p class="label">JOBS</p><p class="h3">What happens to work?</p><p class="d sec">AI changes the tasks inside many jobs. People who can direct, check and fix AI's work stay valuable.</p></div>
+      <div class="panel" data-g="4" data-a="card"><p class="label">ENERGY</p><p class="h3">What does it cost the planet?</p><p class="d sec">Data centers used about 1.5% of the world's electricity in 2024, set to double by 2030. One prompt is tiny; billions add up.</p></div>
+    </div>
   </div>
-  <aside class="note">Energy up. Everyone opens their laptop now.</aside>
+  <aside class="note">~2 min. One card per click. These don't have settled answers; that's the point. Ask for one opinion per card.
+OWNERSHIP: The New York Times sued OpenAI and Microsoft in 2023; Getty Images sued Stability AI. Courts are
+still deciding whether training on copyrighted work is "fair use". The U.S. Copyright Office says work needs
+real human authorship to be copyrighted, so a prompt alone usually isn't enough.
+HONESTY: our rule all six weeks: AI help is fine, hiding it isn't. Your README (week 5) says what AI did and what you did.
+JOBS: ask "what part of your dream job would you NOT want an AI to do? Why?"
+ENERGY: International Energy Agency, Energy and AI report (2025): about 415 TWh in 2024, around 945 TWh
+projected for 2030. Google reported a typical Gemini text prompt uses about 0.24 watt-hours (roughly
+9 seconds of TV). Small each; it's the scale, plus training giant models, that adds up. Cooling also uses water.</aside>
 </section>
 
-<!-- 17 ─ Five steps ─ hero: five slabs receding · orbit -->
+<!-- ═════════════════════════ 06 · BUILD WITH IT ═════════════════════════ -->
+
+<!-- 33 ─ Section 06 ─ hero: phone (a teen's first live site) -->
+<section class="slide sec s16" data-title="06 Build with it.">
+  <div class="in">
+    <p class="secnum" data-g="0" data-a="head" data-d="0">06</p>
+    <h2 class="sectitle z1"><span class="mask"><span data-g="0" data-a="line" data-d="140" data-scramble>Build with it.</span></span></h2>
+    <p class="secsub" data-g="0" data-a="head" data-d="300">Start a live page today. Finish it at home.</p>
+  </div>
+  <aside class="note">Energy up. Laptops open. "Four minutes of how-to, then you build for twenty."</aside>
+</section>
+
+<!-- 34 ─ Tool landscape ─ hero: tablet (tool map) -->
+<section class="slide lp l4 s-apps" data-title="Pick the right tool.">
+  <div class="in">
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Not all AI tools are the same</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Pick the right tool.</span></span></h2></header>
+    <div class="list">
+      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Learning modes · start here</p><p class="sec">ChatGPT Study mode, Gemini Guided Learning, CS50 Duck, Khanmigo. They coach, not just answer.</p></div></div>
+      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Chat assistants</p><p class="sec">ChatGPT (13+, with a parent's OK under 18) and Gemini teen accounts. Claude is 18+.</p></div></div>
+      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Code helpers</p><p class="sec">GitHub Copilot lives inside your code editor. Free tier, plus free Pro for verified students.</p></div></div>
+      <div class="li" data-g="4" data-a="card"><span class="n">4</span><div><p class="h3">App builders</p><p class="sec">Lovable, Bolt, v0, Replit build whole apps. Mostly 18+ or need a parent, so leaders demo.</p></div></div>
+    </div>
+  </div>
+  <aside class="note">~1.5 min. Check each tool's age rules before the session; they change often.
+1 LEARNING MODES (guardrailed): these are built to guide you with questions and hints instead of handing over
+the answer. ChatGPT Study mode and Gemini Guided Learning are switches inside the normal apps.
+CS50 Duck (cs50.ai) is Harvard CS50's coding tutor, designed not to just give you the solution.
+Khanmigo (Khan Academy) works this way too; it's free through some schools, otherwise paid.
+2 CHAT ASSISTANTS: great for explaining and brainstorming. Turn on the learning mode for code.
+3 CODE HELPERS: autocomplete and chat inside VS Code. GitHub Education gives verified students Copilot Pro free.
+4 APP BUILDERS: type a description, get an entire app. Amazing, but you learn the least, and most require
+18+ or parent permission (Lovable: 18 or parent's OK; Replit's current terms: adults). Leaders can demo them.
+TODAY: a chat assistant in tutor mode (next slide) + GitHub.</aside>
+</section>
+
+<!-- 35 ─ Prompting ─ hero: laptop (tutor mode in a chat app) -->
+<section class="slide s-prompt s-pr2" data-title="Vague in. Vague out.">
+  <div class="in">
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Prompting well</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Vague in. Vague out.</span></span></h2></header>
+    <div class="cmp">
+      <div class="panel vague" data-g="0" data-a="card" data-d="200"><p class="label red">VAGUE</p><p class="pq mono">make me a website</p><p class="res sec">→ it guesses everything.</p></div>
+      <div class="panel clear" data-g="1" data-a="card"><p class="label green">CLEAR · THIS IS TUTOR MODE · COPY IT</p>
+        <div class="part"><span class="tag">GOAL</span><span>Help me build one index.html page that says “Hi, I'm [first name].”</span></div>
+        <div class="part"><span class="tag">DETAILS</span><span>My favorite color as the background. One button that does something fun.</span></div>
+        <div class="part"><span class="tag">LIMITS</span><span>I'm a beginner. Explain your plan in 3 bullets first. Short code, a comment above each part.</span></div>
+        <div class="part"><span class="tag">CHECK</span><span>After the code, ask me one question to check I understand it.</span></div>
+      </div>
+    </div>
+  </div>
+  <aside class="note">~1.5 min. Read the vague prompt. "What will it make?" Nobody knows, and neither does the AI.
+Remember the machine: it predicts from what's on the page. The more you put on the page, the less it guesses.
+Click: the clear version, which is also our tutor-mode prompt. GOAL (what), DETAILS (how it should look/act),
+LIMITS (rules, including "explain first" and "short code"), CHECK (makes it test YOU).
+Put this text on the handout / shared link so everyone can copy it.
+The laptop shows what a good answer looks like: a plan, short commented code, then a question.
+Two more habits: iterate one change at a time ("now make the button bigger"), and if it breaks, paste the
+error message plus what you expected to happen.</aside>
+</section>
+
+<!-- 36 ─ Habits ─ hero: mic, bulb, cursors, notebook -->
+<section class="slide s14" data-title="The 4 habits.">
+  <div class="in">
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">How we build here &nbsp;·&nbsp; plan → build small → test → explain</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">The 4 habits.</span></span></h2></header>
+    <div class="bento">
+      <div class="panel h1" data-g="1" data-a="card"><p class="n">1</p><p class="h3">Explain-back</p><p class="d sec">No AI code goes in your project until you can explain it out loud.</p></div>
+      <div class="panel h2" data-g="2" data-a="card"><p class="n">2</p><p class="h3">Tutor mode</p><p class="d sec">Hints and a plan first. Full code second.</p></div>
+      <div class="panel h3b" data-g="3" data-a="card"><p class="n">3</p><p class="h3">Pair up</p><p class="d sec">The beginner types. The partner navigates. Leaders never grab your keyboard.</p></div>
+      <div class="panel h4" data-g="4" data-a="card"><p class="n">4</p><p class="h3">Prompt journal</p><p class="d sec">Write down what you asked, what came back, what broke.</p></div>
+    </div>
+  </div>
+  <aside class="note">~1 min. One click per habit, and each brings in its object: a mic (explain it out loud), a bulb (hints first),
+two cursors (pair up), a notebook (journal). These are the rules every week, not just today.
+The workflow in the kicker: plan what you want, ask for a SMALL piece, test it in the browser, explain it back.
+Why? Research on beginners using AI to code: the ones who let AI do everything end up unable to fix
+or change their own project. The ones who use it like a tutor get better. Hand out the printed habits card.</aside>
+</section>
+
+<!-- 37 ─ Five steps ─ hero: a browser that does each step -->
 <section class="slide s17" data-title="From nothing to live.">
   <div class="in">
-    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">5 steps · about 40 minutes</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">From nothing to live.</span></span></h2></header>
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Guided build · 20 minutes · finish at home</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">From nothing to live.</span></span></h2></header>
     <div class="list">
       <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Log in</p><p class="sec">github.com</p></div></div>
       <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">New repo</p><p class="sec">name it my-first-site · Public</p></div></div>
-      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Ask your AI</p><p class="sec">for index.html. Tutor mode first.</p></div></div>
+      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Ask your AI</p><p class="sec">for index.html, using the tutor-mode prompt.</p></div></div>
       <div class="li" data-g="4" data-a="card"><span class="n">4</span><div><p class="h3">Add file</p><p class="sec">Add file → Create new file → index.html → Commit</p></div></div>
       <div class="li" data-g="5" data-a="card"><span class="n">5</span><div><p class="h3">Turn on Pages</p><p class="sec">Settings → Pages → Deploy from branch: main</p></div></div>
     </div>
   </div>
-  <aside class="note">Walk through all five together, one click at a time, with the room following along.
+  <aside class="note">~20 min, guided. Walk through all five together, one click at a time, with the room following along.
 The browser on the right acts out each step as you click.
-Both leaders circulate. Remember: hands off the keyboard — point, don't type.
+Both leaders circulate. Hands off the keyboard: point, don't type.
+Goal for today: steps 1–2 done for everyone, step 3 started. Steps 4–5 are fine to finish at home
+(the handout has all five steps and the tutor-mode prompt).
 No GitHub account / no permission form? They pair with someone and watch today.</aside>
 </section>
 
-<!-- 19 ─ Prompt anatomy (new) -->
-<section class="slide s-prompt" data-title="Vague in. Vague out.">
-  <div class="in">
-    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Before you ask your AI</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Vague in. Vague out.</span></span></h2></header>
-    <div class="cmp">
-      <div class="panel" data-g="0" data-a="card" data-d="200"><p class="label red">VAGUE</p><p class="pq mono">make me a website</p><p class="res sec">It has to guess everything. You get a random page you didn't want.</p></div>
-      <div class="panel" data-g="1" data-a="card"><p class="label green">CLEAR</p>
-        <div class="part"><span class="tag">GOAL</span><span>Make a one-page site that says “Hi, I'm Maya.”</span></div>
-        <div class="part"><span class="tag">DETAILS</span><span>Purple background, big friendly font, one button that tells a joke.</span></div>
-        <div class="part"><span class="tag">LIMITS</span><span>One index.html file. Short code, a comment above each part.</span></div>
-        <div class="part"><span class="tag">CHECK</span><span>Ask me one question before you start.</span></div>
-      </div>
-    </div>
-    <div class="panel punch" data-g="2" data-a="card"><p>The more it knows, the <span class="em hl">less it guesses.</span></p></div>
-  </div>
-  <aside class="note">~3 min. Read the vague prompt. "What will it make?" (Nobody knows, and neither does the AI.)
-Click: the clear version. Goal, details, limits, and a check. The CHECK line is the
-secret weapon: it makes the AI ask YOU something before it guesses.
-Click: the takeaway. Next slide is our tutor-mode prompt, which is built the same way.</aside>
-</section>
-
-<!-- 18 ─ Tutor mode ─ hero: laptop · orbit -->
-<section class="slide s18" data-title="Tutor mode.">
-  <div class="in">
-    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Copy this into your AI first</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Tutor mode.</span></span></h2></header>
-    <div class="panel prompt mono" data-g="0" data-a="card" data-d="200">I'm a beginner learning to code.
-Help me build a single index.html file.
-
-Before giving code, explain your plan
-in 3 short bullet points.
-Keep the code short, with a comment
-above each part explaining it.
-After the code, ask me one question
-to check I understand it.</div>
-    <div class="panel first" data-g="1" data-a="card"><p class="h3">Your first ask:</p><p>“Make a page that says Hi, I'm [first name], uses my favorite color, and has one button that does something fun.”</p></div>
-  </div>
-  <aside class="note">Put the tutor-mode text somewhere they can copy it (printed handout, or a shared link).
-Before they paste the code into GitHub: explain-back to their partner. What does the
-button do? Which part makes it that color?</aside>
-</section>
-
-<!-- 19 ─ Your URL ─ hero: aluminium address-bar slab · dolly -->
+<!-- 38 ─ Your URL ─ globe -->
 <section class="slide s19" data-title="Your site lives here">
   <div class="in">
     <p class="kick" data-g="0" data-a="fade">YOUR SITE LIVES HERE</p>
     <p class="panel url mono z1" data-g="0" data-a="card" data-d="120"><span class="sec">https://</span><span class="em">YOUR-USERNAME</span>.github.io/<span class="u">my-first-site</span></p>
     <div class="list tips">
-      <p data-g="1" data-a="head">Takes 1–2 minutes. Refresh.</p>
-      <p data-g="1" data-a="head">Open it on your phone. Text it to someone.</p>
+      <p data-g="1" data-a="head">Takes 1–2 minutes after step 5. Refresh.</p>
+      <p data-g="1" data-a="head">Not live yet? Totally fine. Finish at home.</p>
       <p data-g="1" data-a="head">Stuck? Backup: drag your folder onto app.netlify.com/drop</p>
     </div>
     <div class="globe" data-g="0" data-a="fade" data-d="500" aria-hidden="true"><canvas></canvas></div>
   </div>
-  <aside class="note">As people get live: have them type their URL into a shared doc / form so it can go
-on the "wall of URLs" next.
-The globe: once it's live, anyone on Earth with the link can open it. That's why the
-safety rules matter.</aside>
+  <aside class="note">For whoever gets live today: have them type their URL into the shared doc / form for the
+"wall of URLs" at the start of Session 2.
+"Shipped" means three things by demo day: (1) a public URL that loads on a phone, (2) at least one
+interactive thing that works, (3) a README saying what the AI did and what you did.
+The globe: once it's live, anyone on Earth with the link can open it. That's why the privacy rules matter.</aside>
 </section>
 
-<!-- 20 ─ Shipped ─ hero: phone · morph -->
-<section class="slide s20" data-title="“Shipped” means three things.">
-  <div class="in">
-    <header class="hd z1"><p class="kick green" data-g="0" data-a="fade">Wall of URLs &nbsp;→&nbsp; then:</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">“Shipped” means three things.</span></span></h2></header>
-    <div class="list">
-      <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">A public URL that loads on a phone</p><p class="when ok">✓ done today</p></div></div>
-      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">At least one interactive thing that works</p><p class="when amber">weeks 2–4</p></div></div>
-      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">A README: what the AI did, what you did</p><p class="when amber">week 5</p></div></div>
-    </div>
-  </div>
-  <aside class="note">First: show the shared list of everyone's URLs on the projector and click a few. Cheer.
-Then the three criteria. Today you hit #1. By demo day you'll hit all three.</aside>
-</section>
-
-<!-- 21 ─ Roadmap ─ hero: six discs on a path, labels anchored · orbit -->
+<!-- 39 ─ Roadmap ─ six pages on a rail -->
 <section class="slide s21" data-title="Where this is going.">
   <div class="in">
     <header class="hd z1"><p class="kick" data-g="0" data-a="fade">The next 6 weeks</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Where this is going.</span></span></h2></header>
   </div>
-  <span class="anchor wn" data-anchor="c0" data-g="0" data-a="fade" data-d="300">1</span><span class="anchor wk" data-anchor="d0" data-ax="0.5" data-ay="0" data-g="0" data-a="head" data-d="300"><b>Kickoff</b><i>checkpoint: live URL</i></span>
+  <span class="anchor wn" data-anchor="c0" data-g="0" data-a="fade" data-d="300">1</span><span class="anchor wk" data-anchor="d0" data-ax="0.5" data-ay="0" data-g="0" data-a="head" data-d="300"><b>Kickoff</b><i>checkpoint: how AI works</i></span>
   <span class="anchor wn" data-anchor="c1" data-g="0" data-a="fade" data-d="400">2</span><span class="anchor wk" data-anchor="d1" data-ax="0.5" data-ay="0" data-g="0" data-a="head" data-d="400"><b>Idea + scope</b><i>checkpoint: privacy</i></span>
   <span class="anchor wn" data-anchor="c2" data-g="0" data-a="fade" data-d="500">3</span><span class="anchor wk" data-anchor="d2" data-ax="0.5" data-ay="0" data-g="0" data-a="head" data-d="500"><b>Build</b><i>checkpoint: bug bounty</i></span>
   <span class="anchor wn" data-anchor="c3" data-g="0" data-a="fade" data-d="600">4</span><span class="anchor wk" data-anchor="d3" data-ax="0.5" data-ay="0" data-g="0" data-a="head" data-d="600"><b>Build + debug</b><i>checkpoint: bias</i></span>
   <span class="anchor wn" data-anchor="c4" data-g="0" data-a="fade" data-d="700">5</span><span class="anchor wk" data-anchor="d4" data-ax="0.5" data-ay="0" data-g="0" data-a="head" data-d="700"><b>Polish + test</b><i>checkpoint: who owns it?</i></span>
   <span class="anchor wn" data-anchor="c5" data-g="0" data-a="fade" data-d="800">6</span><span class="anchor wk last" data-anchor="d5" data-ax="0.5" data-ay="0" data-g="0" data-a="head" data-d="800"><b>DEMO DAY</b><i>checkpoint: show the world</i></span>
   <aside class="note">The six pages show one project growing week by week. Point at Demo Day: parents, library staff, and guests will see what you built.
-Each week also has an AI Checkpoint like today's.</aside>
+Each week also has an AI Checkpoint that goes deeper on today's ideas: privacy, bugs, bias, ownership.</aside>
 </section>
 
-<!-- 22 ─ Closing ─ hero: the monolith returns · dolly -->
+<!-- 40 ─ Closing ─ laptop (wall of URLs) -->
 <section class="slide s22" data-title="Before next week">
   <div class="in">
     <h2 class="hero-t z2"><span class="mask"><span data-g="0" data-a="line" data-d="0">Before next week</span></span></h2>
-    <div class="hw" data-g="0" data-a="head" data-d="220"><span class="n">1</span><p>Bring 3 project ideas.<span class="sec">What would you actually use, or show off?</span></p></div>
-    <div class="hw" data-g="0" data-a="head" data-d="380"><span class="n">2</span><p>Journal: one thing the AI got wrong today.<span class="sec">Be specific.</span></p></div>
-    <div class="hw" data-g="0" data-a="head" data-d="540"><span class="n">3</span><p>Show your site to one person.<span class="sec">Parent, friend, sibling.</span></p></div>
+    <div class="hw" data-g="0" data-a="head" data-d="220"><span class="n">1</span><p>Finish your page and get it live.<span class="sec">Steps on the handout. Use tutor mode. Explain-back every part.</span></p></div>
+    <div class="hw" data-g="0" data-a="head" data-d="380"><span class="n">2</span><p>Journal: one thing the AI got wrong.<span class="sec">Be specific. What did you ask, what came back?</span></p></div>
+    <div class="hw" data-g="0" data-a="head" data-d="540"><span class="n">3</span><p>Bring 3 project ideas.<span class="sec">What would you actually use, or show off?</span></p></div>
     <p class="bye sec" data-g="0" data-a="fade" data-d="800"><span class="badge" aria-hidden="true"><svg viewBox="0 0 200 200"><defs><path id="k3circ" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0"/></defs><text><textPath href="#k3circ" textLength="490">BUILD IT · SHIP IT · QUESTION IT · </textPath></text></svg><b>1/6</b></span>See you next week. &nbsp;Build it. Ship it. Question it.</p>
   </div>
-  <aside class="note">Hand out prompt-journal sheets; 3 minutes to write the first entry before leaving.
-Exit ticket (optional): one word for how today felt.</aside>
+  <aside class="note">Hand out prompt-journal sheets and the at-home steps. 2 minutes to write the first journal entry before leaving.
+Exit ticket (optional): "One thing about how AI works that surprised you."</aside>
 </section>
 
   </div></div>
@@ -803,7 +1103,7 @@ Exit ticket (optional): one word for how today felt.</aside>
   <nav class="dock" aria-label="Presenter controls">
     <button class="ib back" type="button" aria-label="Back"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
     <div class="dots" aria-hidden="true"></div>
-    <span class="prog" aria-live="polite">01 / 29</span>
+    <span class="prog" aria-live="polite">01 / 40</span>
     <button class="next" type="button" aria-label="Next"><span class="skin"><span class="n">Next</span><span class="r">Restart</span></span></button>
     <button class="ib ov-b" type="button" aria-label="Overview (O)" aria-pressed="false"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></button>
     <button class="ib notes-b" type="button" aria-label="Speaker notes (N)" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg></button>
@@ -912,7 +1212,7 @@ const N = slides.length, LAST = N - 1;
 let cur = 0, rev = 1;
 // section colour: every divider slide starts a new section; the closing slide returns to the opening colour
 const SEC = []; { let k = 0; slides.forEach((s, i) => { if (s.el.classList.contains('sec')) k++; SEC[i] = i === LAST ? 0 : k; }); }
-const hex3 = h => [1, 3, 5].map(k => parseInt(h.slice(k, k + 2), 16) / 255), BASE = ['#5CC8F5', '#4F9BFF', '#2FD3C2', '#FFAE4D', '#45D9A0'].map(hex3); // sky · blue · teal · amber · mint
+const hex3 = h => [1, 3, 5].map(k => parseInt(h.slice(k, k + 2), 16) / 255), BASE = ['#5CC8F5', '#4F9BFF', '#2FD3C2', '#FFAE4D', '#45D9A0', '#FF8A7A', '#A98BFF'].map(hex3); // intro sky · 01 blue · 02 teal · 03 amber · 04 mint · 05 coral · 06 violet
 // every slide gets its own colour: it starts at its section's colour and drifts toward the next section's, so the light shifts a little on every slide
 const SECS = slides.map((s, i) => { const k = SEC[i], n = SEC.filter(v => v === k).length, j = SEC.slice(0, i).filter(v => v === k).length, nx = BASE[(k + 1) % BASE.length], u = i === LAST ? 0 : j / n * 0.55; return BASE[k].map((v, c) => v + (nx[c] - v) * u); });
 const SECS2 = slides.map((s, i) => BASE[(SEC[i] + 1) % BASE.length]); // the second tone in the backdrop: the colour the deck is heading toward
@@ -1030,35 +1330,53 @@ const CR = { c: [1.25, -0.55], r: 1.25 };    // mirrored, from the right
 const CB = { c: [0.0, -1.55], r: 1.3 };      // wide arc along the bottom (reference laptop frames)
 const CT = { c: [1.15, 0.75], r: 1.15 };     // from the top-right
 // `look` offsets the camera's aim from the hero so the hero lands in the slide's empty area.
+// intro
 station(0,  { hero: 'laptop', screen: 'streaks', yaw: -0.3, kind: 'orbit', pos: [X(0), 0.25, 0], look: [-1.95, -0.05, 0], cam: { off: [-1.8, 1.1, 7.6], fov: 34 }, cres: CL });
 station(1,  { hero: 'badges3',   kind: 'dolly',   pos: [X(1), 0.5, -1.5], look: [-2.3, -1.7, 0], cam: { off: [-2.0, -1.2, 9.2], fov: 36 }, cres: CL });
 station(2,  { hero: 'tablet',   kind: 'orbit',   pos: [X(2), 0.3, 0], look: [-2.5, -0.4, 0], cam: { off: [-1.8, 0.4, 9.0], fov: 36 }, cres: CT });
+// 01 what AI really is
 station(3,  { hero: 'bubble',    kind: 'section', pos: [X(3), 0.6, 0],  look: [-2.8, -0.4, 0], cam: { off: [-3.6, 0.6, 9.5], fov: 30 }, cres: CB });
-station(4,  { hero: 'phone', screen: 'guess', kind: 'orbit', pos: [X(4), 0.25, 0], look: [-2.5, -0.15, 0], cam: { off: [-1.8, 0.3, 8.4], fov: 35 }, cres: CL });
-station(5,  { hero: 'reel',     kind: 'dolly',   scale: 0.8, pos: [X(5), 0.2, -1.2], look: [-3.1, -0.9, 0], cam: { off: [-2.3, -0.1, 9.4], fov: 36 }, cres: CR });
-station(6,  { hero: 'keycaps',  kind: 'orbit',   pos: [X(6) + 0.4, 0.1, 0], look: [-2.2, -0.35, 0], cam: { off: [-1.6, 1.5, 8.8], fov: 36 }, cres: CT });
-station(7,  { hero: 'learn3',   kind: 'orbit',   pos: [X(7), 0.3, 0], look: [-2.5, -0.6, 0], cam: { off: [-2.4, 0.2, 8.6], fov: 36 }, cres: CL });
-station(9,  { hero: 'twophones', kind: 'orbit',  pos: [X(9), 0.25, 0], look: [-2.6, -0.2, 0], cam: { off: [-1.6, 0.3, 9.4], fov: 36 }, cres: CR });
-station(12,  { hero: 'laptop', screen: 'terminal', lid: 'shut', yaw: -0.28, kind: 'section', pos: [X(12), 0.5, 0], look: [-2.8, -0.3, 0], cam: { off: [2.8, 1.0, 9.6], fov: 30 }, cres: CB });
-station(13, { hero: 'laptop',   kind: 'morph', morphFrom: 12, pos: [X(13), 0.1, 0], look: [-2.25, -0.6, 0], cam: { off: [-1.9, 1.1, 7.6], fov: 36 }, cres: CB });
-station(14, { hero: 'loop',     kind: 'orbit',   pos: [X(14), -0.4, 0], look: [-0.6, 0.45, 0], cam: { off: [-0.5, 1.1, 10.0], fov: 36 }, cres: CT });
-station(15, { hero: 'lens',     kind: 'section', pos: [X(15), 0.6, 0], look: [-2.8, -0.2, 0], cam: { off: [-3.4, 0.6, 9.8], fov: 30 }, cres: CB });
-station(16, { hero: 'qcards3',  kind: 'dolly', scale: 0.66, pos: [X(16), 0.82, -1.4], look: [-3.6, -2.3, 0], cam: { off: [-2.8, -1.6, 10.2], fov: 36 }, cres: CL });
-station(17, { hero: 'phone', screen: 'wrong', stampAt: 1, yaw: 0.36, kind: 'orbit', pos: [X(17), 0.0, 0], look: [2.75, 0.35, 0], cam: { off: [2.2, 0.3, 8.8], fov: 35 }, cres: CR });
-station(19, { hero: 'habits4',  kind: 'orbit',   scale: 0.8, pos: [X(19), 0.0, 0], look: [-3.65, -0.2, 0], cam: { off: [-2.8, 0.4, 10.4], fov: 36 }, cres: CL });
-station(20, { hero: 'padlock',  kind: 'dolly',   scale: 0.85, pos: [X(20), 0.5, -1.2], look: [-3.2, -0.7, 0], cam: { off: [-2.6, -0.2, 8.8], fov: 35 }, cres: CR });
-station(21, { hero: 'phone', screen: 'site', kind: 'section', pos: [X(21), 0.5, 0], look: [-2.8, -0.3, 0], cam: { off: [3.0, 0.7, 9.5], fov: 30 }, cres: CB });
-station(22, { hero: 'browser',  kind: 'orbit',   scale: 0.84, pos: [X(22), -0.4, 0], look: [-2.8, 0.2, 0], cam: { off: [-2.0, 1.2, 8.8], fov: 36 }, cres: CL });
-station(23, { hero: 'none',     kind: 'orbit',   pos: [X(23), 0, 0], look: [0, 0, 0], cam: { off: [0.4, 0.6, 9.0], fov: 36 }, cres: CT, cresI: 0.8 });
-station(24, { hero: 'laptop', screen: 'tutor', yaw: -0.25, kind: 'orbit', pos: [X(24), -0.6, 0], look: [-2.45, -0.75, 0], cam: { off: [-2.0, 1.3, 8.6], fov: 36 }, cres: CB });
-station(25, { hero: 'none',     kind: 'dolly',   pos: [X(25), 1.2, -1.2], look: [-4.0, -2.2, 0], cam: { off: [-2.8, -1.5, 11.8], fov: 36 }, cres: CL, cresI: 0.45 });
-station(26, { hero: 'phone', screen: 'site', screenOpts: { name: 'Jordan', color: '#0F7E72' }, kind: 'orbit', pos: [X(26), -0.1, 0], look: [-2.9, 0, 0], cam: { off: [-2.2, 0.4, 7.8], fov: 35 }, cres: CR });
-station(27, { hero: 'weeks6',   kind: 'orbit',   pos: [X(27), -1.0, 0], look: [0, 1.1, 0], cam: { off: [0.0, 2.4, 11.8], fov: 36 }, cres: CL });
-station(28, { hero: 'laptop', screen: 'wall', yaw: -0.4, kind: 'dolly', pos: [X(28), 0.15, -1.0], look: [-2.1, -0.05, 0], cam: { off: [-2.1, 1.1, 7.6], fov: 34 }, cres: CL });
-station(8,  { hero: 'dials',    kind: 'orbit',   scale: 0.85, pos: [X(8), 0.3, 0], look: [-2.7, -0.4, 0], cam: { off: [-2.0, 0.6, 8.8], fov: 36 }, cres: CR });
-station(10, { hero: 'ctxwin',   kind: 'orbit',   scale: 0.8, pos: [X(10), 0.1, 0], look: [-3.0, 0, 0], cam: { off: [-2.3, 0.3, 9.0], fov: 36 }, cres: CL });
-station(11, { hero: 'tools3',   kind: 'dolly',   scale: 0.78, pos: [X(11), 0.3, -1.0], look: [-2.9, -0.5, 0], cam: { off: [-2.1, 0.4, 9.2], fov: 36 }, cres: CT });
-station(18, { hero: 'phone',    kind: 'morph', morphFrom: 17, pos: [X(18), 0.1, 0], look: [-2.9, 0, 0], cam: { off: [-2.2, 0.4, 8.4], fov: 35 }, cres: CL });
+station(4,  { hero: 'laptop', screen: 'rules', yaw: -0.28, kind: 'orbit', pos: [X(4), -0.6, 0], look: [-2.45, -0.75, 0], cam: { off: [-2.0, 1.3, 8.6], fov: 36 }, cres: CB });
+station(5,  { hero: 'learn3',   kind: 'orbit',   pos: [X(5), 0.3, 0], look: [-2.5, -0.6, 0], cam: { off: [-2.4, 0.2, 8.6], fov: 36 }, cres: CL });
+station(6,  { hero: 'dials',    kind: 'orbit',   scale: 0.85, pos: [X(6), 0.3, 0], look: [-2.7, -0.4, 0], cam: { off: [-2.0, 0.6, 8.8], fov: 36 }, cres: CR });
+// 02 how it works
+station(7,  { hero: 'phone', screen: 'guess', kind: 'section', pos: [X(7), 0.5, 0], look: [-2.8, -0.3, 0], cam: { off: [3.0, 0.7, 9.5], fov: 30 }, cres: CB });
+station(8,  { hero: 'phone',    kind: 'morph', morphFrom: 7, pos: [X(8), 0.25, 0], look: [-2.5, -0.15, 0], cam: { off: [-1.8, 0.3, 8.4], fov: 35 }, cres: CL });
+station(9,  { hero: 'keycaps',  kind: 'orbit',   pos: [X(9) + 0.4, 0.1, 0], look: [-2.2, -0.35, 0], cam: { off: [-1.6, 1.5, 8.8], fov: 36 }, cres: CT });
+station(10, { hero: 'tablet', screen: 'embed', kind: 'dolly', scale: 0.8, pos: [X(10), 0.2, -1.0], look: [-3.0, -0.6, 0], cam: { off: [-2.0, 0.1, 9.6], fov: 36 }, cres: CR });
+station(11, { hero: 'laptop', screen: 'attn', yaw: -0.32, kind: 'orbit', pos: [X(11), -0.5, 0], look: [-2.4, -0.7, 0], cam: { off: [-1.9, 1.2, 8.4], fov: 36 }, cres: CL });
+station(12, { hero: 'reel',     kind: 'dolly',   scale: 0.8, pos: [X(12), 0.2, -1.2], look: [-3.1, -0.9, 0], cam: { off: [-2.3, -0.1, 9.4], fov: 36 }, cres: CR });
+station(13, { hero: 'twophones', kind: 'orbit',  pos: [X(13), 0.25, 0], look: [-2.6, -0.2, 0], cam: { off: [-1.6, 0.3, 9.4], fov: 36 }, cres: CT });
+station(14, { hero: 'ctxwin',   kind: 'orbit',   scale: 0.8, pos: [X(14), 0.1, 0], look: [-3.0, 0, 0], cam: { off: [-2.3, 0.3, 9.0], fov: 36 }, cres: CL });
+// 03 LLMs vs other AI
+station(15, { hero: 'tablet', screen: 'tree', kind: 'section', scale: 0.85, pos: [X(15), 0.6, 0], look: [-2.2, -0.4, 0], cam: { off: [-3.6, 0.6, 9.5], fov: 30 }, cres: CB });
+station(16, { hero: 'tablet',   kind: 'morph', morphFrom: 15, pos: [X(16), 0.3, 0], look: [-2.6, -0.4, 0], cam: { off: [-1.8, 0.4, 9.2], fov: 36 }, cres: CT });
+station(17, { hero: 'phones2', phones: [{ screen: 'feed' }, { screen: 'faceid' }], kind: 'orbit', pos: [X(17), 0.25, 0], look: [-2.7, -0.2, 0], cam: { off: [-1.6, 0.3, 9.6], fov: 36 }, cres: CR });
+station(18, { hero: 'laptop', screen: 'diffuse', yaw: -0.3, kind: 'dolly', pos: [X(18), -0.7, -1.0], look: [-2.75, -0.95, 0], cam: { off: [-2.0, 1.0, 8.8], fov: 36 }, cres: CL });
+// 04 model / chatbot / agent
+station(19, { hero: 'laptop', screen: 'terminal', lid: 'shut', yaw: -0.28, kind: 'section', pos: [X(19), 0.5, 0], look: [-2.8, -0.3, 0], cam: { off: [2.8, 1.0, 9.6], fov: 30 }, cres: CB });
+station(20, { hero: 'laptop',   kind: 'morph', morphFrom: 19, pos: [X(20), 0.1, 0], look: [-2.7, -0.3, 0], cam: { off: [-1.9, 1.1, 7.6], fov: 36 }, cres: CB });
+station(21, { hero: 'loop',     kind: 'orbit',   pos: [X(21), -0.4, 0], look: [-0.6, 0.45, 0], cam: { off: [-0.5, 1.1, 10.0], fov: 36 }, cres: CT });
+station(22, { hero: 'tablet', screen: 'coach', kind: 'orbit', scale: 0.8, pos: [X(22), 0.0, 0], look: [-2.95, -0.55, 0], cam: { off: [-1.8, 0.4, 9.0], fov: 36 }, cres: CL });
+station(23, { hero: 'tools3',   kind: 'dolly',   scale: 0.78, pos: [X(23), 0.3, -1.0], look: [-2.9, -0.5, 0], cam: { off: [-2.1, 0.4, 9.2], fov: 36 }, cres: CT });
+station(24, { hero: 'none',     kind: 'orbit',   pos: [X(24), 0, 0], look: [0, 0, 0], cam: { off: [0.4, 0.6, 9.0], fov: 36 }, cres: CR, cresI: 0.75 });
+// 05 ethics
+station(25, { hero: 'lens',     kind: 'section', pos: [X(25), 0.6, 0], look: [-2.8, -0.2, 0], cam: { off: [-3.4, 0.6, 9.8], fov: 30 }, cres: CB });
+station(26, { hero: 'tablet', screen: 'resume', kind: 'orbit', scale: 0.8, pos: [X(26), 0.15, 0], look: [-2.95, -0.55, 0], cam: { off: [-1.8, 0.4, 9.0], fov: 36 }, cres: CR });
+station(27, { hero: 'qcards3',  kind: 'dolly', scale: 0.66, pos: [X(27), 0.82, -1.4], look: [-3.6, -2.3, 0], cam: { off: [-2.8, -1.6, 10.2], fov: 36 }, cres: CL });
+station(28, { hero: 'phone', screen: 'wrong', stampAt: 1, yaw: 0.36, kind: 'orbit', pos: [X(28), 0.0, 0], look: [2.75, 0.35, 0], cam: { off: [2.2, 0.3, 8.8], fov: 35 }, cres: CR });
+station(29, { hero: 'laptop', screen: 'fake', yaw: -0.3, kind: 'orbit', pos: [X(29), -0.6, 0], look: [-2.45, -0.75, 0], cam: { off: [-2.0, 1.3, 8.6], fov: 36 }, cres: CL });
+station(30, { hero: 'padlock',  kind: 'dolly',   scale: 0.85, pos: [X(30), 0.5, -1.2], look: [-3.2, -0.7, 0], cam: { off: [-2.6, -0.2, 8.8], fov: 35 }, cres: CR });
+station(31, { hero: 'none',     kind: 'orbit',   pos: [X(31), 0, 0], look: [0, 0, 0], cam: { off: [0.4, 0.6, 9.0], fov: 36 }, cres: CT, cresI: 0.75 });
+// 06 build with it
+station(32, { hero: 'phone', screen: 'site', kind: 'section', pos: [X(32), 0.5, 0], look: [-2.8, -0.3, 0], cam: { off: [3.0, 0.7, 9.5], fov: 30 }, cres: CB });
+station(33, { hero: 'tablet', screen: 'apps', kind: 'dolly', scale: 0.8, pos: [X(33), 0.2, -1.0], look: [-3.0, -0.6, 0], cam: { off: [-2.0, 0.1, 9.6], fov: 36 }, cres: CL });
+station(34, { hero: 'laptop', screen: 'tutor', yaw: -0.25, kind: 'orbit', pos: [X(34), -0.6, 0], look: [-2.45, -0.75, 0], cam: { off: [-2.0, 1.3, 8.6], fov: 36 }, cres: CB });
+station(35, { hero: 'habits4',  kind: 'orbit',   scale: 0.8, pos: [X(35), 0.0, 0], look: [-3.65, -0.2, 0], cam: { off: [-2.8, 0.4, 10.4], fov: 36 }, cres: CL });
+station(36, { hero: 'browser',  kind: 'orbit',   scale: 0.84, pos: [X(36), -0.4, 0], look: [-2.8, 0.2, 0], cam: { off: [-2.0, 1.2, 8.8], fov: 36 }, cres: CR });
+station(37, { hero: 'none',     kind: 'dolly',   pos: [X(37), 1.2, -1.2], look: [-4.0, -2.2, 0], cam: { off: [-2.8, -1.5, 11.8], fov: 36 }, cres: CL, cresI: 0.45 });
+station(38, { hero: 'weeks6',   kind: 'orbit',   pos: [X(38), -1.0, 0], look: [0, 1.1, 0], cam: { off: [0.0, 2.4, 11.8], fov: 36 }, cres: CL });
+station(39, { hero: 'laptop', screen: 'wall', yaw: -0.4, kind: 'dolly', pos: [X(39), 0.15, -1.0], look: [-2.1, -0.05, 0], cam: { off: [-2.1, 1.1, 7.6], fov: 34 }, cres: CL });
 for (let i = 0; i < N; i++) if (!stations[i]) station(i, { pos: [X(i), 0, 0], cam: { off: [0, 0.6, 8.5], fov: 36 }, cres: CL });
 stations.forEach(s => { s.look = s.look || [0, 0, 0]; s.cres = { c: s.cres.c.slice(), r: s.cres.r }; });
 
@@ -1358,6 +1676,234 @@ function drawWeek(x, w, h, i) { const R = (X, Y, W, H, r, f, s) => rrect(x, X, Y
     x.fillStyle = '#fff'; x.textAlign = 'center'; x.font = SF(800, 68); x.fillText('DEMO DAY', w / 2, 210); x.font = SF(600, 24); x.fillStyle = 'rgba(255,255,255,0.75)'; x.fillText('your site, on the big screen', w / 2, 256); x.textAlign = 'left'; }
 }
 
+/* ---------- screens added for the deeper lesson (same devices, new displays) ---------- */
+
+/* rules vs examples: a hand-written filter misses a trick that a learned one catches */
+SCR.rules = (x, w, h, t) => {
+  const T = 15, u = mod(t, T), LW = w / 2 - 33, RX = w / 2 + 11, H2 = h - 64;
+  x.fillStyle = '#050507'; x.fillRect(0, 0, w, h);
+  win(x, 22, 40, LW, H2, 'rules.js · written by a person'); win(x, RX, 40, LW, H2, 'filter · learned from examples');
+  const code = [['if subject has "FREE PRIZE"', '#E8E8ED'], ['   → spam', '#F08A8A'], ['if subject has "WINNER"', '#E8E8ED'], ['   → spam', '#F08A8A'], ['otherwise → inbox', '#8FD3A5']];
+  let b = (u - 0.3) * 34; x.font = SM(25);
+  code.forEach(([s, c], i) => { if (b <= 0) return; x.fillStyle = c; x.fillText(s.slice(0, Math.min(s.length, b | 0)), 58, 146 + i * 44); b -= s.length; });
+  const mail = (X, Y, a, tag, col) => { x.globalAlpha = a; rrect(x, X, Y, LW - 72, 100, 16, '#1A1A20', 'rgba(255,255,255,0.12)');
+    x.fillStyle = '#F5F5F7'; x.font = SF(700, 26); x.fillText('FR3E PR1ZE!! Claim now', X + 22, Y + 42); x.fillStyle = '#86868B'; x.font = SF(500, 20); x.fillText('from: totally-legit@win.biz', X + 22, Y + 76);
+    if (tag) { x.font = SF(700, 24); x.fillStyle = col; x.textAlign = 'right'; x.fillText(tag, X + LW - 96, Y + 42); x.textAlign = 'left'; } x.globalAlpha = 1; };
+  if (u > 4.4) { const a = eo((u - 4.4) / 0.6), Y = 410 + (1 - a) * 40; mail(58, Y, a, u > 5.5 ? 'INBOX ✗' : '', '#F08A8A');
+    if (u > 5.5) { x.globalAlpha = eo((u - 5.5) / 0.5); x.fillStyle = '#F08A8A'; x.font = SF(600, 24); x.fillText('Spelled differently. No rule matched.', 58, Y + 150); x.globalAlpha = 1; } }
+  const n = Math.min(48, Math.max(0, Math.floor((u - 0.6) * 12)));
+  for (let i = 0; i < n; i++) { const c = i % 8, r = i / 8 | 0, sp = hash1(i + 3) > 0.55; rrect(x, RX + 34 + c * 70, 104 + r * 32, 60, 22, 6, sp ? 'rgba(240,138,138,0.6)' : 'rgba(255,255,255,0.16)'); }
+  if (n) { x.fillStyle = '#86868B'; x.font = SF(600, 21); x.fillText('10,000 emails, each labeled', RX + 34, 324); x.fillStyle = '#F08A8A'; x.fillText('spam', RX + 318, 324); x.fillStyle = '#86868B'; x.fillText('or not', RX + 376, 324); }
+  if (u > 6.4) { const a = eo((u - 6.4) / 0.6); x.globalAlpha = a; rrect(x, RX + 34, 346, LW - 72, 56, 14, ACA(0.16)); x.fillStyle = AC(); x.font = SF(700, 20); x.fillText('PATTERN IT FOUND', RX + 54, 381);
+    x.fillStyle = '#E8E8ED'; x.font = SF(500, 20); x.fillText('odd spelling + prize + stranger', RX + 250, 381); x.globalAlpha = 1; }
+  if (u > 8.2) { const a = eo((u - 8.2) / 0.6), Y = 430 + (1 - a) * 40; mail(RX + 34, Y, a, u > 9.3 ? 'SPAM · 97% ✓' : '', '#8FD3A5');
+    if (u > 9.3) { x.globalAlpha = eo((u - 9.3) / 0.5); x.fillStyle = '#8FD3A5'; x.font = SF(600, 24); x.fillText('Caught. Nobody wrote that rule.', RX + 34, Y + 150); x.globalAlpha = 1; } }
+};
+
+/* embeddings: a flattened map of meaning, then king − man + woman ≈ queen */
+const EMB = [['cat', 300, 300, 0], ['kitten', 236, 372, 0], ['dog', 392, 270, 0], ['puppy', 420, 352, 0],
+  ['pizza', 800, 236, 1], ['taco', 900, 296, 1], ['burger', 770, 330, 1],
+  ['soccer', 930, 620, 2], ['tennis', 1030, 548, 2], ['basketball', 840, 700, 2],
+  ['man', 330, 700, 3], ['woman', 330, 566, 3], ['king', 590, 720, 3], ['queen', 590, 586, 3]];
+const EMB_C = ['#8FD3A5', '#FFAE4D', '#6FA8FF', '#E3B7FF'];
+SCR.embed = (x, w, h, t) => {
+  const T = 14, u = mod(t, T); x.fillStyle = '#08080C'; x.fillRect(0, 0, w, h);
+  x.strokeStyle = 'rgba(255,255,255,0.05)'; x.lineWidth = 1;
+  for (let i = 1; i < 16; i++) { x.beginPath(); x.moveTo(i * 80, 120); x.lineTo(i * 80, h); x.stroke(); }
+  for (let j = 2; j < 11; j++) { x.beginPath(); x.moveTo(0, j * 80); x.lineTo(w, j * 80); x.stroke(); }
+  rrect(x, 30, 24, w - 60, 76, 18, '#15151B', 'rgba(255,255,255,0.08)'); x.font = SM(30, 700); x.fillStyle = AC(); x.fillText('"dog"', 62, 74);
+  const nums = ['0.21', '-1.40', '0.88', '0.05', '-0.62', '1.17', '0.33']; let s = '→ ['; nums.forEach((v, i) => { if (u > 0.4 + i * 0.18) s += (i ? ', ' : '') + v; });
+  x.font = SM(30); x.fillStyle = '#E8E8ED'; x.fillText(s + (u > 1.8 ? ', … ]' : ''), 178, 74);
+  [[330, 320, 170, 110], [840, 284, 170, 100], [930, 625, 180, 110], [460, 645, 230, 130]].forEach(([cx, cy, rx, ry], k) => { const a = eo((u - 2 - k * 0.5) / 0.8); if (a <= 0) return;
+    x.globalAlpha = a * 0.12; x.fillStyle = EMB_C[k]; x.beginPath(); x.ellipse(cx, cy, rx, ry, 0, 0, 7); x.fill(); x.globalAlpha = 1; });
+  EMB.forEach(([wd, X, Y, k], i) => { const a = eo((u - 2 - k * 0.5 - (i % 4) * 0.1) / 0.6); if (a <= 0) return; const dx = Math.sin(t * 0.6 + i) * 4, dy = Math.cos(t * 0.5 + i * 1.3) * 4;
+    x.globalAlpha = a; x.fillStyle = EMB_C[k]; x.beginPath(); x.arc(X + dx, Y + dy, 10, 0, 7); x.fill();
+    x.fillStyle = wd === 'dog' ? '#FFFFFF' : '#D8D8DE'; x.font = SF(wd === 'dog' ? 700 : 600, 30); x.fillText(wd, X + dx + 20, Y + dy + 10); x.globalAlpha = 1; });
+  const ar = eo((u - 6.5) / 0.9);
+  if (ar > 0) { const arrow = (x1, y1, x2, y2) => { const ex = x1 + (x2 - x1) * ar, ey = y1 + (y2 - y1) * ar; x.strokeStyle = AC(); x.lineWidth = 6; x.lineCap = 'round'; x.beginPath(); x.moveTo(x1, y1); x.lineTo(ex, ey); x.stroke();
+      if (ar > 0.95) { const an = Math.atan2(y2 - y1, x2 - x1); x.fillStyle = AC(); x.beginPath(); x.moveTo(ex, ey); x.lineTo(ex - 20 * Math.cos(an - 0.45), ey - 20 * Math.sin(an - 0.45)); x.lineTo(ex - 20 * Math.cos(an + 0.45), ey - 20 * Math.sin(an + 0.45)); x.closePath(); x.fill(); } };
+    arrow(330, 682, 330, 590); arrow(590, 702, 590, 610);
+    x.globalAlpha = eo((u - 7.6) / 0.6); rrect(x, 700, 770, 540, 76, 20, ACA(0.18)); x.fillStyle = '#F5F5F7'; x.font = SF(700, 32); x.fillText('king − man + woman ≈ queen', 730, 820); x.globalAlpha = 1; }
+};
+
+/* attention: “bank” looks at the other words; the strongest link decides what it means */
+const ATT = [{ w: ['I', 'sat', 'by', 'the', 'river', 'bank'], a: [0.02, 0.06, 0.10, 0.02, 0.80], m: 'the edge of a river' },
+             { w: ['I', 'put', 'money', 'in', 'the', 'bank'], a: [0.02, 0.08, 0.82, 0.05, 0.03], m: 'a place that keeps money' }];
+SCR.attn = (x, w, h, t) => {
+  const P = 7, k = Math.floor(t / P), u = t - k * P, S = ATT[k % 2]; x.fillStyle = '#07070B'; x.fillRect(0, 0, w, h);
+  x.fillStyle = '#86868B'; x.font = SF(700, 26); x.fillText('ATTENTION FROM “bank”', 70, 96); x.font = SF(500, 24); x.fillText('Which words should change what I mean?', 70, 136);
+  const fade = eo(u / 0.5) * (1 - eo((u - (P - 0.5)) / 0.5)); x.globalAlpha = fade;
+  x.font = SF(700, 66); const gap = 36, ws = S.w.map(s => x.measureText(s).width), tot = ws.reduce((a, b) => a + b, 0) + gap * (ws.length - 1); let X = (w - tot) / 2; const cx = [];
+  S.w.forEach((s, i) => { cx.push(X + ws[i] / 2); X += ws[i] + gap; });
+  const g = eo((u - 0.9) / 0.9), bx = cx[cx.length - 1], base = 400;
+  S.a.forEach((a, i) => { const mx = (bx + cx[i]) / 2, my = base - 50 - (bx - cx[i]) * 0.3; x.globalAlpha = fade * g * (0.25 + 0.75 * a);
+    x.strokeStyle = AC(); x.lineWidth = 2 + a * 18; x.lineCap = 'round'; x.beginPath(); x.moveTo(bx, base); x.quadraticCurveTo(mx, my, cx[i], base); x.stroke();
+    if (a >= 0.06) { x.globalAlpha = fade * g; x.fillStyle = a > 0.5 ? '#FFFFFF' : '#A1A1A8'; x.font = SF(700, a > 0.5 ? 34 : 24); x.textAlign = 'center'; x.fillText(Math.round(a * 100) + '%', mx, (base + my) / 2 - 14); x.textAlign = 'left'; } });
+  x.globalAlpha = fade; x.font = SF(700, 66); X = (w - tot) / 2;
+  S.w.forEach((s, i) => { const last = i === S.w.length - 1; if (last) rrect(x, X - 16, base + 14, ws[i] + 32, 92, 20, ACA(0.24));
+    x.fillStyle = last ? '#FFFFFF' : `rgba(245,245,247,${0.4 + 0.6 * Math.min(1, (S.a[i] || 0) * 1.2 * g + 0.15)})`; x.fillText(s, X, base + 82); X += ws[i] + gap; });
+  const m = eo((u - 2.8) / 0.6); x.globalAlpha = fade * m; rrect(x, w / 2 - 360, 580, 720, 104, 22, '#15151B', ACA(0.5));
+  x.fillStyle = AC(); x.font = SF(700, 24); x.textAlign = 'center'; x.fillText('SO “bank” MEANS', w / 2, 618); x.fillStyle = '#F5F5F7'; x.font = SF(600, 36); x.fillText(S.m, w / 2, 664); x.textAlign = 'left';
+  x.globalAlpha = fade * m * 0.8; x.fillStyle = '#86868B'; x.font = SF(500, 22); x.textAlign = 'center'; x.fillText('Every word does this with every other word, layer after layer.', w / 2, 740); x.textAlign = 'left'; x.globalAlpha = 1;
+};
+
+/* the AI family tree: nested rings that light up from the outside in */
+const TREE = [['Artificial intelligence', 'chess bots · game enemies · map routes'], ['Machine learning', 'spam filters · recommendations'], ['Deep learning', 'Face ID · voice assistants · self-driving'],
+  ['Generative AI', 'image, music and video generators'], ['Large language models', 'ChatGPT · Gemini · Claude']];
+SCR.tree = (x, w, h, t) => {
+  const P = 2.2, k = Math.floor(mod(t, P * 6) / P); x.fillStyle = '#08080C'; x.fillRect(0, 0, w, h);
+  TREE.forEach(([name], i) => { const X = 40 + i * 92, Y = 36 + i * 70, W = w - 80 - i * 184, H = h - 196 - i * 140, on = k === i || k === 5;
+    rrect(x, X, Y, W, H, 34 - i * 3, `rgba(255,255,255,${0.03 + i * 0.025})`, on ? AC() : 'rgba(255,255,255,0.12)'); if (on) { x.lineWidth = 4; x.strokeStyle = AC(); x.stroke(); }
+    x.fillStyle = on ? '#FFFFFF' : '#86868B'; x.font = SF(700, 32); x.fillText(name, X + 30, Y + 52); });
+  const i = k === 5 ? 4 : k; rrect(x, 40, h - 136, w - 80, 104, 24, '#15151B', ACA(0.45));
+  x.fillStyle = AC(); x.font = SF(700, 22); x.fillText(k === 5 ? 'EVERY LLM IS ALL OF THESE AT ONCE' : 'EXAMPLES', 76, h - 96);
+  x.fillStyle = '#F5F5F7'; x.font = SF(600, 32); x.fillText(k === 5 ? 'LLM ⊂ generative AI ⊂ deep learning ⊂ ML ⊂ AI' : TREE[i][1], 76, h - 54);
+};
+
+/* recommend: a For You feed that says why it picked each video */
+const FEED = [['kickflip in 10 seconds', '@skate.daily', 'you watched 4 skate videos', 94, 200], ['3-ingredient ramen hack', '@dormchef', 'you liked 2 cooking clips', 88, 20],
+  ['speedrun world record', '@pixelrunner', 'you finished a game stream', 91, 265], ['how volcanoes form', '@earth.explained', 'you paused on science videos', 83, 140]];
+function feedCard(x, w, Y, H, f) {
+  const g = x.createLinearGradient(0, Y, w, Y + H); g.addColorStop(0, `hsl(${f[4]}, 45%, 32%)`); g.addColorStop(1, `hsl(${f[4] + 40}, 50%, 12%)`); x.fillStyle = g; x.fillRect(0, Y, w, H);
+  x.fillStyle = `hsla(${f[4]}, 60%, 70%, 0.22)`; x.beginPath(); x.arc(w * 0.5, Y + H * 0.34, 170, 0, 7); x.fill();
+  x.fillStyle = 'rgba(255,255,255,0.9)'; x.beginPath(); x.moveTo(w * 0.5 - 40, Y + H * 0.34 - 56); x.lineTo(w * 0.5 + 60, Y + H * 0.34); x.lineTo(w * 0.5 - 40, Y + H * 0.34 + 56); x.closePath(); x.fill();
+  [0, 1, 2].forEach(i => { x.fillStyle = 'rgba(255,255,255,0.85)'; x.beginPath(); x.arc(w - 58, Y + H * 0.52 + i * 104, 28, 0, 7); x.fill(); });
+  x.fillStyle = '#FFFFFF'; x.font = SF(700, 40); x.fillText(f[0], 36, Y + H - 214); x.font = SF(500, 28); x.fillStyle = 'rgba(255,255,255,0.75)'; x.fillText(f[1], 36, Y + H - 166);
+  rrect(x, 28, Y + H - 132, w - 56, 100, 22, 'rgba(0,0,0,0.6)'); x.fillStyle = AC(); x.font = SF(700, 22); x.fillText('PICKED FOR YOU · ' + f[3] + '% MATCH', 52, Y + H - 92);
+  x.fillStyle = '#E8E8ED'; x.font = SF(500, 24); x.fillText('because ' + f[2], 52, Y + H - 54); }
+SCR.feed = (x, w, h, t) => {
+  const P = 3.2, k = Math.floor(t / P), u = t - k * P, top = 100, H = h - top - 120, s = eo((u - (P - 0.6)) / 0.6) * H;
+  x.fillStyle = '#000'; x.fillRect(0, 0, w, h); x.save(); x.beginPath(); x.rect(0, top, w, H); x.clip();
+  feedCard(x, w, top - s, H, FEED[k % 4]); if (s > 0) feedCard(x, w, top + H - s, H, FEED[(k + 1) % 4]); x.restore();
+  x.fillStyle = '#F5F5F7'; x.font = SF(600, 30); x.fillText('9:41', 60, 66); x.textAlign = 'center'; x.font = SF(700, 28); x.fillText('For You', w / 2, 66);
+  ['Home', 'Search', '+', 'Inbox', 'Me'].forEach((s2, i) => { x.fillStyle = i ? '#86868B' : '#FFFFFF'; x.font = SF(600, 22); x.fillText(s2, 60 + i * 120, h - 52); }); x.textAlign = 'left';
+};
+
+/* recognize: a face unlock reading the pattern of a face */
+SCR.faceid = (x, w, h, t) => {
+  const P = 5.5, u = mod(t, P), ok = u > 2.6; x.fillStyle = '#000'; x.fillRect(0, 0, w, h);
+  x.fillStyle = '#F5F5F7'; x.textAlign = 'center'; x.font = SF(600, 28); x.fillText('Wednesday, November 12', w / 2, 236); x.font = SF(700, 150); x.fillText('9:41', w / 2, 390);
+  const lx = w / 2, ly = 130; x.strokeStyle = ok ? '#8FD3A5' : '#F5F5F7'; x.lineWidth = 6; x.beginPath(); x.arc(lx, ly - 14 - (ok ? 10 : 0), 18, Math.PI, 0); x.stroke(); rrect(x, lx - 26, ly - 14, 52, 40, 8, ok ? '#8FD3A5' : '#F5F5F7');
+  const cx = w / 2, cy = 760, rx = 170, ry = 215, scan = cy - ry + cl01(u / 2.4) * ry * 2;
+  for (let gy = cy - ry; gy <= cy + ry; gy += 26) for (let gx = cx - rx; gx <= cx + rx; gx += 26) { const e = ((gx - cx) / rx) ** 2 + ((gy - cy) / ry) ** 2; if (e > 1) continue;
+    const near = Math.max(0, 1 - Math.abs(gy - scan) / 90), a = ok ? 0.55 : (gy < scan ? 0.45 : 0.08) + near * 0.5; x.fillStyle = ok ? `rgba(143,211,165,${a})` : `rgba(${Math.round(acc[0] * 255)},${Math.round(acc[1] * 255)},${Math.round(acc[2] * 255)},${a})`;
+    x.beginPath(); x.arc(gx, gy, 4, 0, 7); x.fill(); }
+  x.lineWidth = 5; x.strokeStyle = ok ? '#8FD3A5' : 'rgba(255,255,255,0.35)'; x.beginPath(); x.ellipse(cx, cy, rx + 28, ry + 28, 0, 0, 7); x.stroke();
+  if (!ok) { x.strokeStyle = AC(); x.lineWidth = 4; x.beginPath(); x.moveTo(cx - rx, scan); x.lineTo(cx + rx, scan); x.stroke(); }
+  x.font = SF(700, 34); x.fillStyle = ok ? '#8FD3A5' : '#F5F5F7'; x.fillText(ok ? 'Match · it’s you' : 'Reading face pattern…', w / 2, 1086);
+  x.font = SF(500, 24); x.fillStyle = '#86868B'; x.fillText(ok ? 'label: owner  ✓' : 'input → label', w / 2, 1130); x.textAlign = 'left';
+};
+
+/* image AI: a picture pulled out of static, step by step */
+let DIFF = null;
+function diffAssets() { if (DIFF) return DIFF; const W = 720, H = 560, sc = document.createElement('canvas'); sc.width = W; sc.height = H; const c = sc.getContext('2d');
+  const sky = c.createLinearGradient(0, 0, 0, H * 0.62); sky.addColorStop(0, '#2B1B4F'); sky.addColorStop(0.55, '#C2477A'); sky.addColorStop(1, '#FFB25C'); c.fillStyle = sky; c.fillRect(0, 0, W, H);
+  c.fillStyle = '#FFE3A1'; c.beginPath(); c.arc(W * 0.68, H * 0.5, 62, 0, 7); c.fill();
+  c.fillStyle = '#4A2E63'; c.beginPath(); c.moveTo(0, H * 0.62); c.lineTo(140, H * 0.36); c.lineTo(290, H * 0.58); c.lineTo(420, H * 0.32); c.lineTo(600, H * 0.6); c.lineTo(W, H * 0.44); c.lineTo(W, H); c.lineTo(0, H); c.fill();
+  const snow = c.createLinearGradient(0, H * 0.6, 0, H); snow.addColorStop(0, '#F3D9E6'); snow.addColorStop(1, '#BFC7EA'); c.fillStyle = snow;
+  c.beginPath(); c.moveTo(0, H * 0.66); c.quadraticCurveTo(W * 0.5, H * 0.58, W, H * 0.68); c.lineTo(W, H); c.lineTo(0, H); c.fill();
+  c.fillStyle = '#E8672C'; c.beginPath(); c.ellipse(300, 430, 92, 46, -0.05, 0, 7); c.fill();
+  c.beginPath(); c.moveTo(372, 414); c.lineTo(450, 360); c.lineTo(470, 412); c.lineTo(440, 450); c.closePath(); c.fill();
+  c.beginPath(); c.moveTo(438, 372); c.lineTo(434, 326); c.lineTo(460, 364); c.fill();
+  c.beginPath(); c.moveTo(214, 420); c.quadraticCurveTo(128, 384, 146, 326); c.quadraticCurveTo(196, 380, 238, 446); c.fill();
+  c.fillStyle = '#FFF4EA'; c.beginPath(); c.moveTo(146, 326); c.quadraticCurveTo(150, 352, 170, 362); c.quadraticCurveTo(178, 340, 146, 326); c.fill();
+  c.beginPath(); c.moveTo(470, 412); c.lineTo(440, 450); c.lineTo(428, 420); c.fill();
+  c.fillStyle = '#7A2F12'; [262, 286, 330, 354].forEach(lx => c.fillRect(lx, 462, 12, 40)); c.fillStyle = '#1b1b1f'; c.beginPath(); c.arc(446, 392, 5, 0, 7); c.fill();
+  const nz = document.createElement('canvas'); nz.width = 180; nz.height = 140; const n = nz.getContext('2d'), id = n.createImageData(180, 140);
+  for (let i = 0; i < id.data.length; i += 4) { const r = hash1(i * 0.37) * 255, g2 = hash1(i * 0.71 + 3) * 255, b2 = hash1(i * 0.13 + 9) * 255; id.data[i] = r; id.data[i + 1] = g2; id.data[i + 2] = b2; id.data[i + 3] = 255; } n.putImageData(id, 0, 0);
+  const small = document.createElement('canvas'); small.width = W; small.height = H; return DIFF = { sc, nz, small }; }
+SCR.diffuse = (x, w, h, t) => {
+  const D = diffAssets(), T = 11, u = mod(t, T), p = eo((u - 0.9) / 6.5), step = Math.round(p * 30), IX = 40, IY = 124, IW = 720, IH = 560;
+  x.fillStyle = '#07070A'; x.fillRect(0, 0, w, h);
+  rrect(x, 40, 30, w - 80, 72, 18, '#15151B', 'rgba(255,255,255,0.1)'); x.fillStyle = '#86868B'; x.font = SF(700, 22); x.fillText('PROMPT', 70, 75);
+  x.fillStyle = '#F5F5F7'; x.font = SF(500, 30); x.fillText(typed('a fox in the snow at sunset', u - 0.1, 30), 184, 77);
+  const res = Math.max(6, Math.round(6 + Math.pow(p, 1.6) * (IW - 6))), rh = Math.max(4, Math.round(res * IH / IW)), sm = D.small.getContext('2d');
+  sm.clearRect(0, 0, IW, IH); sm.drawImage(D.sc, 0, 0, res, rh);
+  x.save(); x.beginPath(); x.roundRect(IX, IY, IW, IH, 18); x.clip(); x.imageSmoothingEnabled = p > 0.9; x.drawImage(D.small, 0, 0, res, rh, IX, IY, IW, IH);
+  x.imageSmoothingEnabled = false; x.globalAlpha = Math.pow(1 - p, 0.8); const f = (t * 12) | 0; x.drawImage(D.nz, (hash1(f) * 40) | 0, (hash1(f + 7) * 30) | 0, 140, 110, IX, IY, IW, IH);
+  x.globalAlpha = 1; x.restore(); x.imageSmoothingEnabled = true;
+  const RX = 806; x.fillStyle = '#86868B'; x.font = SF(700, 22); x.fillText('REMOVING NOISE', RX, 170); x.fillStyle = '#F5F5F7'; x.font = SF(700, 80); x.fillText(`${step} / 30`, RX, 258);
+  rrect(x, RX, 286, 420, 14, 7, 'rgba(255,255,255,0.1)'); rrect(x, RX, 286, Math.max(14, 420 * p), 14, 7, AC());
+  x.font = SF(500, 27); x.fillStyle = '#C9C9CF'; ['Each step it asks:', '“What noise should I remove', 'to look more like the prompt?”'].forEach((l, i) => x.fillText(l, RX, 370 + i * 40));
+  x.globalAlpha = eo((u - 7.6) / 0.6); rrect(x, RX, 520, 420, 124, 20, ACA(0.18)); x.fillStyle = '#F5F5F7'; x.font = SF(700, 30); x.fillText('A new picture', RX + 28, 572); x.fillText('nobody drew.', RX + 28, 614); x.globalAlpha = 1;
+};
+
+/* model → chatbot: a raw model rambles on, a coached one answers, people rate answers */
+SCR.coach = (x, w, h, t) => {
+  const T = 16, u = mod(t, T), CW = (w - 90) / 2, L = 30, R = 60 + CW; x.fillStyle = '#08080C'; x.fillRect(0, 0, w, h);
+  rrect(x, L, 30, CW, h - 60, 24, '#111116', 'rgba(255,255,255,0.08)'); x.fillStyle = '#F08A8A'; x.font = SF(700, 22); x.fillText('RAW MODEL · just continues the text', L + 30, 82);
+  x.font = SM(27, 700); x.fillStyle = '#F5F5F7'; x.fillText('How do I bake a cake?', L + 30, 146);
+  x.font = SM(25); x.fillStyle = '#9A9AA2'; wrapLines(x, typed('How do I bake bread? How do I bake cookies? How do I bake a pie without an oven? How do I bake a cake for my dog? How do I bake', u - 0.8, 24), CW - 60).forEach((l, i) => x.fillText(l, L + 30, 200 + i * 38));
+  rrect(x, R, 30, CW, h - 60, 24, '#111116', ACA(0.4)); x.fillStyle = AC(); x.font = SF(700, 22); x.fillText('AFTER COACHING · answers you', R + 30, 82);
+  x.font = SF(500, 25); const q = 'How do I bake a cake?', qw = x.measureText(q).width + 52; rrect(x, R + CW - 30 - qw, 110, qw, 60, 30, '#4B4FA8'); x.fillStyle = '#FFF'; x.fillText(q, R + CW - 30 - qw + 26, 149);
+  let b = Math.max(0, (u - 1.4) * 34); ['Here’s an easy one:', '1. Heat the oven to 350°F.', '2. Mix flour, sugar, eggs, butter.', '3. Bake about 30 minutes.'].forEach((l, i) => { if (b <= 0) return;
+    x.fillStyle = i ? '#C9C9CF' : '#F5F5F7'; x.font = SF(i ? 500 : 600, 25); x.fillText(l.slice(0, Math.min(l.length, b | 0)), R + 30, 232 + i * 40); b -= l.length; });
+  if (u > 6) { const a = eo((u - 6) / 0.6); x.globalAlpha = a; x.fillStyle = '#86868B'; x.font = SF(700, 21); x.fillText('A PERSON PICKS THE BETTER ANSWER', R + 30, 440);
+    const pick = u > 8; [['A', 'Clear steps, safe temps'], ['B', 'Rambles, skips the oven']].forEach(([k, d], i) => { const Y = 466 + i * 108, on = pick && i === 0;
+      rrect(x, R + 30, Y, CW - 60, 92, 18, on ? 'rgba(143,211,165,0.14)' : '#18181E', on ? '#8FD3A5' : 'rgba(255,255,255,0.1)');
+      x.fillStyle = '#F5F5F7'; x.font = SF(700, 28); x.fillText(k, R + 56, Y + 56); x.font = SF(500, 24); x.fillStyle = '#C9C9CF'; x.fillText(d, R + 100, Y + 55);
+      if (on) { x.fillStyle = '#8FD3A5'; x.font = SF(700, 26); x.textAlign = 'right'; x.fillText('👍 +1', R + CW - 56, Y + 56); x.textAlign = 'left'; } });
+    x.globalAlpha = a * eo((u - 8.6) / 0.6); x.fillStyle = '#86868B'; x.font = SF(500, 22); x.fillText('Thousands of these teach it what “helpful” means.', R + 30, 720); x.globalAlpha = 1; }
+};
+
+/* bias: a résumé screener that copied an unfair pattern (simulation of a real 2018 case) */
+const CV = [['Candidate A', ['Robotics club', 'Python, 3 years', 'Summer coding camp'], 86], ['Candidate B', ['Captain, women’s chess club', 'Python, 3 years', 'Hackathon winner'], 41], ['Candidate C', ['Soccer team', 'Python, 2 years', 'Built school website'], 79]];
+SCR.resume = (x, w, h, t) => {
+  const T = 13, u = mod(t, T); x.fillStyle = '#0A0A0E'; x.fillRect(0, 0, w, h);
+  x.fillStyle = '#F5F5F7'; x.font = SF(700, 34); x.fillText('AutoScreen', 40, 70); x.fillStyle = '#86868B'; x.font = SF(500, 24); x.fillText('ranks résumés automatically', 244, 68);
+  rrect(x, w - 230, 38, 190, 44, 22, 'rgba(230,192,122,0.16)'); x.fillStyle = '#E6C07A'; x.font = SF(700, 19); x.textAlign = 'center'; x.fillText('SIMULATION', w - 135, 67); x.textAlign = 'left';
+  CV.forEach(([name, lines, score], i) => { const X = 40 + i * 408, Y = 112, W = 384, H = 486, bad = i === 1; rrect(x, X, Y, W, H, 22, '#141419', bad && u > 4.6 ? 'rgba(240,138,138,0.6)' : 'rgba(255,255,255,0.08)');
+    x.fillStyle = '#2A2A33'; x.beginPath(); x.arc(X + 58, Y + 62, 32, 0, 7); x.fill(); x.fillStyle = '#F5F5F7'; x.font = SF(700, 28); x.fillText(name, X + 106, Y + 72);
+    lines.forEach((l, j) => { const hl = bad && j === 0 && u > 3.8; if (hl) rrect(x, X + 18, Y + 128 + j * 60, W - 36, 48, 12, 'rgba(230,192,122,0.2)'); x.fillStyle = hl ? '#E6C07A' : '#C9C9CF'; x.font = SF(hl ? 700 : 500, 22); x.fillText(l, X + 30, Y + 160 + j * 60); });
+    x.fillStyle = '#86868B'; x.font = SF(700, 19); x.fillText('SCORE', X + 30, Y + 360); const v = eo((u - 1.4 - i * 0.35) / 1.0) * score;
+    x.fillStyle = bad ? '#F08A8A' : '#F5F5F7'; x.font = SF(700, 64); x.fillText(String(Math.round(v)), X + 30, Y + 436); rrect(x, X + 150, Y + 410, W - 180, 16, 8, 'rgba(255,255,255,0.08)'); rrect(x, X + 150, Y + 410, Math.max(16, (W - 180) * v / 100), 16, 8, bad ? '#F08A8A' : '#8FD3A5'); });
+  if (u > 6) { const a = eo((u - 6) / 0.6); x.globalAlpha = a; rrect(x, 40, 622, w - 80, 214, 22, 'rgba(240,138,138,0.1)', 'rgba(240,138,138,0.5)');
+    x.fillStyle = '#F08A8A'; x.font = SF(700, 22); x.fillText('WHY IS B LOWER? SAME SKILLS.', 72, 672); x.fillStyle = '#F5F5F7'; x.font = SF(600, 32); x.fillText('It learned from 10 years of past hires, mostly men.', 72, 726);
+    x.fillStyle = '#C9C9CF'; x.font = SF(500, 26); x.fillText('So it copied the pattern, including the unfair part.', 72, 778); x.globalAlpha = 1; }
+};
+
+/* fakes: a viral post gets fact-checked, then a cloned-voice phone call */
+SCR.fake = (x, w, h, t) => {
+  const T = 16, u = mod(t, T); x.fillStyle = '#060609'; x.fillRect(0, 0, w, h);
+  if (u < 8) { const v = u, f = eo(v / 0.5) * (1 - eo((v - 7.5) / 0.5)); x.globalAlpha = f;
+    rrect(x, 40, 40, 640, h - 80, 24, '#121217', 'rgba(255,255,255,0.08)'); x.fillStyle = '#3A3A44'; x.beginPath(); x.arc(92, 104, 30, 0, 7); x.fill();
+    x.fillStyle = '#F5F5F7'; x.font = SF(700, 25); x.fillText('@breakingnewz247', 136, 98); x.fillStyle = '#86868B'; x.font = SF(500, 20); x.fillText('3h · account created 3 days ago', 136, 128);
+    x.fillStyle = '#F5F5F7'; x.font = SF(700, 28); x.fillText('BREAKING: Shark swims down', 66, 190); x.fillText('Main Street after the storm!!', 66, 228);
+    const iy = 256, ih = 360; x.save(); x.beginPath(); x.roundRect(66, iy, 588, ih, 16); x.clip(); const g = x.createLinearGradient(0, iy, 0, iy + ih); g.addColorStop(0, '#5D6F7E'); g.addColorStop(1, '#22343F'); x.fillStyle = g; x.fillRect(66, iy, 588, ih);
+    x.fillStyle = '#2E2E35'; x.fillRect(66, iy + 60, 140, 180); x.fillRect(520, iy + 40, 134, 200); x.fillStyle = 'rgba(160,190,205,0.35)'; for (let i = 0; i < 6; i++) x.fillRect(66, iy + 250 + i * 18 + Math.sin(t * 2 + i) * 3, 588, 3);
+    x.fillStyle = '#4C5A63'; const fx = 340 + Math.sin(t * 0.8) * 30; x.beginPath(); x.moveTo(fx - 50, iy + 268); x.quadraticCurveTo(fx, iy + 170, fx + 40, iy + 268); x.closePath(); x.fill(); x.restore();
+    x.fillStyle = '#86868B'; x.font = SF(600, 22); x.fillText('↻ 48K   ♥ 210K', 66, iy + ih + 50);
+    const checks = [['Who posted it first?', 'brand-new account, no name'], ['Real news reporting it?', 'none found'], ['Reverse image search', 'same photo, years old']];
+    x.fillStyle = '#86868B'; x.font = SF(700, 22); x.fillText('CHECK BEFORE YOU SHARE', 726, 86);
+    checks.forEach(([q, a], i) => { const c = eo((v - 1.6 - i * 1.2) / 0.5); if (c <= 0) return; x.globalAlpha = f * c; const Y = 120 + i * 140; rrect(x, 720, Y, w - 760, 120, 18, '#121217', 'rgba(240,138,138,0.45)');
+      x.fillStyle = '#F5F5F7'; x.font = SF(700, 26); x.fillText(q, 750, Y + 50); x.fillStyle = '#F08A8A'; x.font = SF(500, 23); x.fillText('✗  ' + a, 750, Y + 90); });
+    const s = eo((v - 5.4) / 0.5); if (s > 0) { x.globalAlpha = f * s; x.save(); x.translate(980, 600); x.rotate(-0.08); x.scale(1.4 - 0.4 * s, 1.4 - 0.4 * s); rrect(x, -200, -50, 400, 100, 18, 'rgba(240,138,138,0.1)', '#F08A8A'); x.lineWidth = 5; x.strokeStyle = '#F08A8A'; x.stroke();
+      x.fillStyle = '#F08A8A'; x.font = SF(700, 46); x.textAlign = 'center'; x.fillText('LIKELY FAKE', 0, 16); x.restore(); x.textAlign = 'left'; }
+    x.globalAlpha = 1; return; }
+  const v = u - 8, f = eo(v / 0.5) * (1 - eo((v - 7.5) / 0.5)); x.globalAlpha = f; x.textAlign = 'center';
+  x.fillStyle = '#86868B'; x.font = SF(600, 26); x.fillText('incoming call…', w / 2, 110); x.fillStyle = '#F5F5F7'; x.font = SF(700, 64); x.fillText('Mom', w / 2, 186);
+  for (let i = 0; i < 40; i++) { const bh = 12 + Math.abs(Math.sin(t * 7 + i * 0.7) * Math.sin(t * 2.3 + i * 0.3)) * 90 * (v > 0.8 ? 1 : 0.2); rrect(x, w / 2 - 400 + i * 20, 300 - bh / 2, 10, bh, 5, AC()); }
+  x.fillStyle = '#E8E8ED'; x.font = SF(500, 32); const said = '“It’s me! I lost my phone. I need $500 right now, please hurry!”'; x.fillText(typed(said, v - 1.0, 26), w / 2, 430);
+  const c = eo((v - 3.8) / 0.5); x.globalAlpha = f * c; rrect(x, w / 2 - 330, 480, 660, 72, 36, 'rgba(240,138,138,0.14)'); x.fillStyle = '#F08A8A'; x.font = SF(700, 28); x.fillText('Could be an AI voice clone.', w / 2, 527);
+  const d = eo((v - 5) / 0.5); x.globalAlpha = f * d; rrect(x, w / 2 - 330, 576, 660, 72, 36, 'rgba(143,211,165,0.14)'); x.fillStyle = '#8FD3A5'; x.fillText('Ask: “What’s our code word?”', w / 2, 623);
+  x.textAlign = 'left'; x.globalAlpha = 1;
+};
+
+/* tool landscape: four groups, the guardrailed learning modes first */
+const APPS = [['LEARNING MODES', 'coach you, not just answer', ['ChatGPT Study mode', 'Gemini Guided Learning', 'CS50 Duck', 'Khanmigo'], '#8FD3A5', 'START HERE'],
+  ['CHAT ASSISTANTS', 'explain, brainstorm, review', ['ChatGPT · 13+', 'Gemini · teen accounts', 'Claude · 18+'], '#6FA8FF', ''],
+  ['CODE HELPERS', 'live inside your code editor', ['GitHub Copilot', 'free Pro for students'], '#FFAE4D', ''],
+  ['APP BUILDERS', 'describe it, get a whole app', ['Lovable', 'Bolt', 'v0', 'Replit'], '#F08A8A', 'MOSTLY 18+']];
+SCR.apps = (x, w, h, t) => {
+  const P = 2.6, k = Math.floor(mod(t, P * 4) / P), cw = (w - 80) / 2, ch = (h - 80) / 2; x.fillStyle = '#08080C'; x.fillRect(0, 0, w, h);
+  APPS.forEach(([name, sub, chips, col, badge], i) => { const X = 30 + (i % 2) * (cw + 20), Y = 30 + (i / 2 | 0) * (ch + 20), on = k === i;
+    rrect(x, X, Y, cw, ch, 26, on ? '#15151C' : '#101014', on ? col : 'rgba(255,255,255,0.08)'); if (on) { x.lineWidth = 4; x.strokeStyle = col; x.stroke(); }
+    x.fillStyle = col; x.font = SF(700, 26); x.fillText(name, X + 32, Y + 58); x.fillStyle = '#86868B'; x.font = SF(500, 23); x.fillText(sub, X + 32, Y + 96);
+    if (badge) { x.font = SF(700, 18); const bw = x.measureText(badge).width + 32; rrect(x, X + cw - 30 - bw, Y + 30, bw, 40, 20, col); x.fillStyle = '#0B0B12'; x.fillText(badge, X + cw - 14 - bw, Y + 57); }
+    let cx = X + 32, cy = Y + 132; x.font = SF(600, 25); chips.forEach(c => { const tw = x.measureText(c).width + 44; if (cx + tw > X + cw - 28) { cx = X + 32; cy += 70; }
+      rrect(x, cx, cy, tw, 56, 28, on ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.05)'); x.fillStyle = on ? '#FFFFFF' : '#C9C9CF'; x.fillText(c, cx + 22, cy + 37); cx += tw + 12; }); });
+};
+
 /* ---------- hero builders: each takes its station and returns { g, update(t, dt), build?(gi, shown, base), screens?, morphTo? } ---------- */
 const HERO = {};
 let heroUid = 0;
@@ -1425,7 +1971,7 @@ HERO.phone = st => { const D = device(Object.assign({}, PHONE, { frame: M.titani
   return { g: D.g, screens: [D.scr], update: t => { D.body.rotation.y = yaw + Math.sin(t * 0.25) * 0.08; D.body.position.y = Math.sin(t * 0.6) * 0.05; D.scr.tick(t); },
     build: (gi, shown) => { if (st.stampAt === gi) { D.scr.state.stamp = shown ? performance.now() : 0; D.scr.last = -1; } } }; };
 
-HERO.tablet = () => { const D = device({ w: 3.7, h: 2.6, d: 0.075, r: 0.2, b: 0.02, frame: M.silver, back: M.silver, sw: 3.5, sh: 2.4, sr: 0.12, screen: 'dreams', res: [1280, 878], fps: 24 });
+HERO.tablet = st => { const D = device({ w: 3.7, h: 2.6, d: 0.075, r: 0.2, b: 0.02, frame: M.silver, back: M.silver, sw: 3.5, sh: 2.4, sr: 0.12, screen: st.screen || 'dreams', opts: st.screenOpts, res: [1280, 878], fps: 24 });
   const yaw = -0.4; D.body.rotation.set(0.05, yaw, 0.02); ground(D.g, -1.55, 8);
   return { g: D.g, screens: [D.scr], update: t => { D.body.rotation.y = yaw + Math.sin(t * 0.22) * 0.08; D.body.position.y = Math.sin(t * 0.6) * 0.05; D.scr.tick(t); } }; };
 
@@ -1435,6 +1981,11 @@ HERO.twophones = () => { const g = new THREE.Group();
              mk(0.98, -0.3, ['“Velvet Thunder” could work!', 'What about “Group Chat Heroes”?', 'Maybe “Low Battery”?'], 0.5, 'Chat 2')]; ground(g, -1.75, 9);
   return { g, screens: P.map(p => p.D.scr), update: t => P.forEach((p, i) => { p.D.body.rotation.y = p.yaw + Math.sin(t * 0.25 + i) * 0.05; p.D.body.position.y = Math.sin(t * 0.6 + i * 1.4) * 0.05; p.D.scr.tick(t); }) }; };
 
+/* the same pair of phones, each showing its own screen (st.phones = [{ screen, opts }, { screen, opts }]) */
+HERO.phones2 = st => { const g = new THREE.Group();
+  const P = st.phones.map((p, i) => { const D = device(Object.assign({}, PHONE, { frame: M.titanium, back: M.spaceBlack, screen: p.screen, opts: p.opts })); const yaw = i ? -0.3 : 0.3;
+    D.g.position.x = i ? 0.98 : -0.98; D.body.rotation.set(0.04, yaw, 0); g.add(D.g); return { D, yaw }; }); ground(g, -1.75, 9);
+  return { g, screens: P.map(p => p.D.scr), update: t => P.forEach((p, i) => { p.D.body.rotation.y = p.yaw + Math.sin(t * 0.25 + i) * 0.05; p.D.body.position.y = Math.sin(t * 0.6 + i * 1.4) * 0.05; p.D.scr.tick(t); }) }; };
 
 /* section 03: a magnifier examining a claim */
 HERO.lens = () => { const g = new THREE.Group(), m = new THREE.Group(); m.rotation.set(0.1, -0.45, -0.55); m.position.y = 0.5; g.add(m);
