@@ -39,9 +39,11 @@ The deck teaches these in order. Each one sets up the next, and later weeks buil
 ## Before the session
 
 - [ ] Get every teen's parent permission form back, and confirm the library is holding them. The form names GitHub, GitHub Pages and ChatGPT.
-- [ ] Email families 3–5 days ahead: "Create a GitHub account (13+) and a ChatGPT account (with your parent's permission) before Tuesday. Bring a charged laptop." This saves about 10 minutes of the build block.
+- [ ] Email families 3–5 days ahead: "Create a GitHub account (13+) and a ChatGPT account (with your parent's permission) before Tuesday. **Pick a GitHub username that isn't your real name**: it becomes your public web address. In GitHub settings → Emails, turn on **Keep my email addresses private**. Bring a charged laptop that is **not a school-managed device** (those usually block ChatGPT and developer tools)." This saves about 10 minutes of the build block.
+- [ ] **Device and network check:** on the library Wi-Fi, confirm github.com, ChatGPT and Chrome DevTools all work. Sessions 3–5 depend on DevTools. Have loaner laptops ready for teens with school Chromebooks.
+- [ ] Bring sticky notes for the icebreaker. Keep them for Session 2.
 - [ ] Check the age rules for every tool on slide 34. They change often. As of November 2026: ChatGPT 13+ with parent permission under 18; Claude 18+; Lovable 18 or parent permission; Replit's current terms require an adult.
-- [ ] The adult sponsor rehearses the Claude Code demo (slide 21) and gets it under 3 minutes. Have a recording ready in case the Wi-Fi fails.
+- [ ] The adult sponsor rehearses the Claude Code demo (slide 21) and gets it under 3 minutes. Publish a copy of the finished site beforehand to switch to (a live deploy takes too long), use a clean folder with no tokens or personal info on screen, and have a recording ready in case the Wi-Fi fails.
 - [ ] Test the projector and Wi-Fi. Click through the deck once on the presenting laptop. Have loaner laptops ready.
 - [ ] Print: sign-in sheet, the 4-habits card, the safety rules, prompt-journal sheets, and the **at-home handout**: the five GitHub steps (slide 37) plus the tutor-mode prompt (slide 35).
 - [ ] Prepare the Checkpoint questions (slide 28). Look up the correct answers from official sources the day before, and try them in the teens' AI with web search on and off.
@@ -60,15 +62,21 @@ The deck teaches these in order. Each one sets up the next, and later weeks buil
 | 0:22–0:30 | 20–25 | **04 Model, chatbot, agent:** 3-minute live demo, the loop, coaching, tools, comparison | Adult sponsor, then Leader A |
 | 0:30–0:41 | 26–32 | **05 Ethics:** bias, 3-minute Checkpoint activity, hallucination, deepfakes, privacy, big questions | Leader B |
 | 0:41–0:45 | 33–36 | **06 Build with it:** pick the tool, prompting / tutor mode, the 4 habits | Leader A |
-| 0:45–1:05 | 37–40 | **Guided build:** GitHub steps 1–3 together, then "your site lives here", the 6-week map, homework | Both leaders circulate |
+| 0:45–1:05 | 37–40 | **Guided build:** GitHub steps 1, 2, 4, 5 together with a one-line placeholder page, so everyone goes live. Then "your site lives here", the 6-week map, homework. | Both leaders circulate |
 
 **If you're running late, cut in this order:** the slide-14 live demo of two chats (just describe it) → the slide-19 image AI (one sentence) → the slide-32 discussion (read the cards, no opinions) → shorten the demo to just the prompt and the result. Don't cut slides 6, 12, 15, 23 or 29: later weeks depend on them.
 
-**The build block is about starting, not finishing.** Target for today: everyone has a repo (steps 1–2) and has sent the tutor-mode prompt (step 3). Steps 4–5 go home on the handout.
+**Build Lab 1: how the web works.** Talk it through *during* the guided build, as each step happens. It takes no extra time.
+- **Steps 1–2:** a *repo* is a project folder that remembers every version. GitHub stores it online.
+- **Step 4:** a *commit* is a save point with a note. You can always go back to it.
+- **Step 5:** *GitHub Pages* is a free web server. When someone opens your URL, their browser asks GitHub's server for your `index.html`, and the browser draws it.
+- **Check:** "What happens when your friend opens your link?" (Their browser asks the server at that address for your file, then draws the page.)
+
+**The build block gets everyone live; the real page comes at home.** In the room: steps 1, 2, 4 and 5, with a one-line placeholder for step 3 (`<h1>Hi, I'm [first name]</h1>`). That way the hardest part (Pages) happens with leaders there. At home: step 3 for real, using the tutor-mode prompt, which replaces the placeholder.
 
 ### Check for understanding
 
-Ask these at the end of section 04, before ethics. Take answers from the room, not from the leaders.
+Pick **two** of these at the end of section 04, before ethics (there's no time for all five). Take answers from the room, not from the leaders.
 
 1. "Name the five steps an LLM takes to write one word." (Tokens, embeddings, attention, scores, pick. Then repeat.)
 2. "Why can two chats give different answers to the same question?" (It picks with some randomness: temperature.)
@@ -93,7 +101,7 @@ Ask these at the end of section 04, before ethics. Take answers from the room, n
 - **A teen has no GitHub account or no permission form:** they pair with someone and watch. Follow up with the parent.
 - **The Wi-Fi is too slow for the demo:** play the backup recording.
 - **Every AI gets all three Checkpoint questions right:** good. Score the sources instead: each pair opens one link and checks that it says what the AI claimed.
-- **Pages doesn't go live right away:** it can take 1–2 minutes. Netlify Drop is the backup: drag the folder onto its page.
+- **Pages doesn't go live right away:** it can take 1–2 minutes. Re-check Settings → Pages (branch: main, folder: root), wait, refresh. Move on and come back to it.
 - **A teen finishes early:** challenge them to add a button that does something and explain it back. Then: ask the same thing in a new chat and compare the two versions.
 - **The deck stutters on the projector laptop:** close other tabs and apps. The deck lowers its own detail automatically if the machine is slow.
 
@@ -111,6 +119,6 @@ Ask these at the end of section 04, before ethics. Take answers from the room, n
 ## Measure (for future grant applications)
 
 - Attendance count
-- How many teens started a repo today, and how many have a live URL by Session 2 (target: 80% or more)
+- How many teens are live today (the placeholder counts; target 80% or more), and how many have their real page by Session 2
 - From the prompt journals: how many wrote down a specific AI mistake
 - Exit question, hands up: "Who can name the five steps?" Count the hands.

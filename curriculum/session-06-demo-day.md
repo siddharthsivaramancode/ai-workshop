@@ -1,6 +1,6 @@
 # Session 6: Demo Day — Built it. Shipped it. Questioned it.
 
-**Goal:** every teen presents a live site to a real audience in under 3 minutes, including one thing the AI got wrong. We also collect the outcome data for future grants and for the Memphis Public Libraries pitch.
+**Goal:** every teen (10–15 of them) presents a live site to a real audience in about 3 minutes, including one thing the AI got wrong. We also collect the outcome data for future grants and for the Memphis Public Libraries pitch.
 
 **Deck:** [`slideshows/session-06-demo-day.pptx`](../slideshows/session-06-demo-day.pptx), plus printable [`slideshows/session-06-certificates.pptx`](../slideshows/session-06-certificates.pptx).
 
@@ -29,19 +29,34 @@ uv run --with python-pptx python curriculum/decks/check_deck.py slideshows/sessi
 - [ ] Optional: snacks. The library may have rules about food in the room, so check first.
 - [ ] **Photos:** take photos only of teens whose families signed the photo release. Check the list before the event.
 
-## Run of show (120 min)
+## Run of show (about 75 min)
+
+Teens arrive 15 minutes before guests for the tech check, so the guest part runs about an hour.
 
 | Time | Slides | Block | Who leads |
 |---|---|---|---|
-| 0:00–0:15 | (none) | Tech check with teens only; guests arrive | Both |
-| 0:15–0:25 | 1–6 | **Welcome guests**: what we did, the numbers, the 4 habits, how demos work | Leaders A and B |
-| 0:25–1:25 | 7 → demos | **Demos**: 3 minutes each, with a short break halfway if there are more than 10 demos | Leader A emcees, Leader B keeps time and scores the rubric |
-| 1:25–1:33 | highlight reel | **"The AI got it wrong"**: 3 of the best catches | Leader B |
-| 1:33–1:43 | thanks, certificates | **Thank you, and certificates** | Leaders, adult sponsor, library staff |
-| 1:43–1:55 | survey, what's next | Teens fill out the exit survey while guests walk around and try sites on teens' laptops | Both |
-| 1:55–2:00 | closing | Closing | Leader A |
+| −0:15–0:00 | (none) | Tech check, teens only: each loads their site on the projector once | Both |
+| 0:00–0:06 | 1–6 | **Welcome guests**: what we did, the numbers, the 4 habits, how demos work | Leaders A and B |
+| 0:06–0:46 | 7 → demos | **Demos**: about 3 minutes each, in the 4-part format from Session 5 | Leader A emcees, Leader B keeps time and scores the rubric |
+| 0:46–0:51 | highlight reel | **"The AI got it wrong"**: 3 of the best catches | Leader B |
+| 0:51–0:57 | thanks, certificates | **Thank you, and certificates** | Leaders, adult sponsor, library staff |
+| 0:57–1:05 | survey, what's next | Teens fill out the exit survey while guests try sites on teens' laptops. Hand out the **Build Lab 6: keep building** sheet (below). | Both |
 
-Timing: with N teens, demos take about N × 3.5 minutes. With more than 17 teens, cut the highlight reel or start 10 minutes earlier.
+Timing: budget about 3 minutes per demo **plus 40 seconds of changeover** (switching tabs, walking up). 10 teens ≈ 37 min, 12 ≈ 44 min, 15 ≈ 55 min. From 12 teens up, cap demos at 2.5 minutes; at 15, also cut the highlight reel. Keep the tabs pre-opened in order to make changeovers fast.
+
+## Build Lab 6: keep building (handout, not a lecture)
+
+Demo day has no time for teaching, so the last rung of the ladder is a one-page sheet teens take home. Each row: what it is, and one free place to learn it.
+
+| Next step | What it is | Free place to learn |
+|---|---|---|
+| Your own domain | A name like `yourname.dev` instead of `github.io`. Costs money, so ask a parent. | GitHub Pages docs: "custom domain" |
+| Saving data | `localStorage` keeps a to-do list or high score in the visitor's browser | MDN: "Web Storage API" |
+| Free APIs | Pull in live data (jokes, space photos, weather) from public APIs that need no key | MDN: "Fetching data from the server" |
+| A real code editor | VS Code on your own computer, with GitHub Copilot (free Pro for verified students) | VS Code docs |
+| Frameworks | React and friends: how big sites are built. Learn plain HTML/CSS/JS first. | The Odin Project, freeCodeCamp |
+| Computer science | How it all works underneath, with the CS50 Duck as a tutor | Harvard CS50x (free online) |
+| AI agents | Tools like Claude Code that build with you (18+), and what you'd need to check | Come back as a junior mentor and see the demo again |
 
 ## Demo rubric (leaders, during demos)
 
@@ -65,7 +80,9 @@ For each statement, the teen circles a number from 1 to 5 for **before the works
 2. I can read an error message and figure out what it means.
 3. I check what an AI tells me before I trust it.
 4. I know what I should never share with an AI.
-5. I can explain how a chatbot comes up with its answers.
+5. I can explain the steps an AI like ChatGPT takes to write an answer.
+6. I can explain the difference between an AI model, a chatbot and an agent.
+7. I can spot ways an AI might be unfair or wrong.
 
 Then three questions:
 

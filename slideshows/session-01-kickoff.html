@@ -144,6 +144,7 @@ html, body { margin: 0; height: 100%; background: #0B0B12; overflow: hidden; }
 .k3 .s2 .panel { display: flex; flex-direction: column; }
 .k3 .s2 .name { font-size: 46px; font-weight: 600; letter-spacing: -0.03em; margin: 12px 0 4px; }
 .k3 .s2 .built { margin-top: auto; }
+.k3 .s2 .bl { font-size: 22px; line-height: 1.32; } .k3 .s2 .row .panel > .sec { font-size: 22px; line-height: 1.3; }
 .k3 .s2 .wide { display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px; }
 .k3 .s2 .wide .built { grid-column: 2; grid-row: 1; align-self: end; }
 .k3 .hd { margin-bottom: 24px; }
@@ -341,16 +342,20 @@ then the guided build 20 (they finish at home). Skip list if you're late: see th
       <h2 class="title"><span class="mask"><span data-g="0" data-a="line">We're students too.</span></span></h2>
     </header>
     <div class="row">
-      <div class="panel" data-g="1" data-a="card"><p class="label">LEADER</p><p class="name">[Name]</p><p class="sec">[Grade · school]</p><div class="built"><p class="sec">Something I built:</p><p>[one line]</p></div></div>
-      <div class="panel" data-g="1" data-a="card"><p class="label">LEADER</p><p class="name">[Name]</p><p class="sec">[Grade · school]</p><div class="built"><p class="sec">Something I built:</p><p>[one line]</p></div></div>
-      <div class="panel wide" data-g="1" data-a="card"><div><p class="label">ADULT SPONSOR</p><p class="name">[Name]</p><p class="sec">[Grade · school]</p></div><div class="built"><p class="sec">Something I built:</p><p>[one line]</p></div></div>
+      <div class="panel" data-g="1" data-a="card"><p class="label">LEADER</p><p class="name">Siddharth</p><p class="sec">AI ethics researcher · frontend designer</p><div class="built"><p class="sec">Something I built:</p><p class="bl">An AI ethics research paper; websites and interfaces; 27 Claude Academy courses</p></div></div>
+      <div class="panel" data-g="1" data-a="card"><p class="label">LEADER</p><p class="name">Saiharshil</p><p class="sec">AI geolocation researcher · tool builder</p><div class="built"><p class="sec">Something I built:</p><p class="bl">An AI geolocation research paper; open-source tools on GitHub; 27 Claude Academy courses</p></div></div>
+      <div class="panel wide" data-g="1" data-a="card"><div><p class="label">ADULT SPONSOR</p><p class="name">[Name]</p><p class="sec">[Role]</p></div><div class="built"><p class="sec">Something I built:</p><p>[one line]</p></div></div>
     </div>
   </div>
-  <aside class="note">~1 min. Each of you: name, grade, and ONE thing you've built (with or without AI).
+  <aside class="note">~1 min. Siddharth and Saiharshil introduce themselves. First names only, on the slide and in these notes:
+the deck is public on GitHub, and it's the same rule we teach on the privacy slide.
+Siddharth: AI ethics research paper (in progress), frontend designer, 27 Claude Academy courses.
+Saiharshil: AI geolocation research paper, open-source tools and resources on GitHub, 27 Claude Academy courses.
+Tie-in to mention: Saiharshil's geolocation work comes back on the privacy slide (AI can guess where a photo was taken).
 Adult sponsor introduces themselves and explains why they're here:
 "Some of the tools we'll show, like Claude, are 18+. I'm the adult who runs those
 demos and I'm here every week."
-Fill in the [brackets] before the session.</aside>
+Fill in the adult sponsor card before the session.</aside>
 </section>
 
 <!-- 3 ─ Icebreaker ─ hero: tablet (dream sites) -->
@@ -433,7 +438,7 @@ Have the room say it back. We'll prove it in the ethics section.</aside>
     <header class="hd z1"><p class="kick" data-g="0" data-a="fade">What's inside a model</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Billions of tiny dials.</span></span></h2></header>
     <div class="list">
       <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Parameters</p><p class="sec">A model is a giant list of numbers. Each one is a dial, also called a weight.</p></div></div>
-      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Wrong guess? Nudge the dials.</p><p class="sec">Each mistake turns millions of dials a tiny bit toward the right answer.</p></div></div>
+      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Wrong guess? Nudge the dials.</p><p class="sec">Each mistake nudges every dial a tiny bit toward the right answer.</p></div></div>
       <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">More dials, more patterns</p><p class="sec">GPT-2 (2019): 1.5 billion. GPT-3 (2020): 175 billion. Llama 3.1 (2024): 405 billion.</p></div></div>
     </div>
     <div class="panel punch" data-g="4" data-a="card"><p>No one wrote the rules. <span class="em hl">Training did.</span></p></div>
@@ -567,7 +572,7 @@ lands on TV, and now and then it doesn't. That "now and then" is the next step.<
     <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Step 5 · Pick one, then repeat</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">Same question. Different answer.</span></span></h2></header>
     <div class="list">
       <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">It doesn't always pick #1</p><p class="sec">A setting called temperature adds randomness. Low = safe and samey. High = creative and weird.</p></div></div>
-      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Two answers disagree? One is wrong.</p><p class="sec">Asking twice in new chats is a free fact-check.</p></div></div>
+      <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">Two answers disagree? At least one is wrong.</p><p class="sec">If they agree, still check. Agreeing isn't proof.</p></div></div>
     </div>
     <div class="panel punch" data-g="3" data-a="card"><p>Add the word. Repeat. <span class="em hl">That's everything.</span></p></div>
   </div>
@@ -667,6 +672,7 @@ A recommender is not an LLM and can't chat. An LLM isn't built to recommend your
   </div>
   <aside class="note">~1.5 min. The laptop runs a pretend generation: static → blocky shapes → a fox in the snow.
 This is called a DIFFUSION model (Stable Diffusion, Midjourney and many others work roughly this way).
+Say "most image AIs": some newer ones, like the image generator inside ChatGPT, use a different method.
 How it was trained: take a real photo, add noise to it, and teach the model to predict the noise you added.
 Do that millions of times. Then at generation time, start from pure noise and keep removing predicted noise,
 nudged toward the prompt.
@@ -708,8 +714,10 @@ take apart what we saw: what's the model, what's the chatbot, what's the agent."
   <aside class="note">~3 min (keep it tight). ADULT SPONSOR runs this live from their own Claude account on the projector.
 (Claude is 18+, so the teens don't log in to Claude themselves. Say this out loud.)
 1. Type the prompt shown. Narrate what it's doing: planning, creating files, running commands.
-2. Open the result. Take ONE change request from the room and make it.
-3. Push / publish so the room sees a real URL.
+2. Open the first working page locally. Take ONE change request from the room and make it.
+3. Don't wait for a live deploy (that alone takes 1–2 minutes). Switch to a copy you published beforehand,
+   so the room still sees a real URL.
+Use a clean folder and a demo account: no tokens, emails or other projects visible in the terminal.
 Point out the moments it RUNS something and READS the result. That's the difference we're about to name.
 If Wi-Fi fails: play the backup recording.</aside>
 </section>
@@ -797,7 +805,7 @@ Tools make it better, not perfect. It can pick a bad source, misread a good one,
     <div class="panel punch" data-g="4" data-a="card"><p>Same engine. <span class="em hl">More built around it.</span></p></div>
   </div>
   <aside class="note">~1.5 min. One column per click. Quick quiz after: point at things and ask "model, chatbot, or agent?"
-- "GPT" or "Gemini 2.5" by itself → model.  - The ChatGPT app → chatbot.  - The demo we just watched → agent.
+- A model name like "GPT" or "Gemini" on its own → model.  - The ChatGPT app → chatbot.  - The demo we just watched → agent.
 - Siri setting a timer → closer to an agent (it takes an action), though older Siri wasn't an LLM at all.
 Why it matters: more power = more risk. A chatbot can be wrong in words. An agent can be wrong in ACTIONS
 (delete a file, send an email). That's why agents ask permission, and why we check their work.</aside>
@@ -1020,12 +1028,12 @@ error message plus what you expected to happen.</aside>
     <div class="bento">
       <div class="panel h1" data-g="1" data-a="card"><p class="n">1</p><p class="h3">Explain-back</p><p class="d sec">No AI code goes in your project until you can explain it out loud.</p></div>
       <div class="panel h2" data-g="2" data-a="card"><p class="n">2</p><p class="h3">Tutor mode</p><p class="d sec">Hints and a plan first. Full code second.</p></div>
-      <div class="panel h3b" data-g="3" data-a="card"><p class="n">3</p><p class="h3">Pair up</p><p class="d sec">The beginner types. The partner navigates. Leaders never grab your keyboard.</p></div>
+      <div class="panel h3b" data-g="3" data-a="card"><p class="n">3</p><p class="h3">Pair up</p><p class="d sec">Side by side, each on your own site. Review each other's work. Leaders never grab your keyboard.</p></div>
       <div class="panel h4" data-g="4" data-a="card"><p class="n">4</p><p class="h3">Prompt journal</p><p class="d sec">Write down what you asked, what came back, what broke.</p></div>
     </div>
   </div>
   <aside class="note">~1 min. One click per habit, and each brings in its object: a mic (explain it out loud), a bulb (hints first),
-two cursors (pair up), a notebook (journal). These are the rules every week, not just today.
+two cursors (pair up: partners sit together, each building their own site, and check each other), a notebook (journal). These are the rules every week, not just today.
 The workflow in the kicker: plan what you want, ask for a SMALL piece, test it in the browser, explain it back.
 Why? Research on beginners using AI to code: the ones who let AI do everything end up unable to fix
 or change their own project. The ones who use it like a tutor get better. Hand out the printed habits card.</aside>
@@ -1034,11 +1042,11 @@ or change their own project. The ones who use it like a tutor get better. Hand o
 <!-- 37 ─ Five steps ─ hero: a browser that does each step -->
 <section class="slide s17" data-title="From nothing to live.">
   <div class="in">
-    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Guided build · 20 minutes · finish at home</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">From nothing to live.</span></span></h2></header>
+    <header class="hd z1"><p class="kick" data-g="0" data-a="fade">Guided build · 20 minutes · live today, real page at home</p><h2 class="title"><span class="mask"><span data-g="0" data-a="line">From nothing to live.</span></span></h2></header>
     <div class="list">
       <div class="li" data-g="1" data-a="card"><span class="n">1</span><div><p class="h3">Log in</p><p class="sec">github.com</p></div></div>
       <div class="li" data-g="2" data-a="card"><span class="n">2</span><div><p class="h3">New repo</p><p class="sec">name it my-first-site · Public</p></div></div>
-      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Ask your AI</p><p class="sec">for index.html, using the tutor-mode prompt.</p></div></div>
+      <div class="li" data-g="3" data-a="card"><span class="n">3</span><div><p class="h3">Ask your AI</p><p class="sec">Today: one line. At home: the real page, with tutor mode.</p></div></div>
       <div class="li" data-g="4" data-a="card"><span class="n">4</span><div><p class="h3">Add file</p><p class="sec">Add file → Create new file → index.html → Commit</p></div></div>
       <div class="li" data-g="5" data-a="card"><span class="n">5</span><div><p class="h3">Turn on Pages</p><p class="sec">Settings → Pages → Deploy from branch: main</p></div></div>
     </div>
@@ -1046,8 +1054,9 @@ or change their own project. The ones who use it like a tutor get better. Hand o
   <aside class="note">~20 min, guided. Walk through all five together, one click at a time, with the room following along.
 The browser on the right acts out each step as you click.
 Both leaders circulate. Hands off the keyboard: point, don't type.
-Goal for today: steps 1–2 done for everyone, step 3 started. Steps 4–5 are fine to finish at home
-(the handout has all five steps and the tutor-mode prompt).
+Goal for today: EVERYONE LIVE. Do steps 1, 2, 4, 5 in the room with a one-line placeholder for step 3:
+<h1>Hi, I'm [first name]</h1>. That way Build Lab 1 (repo, commit, Pages) happens with leaders in the room.
+At home, step 3 for real: the tutor-mode prompt builds the actual page, which replaces the placeholder.
 No GitHub account / no permission form? They pair with someone and watch today.</aside>
 </section>
 
@@ -1058,8 +1067,8 @@ No GitHub account / no permission form? They pair with someone and watch today.<
     <p class="panel url mono z1" data-g="0" data-a="card" data-d="120"><span class="sec">https://</span><span class="em">YOUR-USERNAME</span>.github.io/<span class="u">my-first-site</span></p>
     <div class="list tips">
       <p data-g="1" data-a="head">Takes 1–2 minutes after step 5. Refresh.</p>
-      <p data-g="1" data-a="head">Not live yet? Totally fine. Finish at home.</p>
-      <p data-g="1" data-a="head">Stuck? Backup: drag your folder onto app.netlify.com/drop</p>
+      <p data-g="1" data-a="head">Live today. The real page comes at home.</p>
+      <p data-g="1" data-a="head">Not loading? Re-check Settings → Pages.</p>
     </div>
     <div class="globe" data-g="0" data-a="fade" data-d="500" aria-hidden="true"><canvas></canvas></div>
   </div>
